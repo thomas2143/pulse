@@ -693,6 +693,7 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
         <div class="dash-panel-header">
           <div class="dash-panel-title" id="panel-client-title">Client</div>
           <div style="display:flex;align-items:center;gap:6px">
+            <button class="btn btn-primary btn-sm" onclick="panelGenerate(activePanelId)" id="panel-debrief-btn" style="padding:4px 10px;font-size:10px"><i class="ti ti-sparkles"></i> Debrief</button>
             <div style="width:24px;height:24px;border-radius:6px;cursor:pointer;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--text3);transition:all 0.12s;font-size:12px" onclick="openEditProject(activePanelId)" title="Edit project" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text3)'"><i class="ti ti-pencil"></i></div>
             <div class="dash-panel-close" onclick="closeClientPanel()"><i class="ti ti-x"></i></div>
           </div>
@@ -701,16 +702,14 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
           <div class="panel-tab active" onclick="switchPanelTab('overview',this)">Overview</div>
           <div class="panel-tab" onclick="switchPanelTab('sites',this)">Sites <span id="panel-sites-badge"></span></div>
           <div class="panel-tab" onclick="switchPanelTab('milestones',this)">Milestones</div>
-          <div class="panel-tab" onclick="switchPanelTab('activity',this)">Activity</div>
-          <div class="panel-tab" onclick="switchPanelTab('notes',this)">Notes <span id="panel-notes-badge"></span></div>
-          <div class="panel-tab" onclick="switchPanelTab('debrief',this)"><i class="ti ti-sparkles" style="font-size:9px;color:var(--red2)"></i> Debrief</div>
+          <div class="panel-tab" onclick="switchPanelTab('journal',this)">Journal <span id="panel-journal-badge"></span></div>
         </div>
         <div class="panel-tab-content active" id="panel-tab-overview"></div>
         <div class="panel-tab-content" id="panel-tab-sites"></div>
         <div class="panel-tab-content" id="panel-tab-milestones"></div>
-        <div class="panel-tab-content" id="panel-tab-activity"></div>
-        <div class="panel-tab-content" id="panel-tab-notes"></div>
-        <div class="panel-tab-content" id="panel-tab-debrief"></div>
+        <div class="panel-tab-content" id="panel-tab-journal"></div>
+        <!-- debrief result area (shown below tabs when active) -->
+        <div id="panel-debrief-area" style="display:none;padding:14px 16px;border-top:1px solid var(--border);flex:1;overflow-y:auto"></div>
       </div><!-- /dash-panel -->
 
     </div><!-- /dash-split -->
@@ -1742,9 +1741,10 @@ function openClientPanel(id){
   renderPanelOverview(p);
   renderPanelSites(p);
   renderPanelMilestones(p);
-  renderPanelActivity(p);
-  renderPanelNotes(p);
-  renderPanelDebrief(p);
+  renderPanelJournal(p);
+  // hide debrief area on open
+  const da=document.getElementById('panel-debrief-area');
+  if(da){da.style.display='none';da.innerHTML='';}
 }
 
 function closeClientPanel(){
@@ -1938,7 +1938,98 @@ function deleteMilestone(pid,idx){
   showToast('Milestone removed');
 }
 
-// ── PANEL ACTIVITY LOG ────────────────────────────────────────────
+// ── PANEL JOURNAL (merged Notes + Activity) ───────────────────────
+function renderPanelJournal(p){
+  const el=document.getElementById('panel-tab-journal');
+  if(!el) return;
+  if(!p.noteSessions) p.noteSessions=[];
+  if(!p.activity) p.activity=[];
+
+  // badge = total entries
+  const total=p.noteSessions.length + p.activity.filter(a=>a.type!=='milestone'||true).length;
+  const badge=document.getElementById('panel-journal-badge');
+  if(badge) badge.innerHTML=total?`<span style="background:var(--bg4);border-radius:3px;padding:0 4px;font-size:8px">${total}</span>`:'';
+
+  // log type buttons
+  const typeBtns=Object.entries(LOG_TYPES).map(([k,v])=>
+    `<div class="log-type-btn t-${k}${selectedLogType===k?' sel':''}" onclick="selectLogType('${k}',${p.id})">
+      <i class="ti ${v.icon}" style="font-size:10px"></i>${v.label}
+    </div>`
+  ).join('');
+
+  // merge sessions + activity into one chronological feed
+  const sessionEntries=p.noteSessions.map((s,i)=>({
+    _type:'session', idx:i, date:s.date, text:s.text,
+    bg:'var(--bg4)', ic:'var(--text3)', icon:'ti-notes', label:`Session ${i+1}`
+  }));
+  const actEntries=p.activity.map((a,i)=>({
+    _type:'activity', idx:i, date:a.time, text:a.text,
+    bg:a.bg, ic:a.ic, icon:a.icon, label:LOG_TYPES[a.type]?.label||a.type
+  }));
+  const allEntries=[...sessionEntries,...actEntries].reverse();
+
+  const feed=allEntries.length ? allEntries.map(e=>`
+    <div class="log-entry">
+      <div class="log-icon" style="background:${e.bg};color:${e.ic}"><i class="ti ${e.icon}"></i></div>
+      <div style="flex:1;min-width:0">
+        <div class="log-text" style="${e._type==='session'?'white-space:pre-wrap;max-height:60px;overflow:hidden':''}">${e._type==='session'?e.text.substring(0,120)+(e.text.length>120?'…':''):e.text}</div>
+        <div class="log-meta">${e.label} · ${e.date}</div>
+      </div>
+      <div class="log-delete" onclick="${e._type==='session'?`deleteSession(${p.id},${e.idx})`:`deleteLogEntry(${p.id},${e.idx})`}"><i class="ti ti-x"></i></div>
+    </div>`).join('')
+    : `<div class="panel-empty"><i class="ti ti-notebook" style="font-size:20px;display:block;margin-bottom:6px;opacity:0.3"></i>Nothing logged yet</div>`;
+
+  el.innerHTML=`
+    <div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:10px">
+      <div class="log-type-row">${typeBtns}</div>
+      ${selectedLogType==='note'
+        ? `<textarea id="journal-text-${p.id}" placeholder="Paste emails, call notes, Slack threads — anything raw" style="background:transparent;border:none;outline:none;width:100%;font-size:12px;color:var(--text2);line-height:1.6;resize:none;min-height:70px;font-family:var(--sans);margin-bottom:6px"></textarea>`
+        : `<input type="text" id="journal-text-${p.id}" placeholder="What happened?" style="font-size:11px;padding:6px 8px;width:100%;margin-bottom:6px">`
+      }
+      <div style="display:flex;justify-content:flex-end">
+        <button class="btn btn-primary btn-sm" onclick="addJournalEntry(${p.id})"><i class="ti ti-plus"></i> Log</button>
+      </div>
+    </div>
+    <div id="journal-feed-${p.id}">${feed}</div>`;
+}
+
+function addJournalEntry(pid){
+  const p=projects.find(x=>x.id===pid);
+  if(!p) return;
+  const input=document.getElementById(`journal-text-${pid}`);
+  const text=input?input.value.trim():'';
+  if(!text){showToast('Nothing to log');return;}
+  const now=new Date();
+  const time=now.toLocaleDateString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+  if(selectedLogType==='note'){
+    if(!p.noteSessions) p.noteSessions=[];
+    p.noteSessions.push({date:time,text});
+    p.lastDebrief=null;
+  } else {
+    if(!p.activity) p.activity=[];
+    const t=LOG_TYPES[selectedLogType]||LOG_TYPES.note;
+    p.activity.push({type:selectedLogType,text,time,bg:t.bg,ic:t.ic,icon:t.icon});
+  }
+  saveToStorage();
+  renderPanelJournal(p);
+  renderActivity();
+  showToast('Logged');
+}
+
+function deleteSession(pid,idx){
+  const p=projects.find(x=>x.id===pid);
+  if(!p||!p.noteSessions) return;
+  p.noteSessions.splice(idx,1);
+  saveToStorage();
+  renderPanelJournal(p);
+}
+
+function selectLogType(type,pid){
+  selectedLogType=type;
+  const p=projects.find(x=>x.id===pid);
+  if(p) renderPanelJournal(p);
+}
+
 const LOG_TYPES={
   meeting:{icon:'ti-video',bg:'var(--blue-dim)',ic:'var(--blue)',label:'Meeting'},
   risk:{icon:'ti-alert-triangle',bg:'var(--red-dim)',ic:'var(--red2)',label:'Risk'},
@@ -2084,31 +2175,22 @@ function panelSaveNote(id){
 }
 
 async function panelGenerate(id){
-  const ta=document.getElementById('panel-note-textarea');
   const p=projects.find(x=>x.id===id);
   if(!p) return;
 
-  // save new notes if any
-  if(ta&&ta.value.trim()){
-    if(!p.noteSessions) p.noteSessions=[];
-    p.noteSessions.push({
-      date:new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}),
-      text:ta.value.trim()
-    });
-    if(ta) ta.value='';
-  }
-
-  // switch to debrief tab
-  document.querySelectorAll('.panel-tab').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.panel-tab-content').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.panel-tab')[2].classList.add('active');
-  const area=document.getElementById('panel-tab-debrief');
-  area.classList.add('active');
-  area.innerHTML=`<div class="panel-loading"><div class="panel-spinner"></div>Analysing ${p.name}...</div>`;
+  // show debrief area below tabs
+  const area=document.getElementById('panel-debrief-area');
+  if(!area) return;
+  area.style.display='block';
+  area.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+    <div style="font-family:var(--mono);font-size:8px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;display:flex;align-items:center;gap:6px"><i class="ti ti-sparkles" style="color:var(--red2)"></i>AI Debrief</div>
+    <div onclick="document.getElementById('panel-debrief-area').style.display='none'" style="cursor:pointer;color:var(--text3);font-size:11px" title="Close"><i class="ti ti-x"></i></div>
+  </div>
+  <div class="panel-loading"><div class="panel-spinner"></div>Analysing ${p.name}...</div>`;
 
   const sessionBlock=p.noteSessions&&p.noteSessions.length
     ?p.noteSessions.map((s,i)=>`--- Session ${i+1} (${s.date}) ---\n${s.text}`).join('\n\n')
-    :'No additional notes — use project data only.';
+    :'No additional notes.';
 
   const prompt=`You are an expert Customer Success Manager analyst. Analyse this implementation project and produce a structured debrief for the PM.
 
@@ -2146,11 +2228,18 @@ Return ONLY valid JSON, no markdown:
       sections:parsed.sections
     };
     saveToStorage();
-    renderPanelNotes(p);
-    renderPanelDebrief(p);
+    area.innerHTML=`
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+        <div style="font-family:var(--mono);font-size:8px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;display:flex;align-items:center;gap:6px"><i class="ti ti-sparkles" style="color:var(--red2)"></i>AI Debrief · ${p.lastDebrief.date}</div>
+        <div onclick="document.getElementById('panel-debrief-area').style.display='none'" style="cursor:pointer;color:var(--text3);font-size:11px"><i class="ti ti-x"></i></div>
+      </div>
+      ${parsed.sections.map(s=>`<div class="panel-debrief-section">
+        <div class="panel-debrief-label">${s.label}</div>
+        <div class="panel-debrief-text">${s.text}</div>
+      </div>`).join('')}`;
     showToast('Debrief generated');
   }catch(e){
-    area.innerHTML=`<div style="font-size:11px;color:var(--red2);font-family:var(--mono);padding:12px 0"><i class="ti ti-alert-circle"></i> Generation failed — check connection.</div>`;
+    area.innerHTML=`<div style="font-size:11px;color:var(--red2);font-family:var(--mono);padding:8px 0"><i class="ti ti-alert-circle"></i> Generation failed — check connection.</div>`;
   }
 }
 
