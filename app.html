@@ -1,4 +1,4 @@
--<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -250,77 +250,90 @@ main{overflow:hidden;background:var(--bg);display:flex;flex-direction:column;hei
   align-items:center;justify-content:center;
   color:var(--text3);text-align:center;gap:10px;
 }
-.dash-empty-icon{font-size:36px;opacity:0.12;}
-.dash-empty-title{font-family:var(--display);font-size:15px;font-weight:700;color:var(--text3);letter-spacing:-0.3px;}
-.dash-empty-sub{font-family:var(--mono);font-size:10px;letter-spacing:0.5px;color:var(--text3);}
 
-/* ── CLIENT VIEW ── */
-.client-view{display:none;flex:1;overflow:hidden;}
-.client-view.open{display:flex;}
+/* ── CLIENT VIEW — 3 columns side by side ── */
+.client-view{display:none;width:100%;flex:1;overflow:hidden;}
+.client-view.open{display:flex;flex-direction:row;height:100%;}
 
-/* TIMELINE COLUMN */
-.tl-col{
-  flex:0 0 50%;border-right:1px solid var(--border);
-  display:flex;flex-direction:column;overflow:hidden;
-  transition:flex-basis 0.25s ease;
-}
-
-/* SUB-TIMELINE COLUMN — hidden by default */
-.sub-tl-col{
-  flex:0 0 0;overflow:hidden;
-  border-right:1px solid var(--border);
-  display:flex;flex-direction:column;
-  background:var(--bg2);
-  transition:flex-basis 0.25s ease;
-}
-.sub-tl-col.open{flex:0 0 25%;}
-.sub-tl-header{
-  padding:16px 16px 12px;border-bottom:1px solid var(--border);
+/* ── SHARED COLUMN HEADER ── */
+.col-header{
+  flex-shrink:0;
+  padding:16px 24px 14px;
+  border-bottom:1px solid var(--border);
   display:flex;align-items:flex-start;justify-content:space-between;
-  flex-shrink:0;gap:8px;
+  gap:12px;
 }
-.sub-tl-name{font-size:13px;font-weight:600;}
-.sub-tl-meta{font-family:var(--mono);font-size:9px;color:var(--text3);margin-top:2px;}
-.sub-tl-body{flex:1;overflow-y:auto;padding:20px 16px;}
+.col-header-left{}
+.col-header-label{
+  font-family:var(--mono);font-size:9px;
+  letter-spacing:2px;text-transform:uppercase;
+  color:var(--text3);margin-bottom:4px;
+}
+.col-header-title{
+  font-size:14px;font-weight:600;color:var(--text);
+  line-height:1.3;
+}
+.col-header-meta{
+  font-family:var(--mono);font-size:10px;
+  color:var(--text3);margin-top:3px;
+}
+.col-header-right{display:flex;gap:6px;align-items:center;flex-shrink:0;}
 
-/* PANEL COLUMN — 25% normally, shrinks when sub-tl opens */
+/* ── COL A — TIMELINE (45%) ── */
+.tl-col{
+  flex:0 0 45%;border-right:1px solid var(--border);
+  display:flex;flex-direction:column;overflow:hidden;
+  background:var(--bg);
+}
+.tl-col-body{flex:1;overflow-y:auto;padding:28px 32px 48px;}
+
+/* ── COL B — SITES (25%) ── */
+.sub-tl-col{
+  flex:0 0 25%;border-right:1px solid var(--border);
+  background:var(--bg2);
+  display:flex;flex-direction:column;overflow:hidden;
+}
+.sub-tl-body{flex:1;overflow-y:auto;padding:20px 20px 32px;}
+
+/* ── COL C — PANEL (30%) ── */
 .panel-col{
-  flex:0 0 25%;display:flex;flex-direction:column;
+  flex:0 0 30%;display:flex;flex-direction:column;
   overflow:hidden;background:var(--bg2);
-  transition:flex-basis 0.25s ease;
 }
 
-/* vertical phase track */
-.vtl{position:relative;padding-left:28px;max-width:560px;}
-.vtl-phase{position:relative;padding-bottom:36px;}
+/* project topbar — hidden, replaced by col headers */
+.project-topbar{display:none;}
+
+/* timeline col vtl */
+.tl-col-body{flex:1;overflow-y:auto;padding:28px 32px 48px;}
+.vtl{position:relative;padding-left:40px;max-width:100%;}
+.vtl-phase{position:relative;padding-bottom:44px;}
 .vtl-phase:last-child{padding-bottom:0;}
 .vtl-phase::before{
   content:'';position:absolute;
-  left:-18px;top:16px;bottom:0;width:1px;
+  left:-24px;top:20px;bottom:0;width:1px;
   background:var(--border2);
 }
 .vtl-phase:last-child::before{display:none;}
 .vtl-node{
-  position:absolute;left:-25px;top:3px;
-  width:14px;height:14px;border-radius:50%;
+  position:absolute;left:-32px;top:4px;
+  width:16px;height:16px;border-radius:50%;
   display:flex;align-items:center;justify-content:center;
-  font-size:7px;border:2px solid var(--bg);z-index:2;
+  font-size:8px;border:2px solid var(--bg);z-index:2;
 }
 .vtl-node.done{background:var(--green);}
-.vtl-node.active{background:var(--red);box-shadow:0 0 0 4px rgba(232,49,74,0.15);}
+.vtl-node.active{background:var(--red);box-shadow:0 0 0 5px rgba(232,49,74,0.12);}
 .vtl-node.pending{background:var(--bg4);border-color:var(--border2);}
-.vtl-phase-name{font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:3px;}
+.vtl-phase-name{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;}
 .vtl-phase-name.done{color:var(--green);}
 .vtl-phase-name.active{color:var(--red2);}
 .vtl-phase-name.pending{color:var(--text3);}
-.vtl-phase-desc{font-size:13px;color:var(--text2);line-height:1.5;margin-bottom:8px;}
+.vtl-phase-desc{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:10px;}
 .vtl-phase-desc.pending{color:var(--text3);font-size:12px;}
-.vtl-countdown{
-  display:flex;align-items:baseline;gap:8px;margin-bottom:4px;
-}
-.vtl-countdown-num{font-family:var(--display);font-size:40px;font-weight:700;letter-spacing:-2px;line-height:1;}
-.vtl-countdown-unit{font-family:var(--mono);font-size:11px;color:var(--text3);}
-.vtl-golive-date{font-family:var(--mono);font-size:10px;color:var(--text3);margin-bottom:12px;}
+.vtl-countdown{display:flex;align-items:baseline;gap:10px;margin-bottom:6px;}
+.vtl-countdown-num{font-family:var(--display);font-size:56px;font-weight:700;letter-spacing:-3px;line-height:1;}
+.vtl-countdown-unit{font-family:var(--mono);font-size:12px;color:var(--text3);}
+.vtl-golive-date{font-family:var(--mono);font-size:11px;color:var(--text3);margin-bottom:14px;}
 
 /* sites */
 .vtl-sites{margin-top:14px;display:flex;flex-direction:column;gap:6px;}
@@ -366,14 +379,18 @@ main{overflow:hidden;background:var(--bg);display:flex;flex-direction:column;hei
   flex:0 0 35%;display:flex;flex-direction:column;
   overflow:hidden;background:var(--bg2);
 }
-.panel-col-header{
-  padding:20px 16px 14px;border-bottom:1px solid var(--border);flex-shrink:0;
+/* icon button */
+.icon-btn{
+  width:28px;height:28px;border-radius:7px;
+  cursor:pointer;background:var(--bg3);
+  border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--text3);font-size:12px;transition:all 0.12s;
+  flex-shrink:0;
 }
-.panel-col-score{
-  font-family:var(--display);font-size:48px;font-weight:700;
-  letter-spacing:-2px;line-height:1;margin-bottom:6px;
-}
-.panel-col-actions{display:flex;gap:6px;margin-top:10px;}
+.icon-btn:hover{color:var(--text);border-color:var(--border2);}
+
+/* panel score in col header */
 
 /* dashboard split for panel-open compat */
 .dash-panel{
@@ -934,22 +951,22 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
           <div style="background:linear-gradient(135deg,rgba(232,49,74,0.1),rgba(232,49,74,0.04));border:1px solid rgba(232,49,74,0.25);border-radius:16px;padding:28px 20px;text-align:center;position:relative;overflow:hidden">
             <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--red),transparent)"></div>
             <div style="font-family:var(--display);font-size:32px;font-weight:700;color:var(--red2);margin-bottom:12px;letter-spacing:-1px">01</div>
-            <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--red2);text-transform:uppercase;margin-bottom:10px">Select a client</div>
-            <div style="font-size:12px;color:var(--text2);line-height:1.7">Click any client in the sidebar. Demo projects are pre-loaded with real implementation data.</div>
+            <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--red2);text-transform:uppercase;margin-bottom:10px">Click a demo client</div>
+            <div style="font-size:12px;color:var(--text2);line-height:1.7">Select any client in the sidebar — each one is a simulated implementation scenario with phases, risks and stakeholders pre-loaded.</div>
           </div>
 
-          <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:28px 20px;text-align:center;position:relative;overflow:hidden">
-            <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--border2),transparent)"></div>
-            <div style="font-family:var(--display);font-size:32px;font-weight:700;color:var(--text3);margin-bottom:12px;letter-spacing:-1px">02</div>
-            <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-bottom:10px">Track the timeline</div>
-            <div style="font-size:12px;color:var(--text2);line-height:1.7">Follow the project from Discovery to Post go-live. Every phase, every site, every risk — in one view.</div>
+          <div style="background:linear-gradient(135deg,rgba(45,212,160,0.08),rgba(45,212,160,0.02));border:1px solid rgba(45,212,160,0.2);border-radius:16px;padding:28px 20px;text-align:center;position:relative;overflow:hidden">
+            <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--green),transparent)"></div>
+            <div style="font-family:var(--display);font-size:32px;font-weight:700;color:var(--green);margin-bottom:12px;letter-spacing:-1px">02</div>
+            <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--green);text-transform:uppercase;margin-bottom:10px">Explore the timeline</div>
+            <div style="font-size:12px;color:var(--text2);line-height:1.7">Read through the phases, check the health score, browse the journal and milestones. For multi-site projects like Mango, see how each country tracks independently.</div>
           </div>
 
-          <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:28px 20px;text-align:center;position:relative;overflow:hidden">
-            <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--border2),transparent)"></div>
-            <div style="font-family:var(--display);font-size:32px;font-weight:700;color:var(--text3);margin-bottom:12px;letter-spacing:-1px">03</div>
-            <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-bottom:10px">Generate a debrief</div>
-            <div style="font-size:12px;color:var(--text2);line-height:1.7">Log your notes after each call. Hit Debrief — get a full AI brief in 30 seconds.</div>
+          <div style="background:linear-gradient(135deg,rgba(91,156,246,0.08),rgba(91,156,246,0.02));border:1px solid rgba(91,156,246,0.2);border-radius:16px;padding:28px 20px;text-align:center;position:relative;overflow:hidden">
+            <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--blue),transparent)"></div>
+            <div style="font-family:var(--display);font-size:32px;font-weight:700;color:var(--blue);margin-bottom:12px;letter-spacing:-1px">03</div>
+            <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--blue);text-transform:uppercase;margin-bottom:10px">Add your own project</div>
+            <div style="font-size:12px;color:var(--text2);line-height:1.7">Hit "New project" in the top right. Set the phase, go-live date and health scores. Log your first notes and track progress phase by phase.</div>
           </div>
 
         </div>
@@ -961,20 +978,20 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
       </div>
     </div>
 
-    <!-- CLIENT VIEW (hidden by default) -->
+    <!-- CLIENT VIEW -->
     <div class="client-view" id="client-view">
 
-      <!-- COL 1: TIMELINE -->
-      <div class="tl-col" id="tl-col">
-        <div class="tl-col-header">
-          <div>
-            <div class="tl-col-title" id="tl-title">—</div>
-            <div class="tl-col-meta" id="tl-meta"></div>
+      <!-- COL A: IMPLEMENTATION TIMELINE (45%) -->
+      <div class="tl-col">
+        <div class="col-header">
+          <div class="col-header-left">
+            <div class="col-header-label">Implementation timeline</div>
+            <div class="col-header-title" id="tl-title">—</div>
+            <div class="col-header-meta" id="tl-meta"></div>
           </div>
-          <div style="display:flex;gap:6px">
-            <button class="btn btn-primary btn-sm" onclick="panelGenerate(activePanelId)"><i class="ti ti-sparkles"></i> Debrief</button>
-            <div style="width:28px;height:28px;border-radius:7px;cursor:pointer;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--text3);font-size:12px;transition:all 0.12s" onclick="openEditProject(activePanelId)" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text3)'"><i class="ti ti-pencil"></i></div>
-            <div style="width:28px;height:28px;border-radius:7px;cursor:pointer;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--text3);font-size:12px;transition:all 0.12s" onclick="closeClientPanel()" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text3)'"><i class="ti ti-x"></i></div>
+          <div class="col-header-right">
+            <div class="icon-btn" onclick="openEditProject(activePanelId)" title="Edit"><i class="ti ti-pencil"></i></div>
+            <div class="icon-btn" onclick="closeClientPanel()"><i class="ti ti-x"></i></div>
           </div>
         </div>
         <div class="tl-col-body">
@@ -982,25 +999,28 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
         </div>
       </div>
 
-      <!-- COL 2: SUB-TIMELINE (hidden by default, opens on site click) -->
-      <div class="sub-tl-col" id="sub-tl-col">
-        <div class="sub-tl-header">
-          <div>
-            <div class="sub-tl-name" id="sub-tl-name"></div>
-            <div class="sub-tl-meta" id="sub-tl-meta"></div>
+      <!-- COL B: SITES PROGRESS (25%) -->
+      <div class="sub-tl-col">
+        <div class="col-header">
+          <div class="col-header-left">
+            <div class="col-header-label">Sites progress</div>
+            <div class="col-header-title" id="sub-tl-name">—</div>
+            <div class="col-header-meta" id="sub-tl-meta"></div>
           </div>
-          <div style="width:22px;height:22px;border-radius:6px;cursor:pointer;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--text3);font-size:11px;flex-shrink:0" onclick="closeSubTimeline()" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text3)'"><i class="ti ti-x"></i></div>
         </div>
         <div class="sub-tl-body">
           <div id="sub-tl-track"></div>
         </div>
       </div>
 
-      <!-- COL 3: PANEL -->
+      <!-- COL C: PROJECT HEALTH (30%) -->
       <div class="panel-col" id="panel-col">
-        <div class="panel-col-header">
-          <div class="panel-col-score" id="panel-col-score"></div>
-          <div id="panel-col-status"></div>
+        <div class="col-header">
+          <div class="col-header-left">
+            <div class="col-header-label">Project health</div>
+            <div class="col-header-title" id="panel-col-score"></div>
+            <div class="col-header-meta" id="panel-col-status"></div>
+          </div>
         </div>
         <div class="panel-tabs">
           <div class="panel-tab active" onclick="switchPanelTab('overview',this)">Overview</div>
@@ -1012,7 +1032,6 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
         <div class="panel-tab-content" id="panel-tab-journal"></div>
         <div class="panel-tab-content" id="panel-tab-milestones"></div>
         <div class="panel-tab-content" id="panel-tab-sites"></div>
-        <div id="panel-debrief-area" style="display:none;padding:14px 16px;border-top:1px solid var(--border);overflow-y:auto;flex:1"></div>
       </div>
 
     </div><!-- /client-view -->
@@ -1129,8 +1148,7 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
 
       <div style="display:flex;gap:8px;justify-content:flex-end;padding-top:4px">
         <button class="btn btn-ghost btn-sm" onclick="closeModal('postcall-modal')">Cancel</button>
-        <button class="btn btn-ghost btn-sm" onclick="savePostCall(false)"><i class="ti ti-device-floppy"></i> Save notes</button>
-        <button class="btn btn-primary btn-sm" onclick="savePostCall(true)"><i class="ti ti-sparkles"></i> Save & Debrief</button>
+        <button class="btn btn-primary btn-sm" onclick="savePostCall()"><i class="ti ti-device-floppy"></i> Save update</button>
       </div>
     </div>
   </div>
@@ -2005,38 +2023,7 @@ function renderVerticalTimeline(p){
     // sites at or around this phase
     const sitesHere=p.sites?p.sites.filter(s=>PHASE_ORDER.indexOf(s.phase)>=i-1&&PHASE_ORDER.indexOf(s.phase)<=i):[];
 
-    const siteRows=isActive&&p.sites&&p.sites.length?`
-      <div class="vtl-sites">
-        ${p.sites.map(site=>{
-          const ss=calcHealth(site),sc=healthColorHex(ss);
-          const sd=daysUntil(site.goLive);
-          const sIdx=PHASE_ORDER.indexOf(site.phase);
-          const sdColor=sd===null?'var(--text3)':sd<=30?'var(--red2)':sd<=90?'var(--amber)':'var(--green)';
-          const miniDots=PHASE_ORDER.map((ph,pi)=>{
-            const done=pi<sIdx,act=pi===sIdx;
-            return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;position:relative">
-              ${pi<PHASE_ORDER.length-1?`<div style="position:absolute;top:4px;left:50%;right:-50%;height:1px;background:${done?sc:'var(--border2)'};z-index:0"></div>`:''}
-              <div style="width:8px;height:8px;border-radius:50%;z-index:1;background:${done?sc:act?sc:'var(--bg4)'};border:1px solid ${act?sc:'var(--border2)'};${act?`box-shadow:0 0 0 2px ${sc}30`:''}"></div>
-              <div style="font-family:var(--mono);font-size:6px;color:${act?'var(--text)':done?sc:'var(--text3)'};text-align:center">${ph.split(' ')[0].substring(0,4)}</div>
-            </div>`;
-          }).join('');
-          return `<div class="vtl-site-row" id="vtl-site-${site.id}" onclick="openSubTimeline(${p.id},${site.id})">
-            <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
-              <span style="font-size:18px;flex-shrink:0">${site.flag||'🏢'}</span>
-              <div style="flex:1">
-                <div style="font-size:13px;font-weight:600">${site.name}</div>
-                <div style="font-family:var(--mono);font-size:9px;color:var(--text3)">${site.phase}</div>
-              </div>
-              <div style="text-align:right;flex-shrink:0">
-                <div style="font-family:var(--display);font-size:20px;font-weight:700;letter-spacing:-0.5px;color:${sc};line-height:1">${ss}</div>
-                ${sd!==null?`<div style="font-family:var(--mono);font-size:9px;color:${sdColor}">${sd}d</div>`:''}
-              </div>
-            </div>
-            <div style="display:flex;align-items:flex-start;padding-top:8px;border-top:1px solid var(--border)">${miniDots}</div>
-            ${site.risks&&site.risks.length?`<div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:3px">${site.risks.map(r=>`<span style="font-family:var(--mono);font-size:8px;padding:1px 5px;border-radius:3px;background:var(--red-dim);color:var(--red2)">${r}</span>`).join('')}</div>`:''}
-          </div>`;
-        }).join('')}
-      </div>` : '';
+    const siteRows='';
 
     return `<div class="vtl-phase">
       <div class="vtl-node ${cls}" style="${isActive?`background:${c};box-shadow:0 0 0 4px ${c}20`:isDone?'background:var(--green)':''}">
@@ -2056,72 +2043,70 @@ function renderVerticalTimeline(p){
   }).join('');
 }
 
-let activeSubSiteId=null;
+// ── SUB-TIMELINES (COL B) ─────────────────────────────────────────
+function renderSubTimelines(p){
+  const el=document.getElementById('sub-tl-track');
+  if(!el) return;
 
-function openSubTimeline(projectId,siteId){
-  const p=projects.find(x=>x.id===projectId);
-  const site=p&&p.sites&&p.sites.find(s=>s.id===siteId);
-  if(!site) return;
-
-  // toggle — same site = close
-  if(activeSubSiteId===siteId){
-    closeSubTimeline();
+  if(!p.sites||!p.sites.length){
+    document.getElementById('sub-tl-name').textContent='No sites';
+    document.getElementById('sub-tl-meta').textContent='Single-site project';
+    el.innerHTML=`<div style="padding:24px 0;text-align:center;color:var(--text3);font-family:var(--mono);font-size:10px;letter-spacing:1px">NO SITES CONFIGURED</div>`;
     return;
   }
 
-  // close previous
-  if(activeSubSiteId){
-    const prev=document.getElementById(`vtl-site-${activeSubSiteId}`);
-    if(prev) prev.classList.remove('active-site');
-  }
-  activeSubSiteId=siteId;
+  document.getElementById('sub-tl-name').textContent=`${p.sites.length} site${p.sites.length>1?'s':''}`;
+  document.getElementById('sub-tl-meta').textContent='Progress by site';
 
-  // highlight site card
+  el.innerHTML=p.sites.map((site,idx)=>{
+    const ss=calcHealth(site),sc=healthColorHex(ss);
+    const sIdx=PHASE_ORDER.indexOf(site.phase);
+    const sd=daysUntil(site.goLive);
+    const sdColor=sd===null?'var(--text3)':sd<=30?'var(--red2)':sd<=90?'var(--amber)':'var(--green)';
+    const isLast=idx===p.sites.length-1;
+
+    const phases=PHASE_ORDER.map((ph,i)=>{
+      const done=i<sIdx,act=i===sIdx;
+      const cls=done?'done':act?'active':'pending';
+      return `<div class="vtl-phase" style="padding-bottom:${i===PHASE_ORDER.length-1?0:22}px">
+        <div class="vtl-node ${cls}" style="left:-26px;width:12px;height:12px;${act?`background:${sc};box-shadow:0 0 0 4px ${sc}15`:done?'background:var(--green)':''}">
+          ${done?`<i class="ti ti-check" style="font-size:6px;color:#000"></i>`:act?`<i class="ti ti-player-play" style="font-size:5px;color:#fff"></i>`:''}
+        </div>
+        <div class="vtl-phase-name ${cls}" style="font-size:9px;letter-spacing:1px">${ph}</div>
+        ${act&&sd!==null?`<div style="font-family:var(--mono);font-size:10px;color:${sdColor};margin-top:2px;font-weight:500">${sd}d to go-live</div>`:''}
+        ${act&&site.risks&&site.risks.length?`<div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:3px">${site.risks.map(r=>`<span style="font-family:var(--mono);font-size:8px;padding:1px 5px;border-radius:3px;background:var(--red-dim);color:var(--red2)">${r}</span>`).join('')}</div>`:''}
+      </div>`;
+    }).join('');
+
+    return `<div id="sub-site-${site.id}" style="padding-bottom:${isLast?0:32}px;margin-bottom:${isLast?0:32}px;border-bottom:${isLast?'none':'1px solid var(--border)'}">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px" class="vtl-site-row" id="vtl-site-${site.id}" onclick="selectSubSite(${p.id},${site.id})" style="cursor:pointer">
+        <span style="font-size:20px;flex-shrink:0">${site.flag||'🏢'}</span>
+        <div style="flex:1">
+          <div style="font-size:13px;font-weight:600">${site.name}</div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text3)">${site.phase}</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-family:var(--display);font-size:22px;font-weight:700;color:${sc};line-height:1">${ss}</div>
+          ${sd!==null?`<div style="font-family:var(--mono);font-size:9px;color:${sdColor}">${sd}d</div>`:''}
+        </div>
+      </div>
+      <div class="vtl" style="padding-left:32px;max-width:none">${phases}</div>
+    </div>`;
+  }).join('');
+}
+
+function selectSubSite(projectId,siteId){
+  // highlight in main timeline
   document.querySelectorAll('.vtl-site-row').forEach(el=>el.classList.remove('active-site'));
   const siteEl=document.getElementById(`vtl-site-${siteId}`);
   if(siteEl) siteEl.classList.add('active-site');
-
-  // open sub-tl column
-  const col=document.getElementById('sub-tl-col');
-  col.classList.add('open');
-
-  // header
-  const ss=calcHealth(site),sc=healthColorHex(ss);
-  const days=daysUntil(site.goLive);
-  document.getElementById('sub-tl-name').innerHTML=`${site.flag||'🏢'} ${site.name} <span style="color:${sc};font-family:var(--mono);font-size:10px;font-weight:600">${ss}</span>`;
-  document.getElementById('sub-tl-meta').textContent=site.phase+(days!==null?` · ${days}d to go-live`:'');
-
-  // render vertical sub-timeline
-  const el=document.getElementById('sub-tl-track');
-  if(!el) return;
-  const sIdx=PHASE_ORDER.indexOf(site.phase);
-
-  el.innerHTML=`<div class="vtl" style="padding-left:24px;max-width:none">${PHASE_ORDER.map((phase,i)=>{
-    const isDone=i<sIdx;
-    const isActive=i===sIdx;
-    const isPending=i>sIdx;
-    const cls=isDone?'done':isActive?'active':'pending';
-    const isActiveDays=isActive&&days!==null;
-    return `<div class="vtl-phase">
-      <div class="vtl-node ${cls}" style="${isActive?`background:${sc};box-shadow:0 0 0 4px ${sc}20`:isDone?'background:var(--green)':''}">
-        ${isDone?`<i class="ti ti-check" style="font-size:7px;color:#000"></i>`:isActive?`<i class="ti ti-player-play" style="font-size:6px;color:#fff"></i>`:''}
-      </div>
-      <div class="vtl-phase-name ${cls}">${phase}</div>
-      ${isActiveDays?`<div class="vtl-countdown" style="margin-top:6px">
-        <div class="vtl-countdown-num" style="color:${days<=30?'var(--red2)':days<=90?'var(--amber)':'var(--green)'};font-size:28px">${days}</div>
-        <div style="font-family:var(--mono);font-size:10px;color:var(--text3)">days</div>
-      </div>`:''}
-      <div class="vtl-phase-desc ${cls}" style="font-size:11px">${isPending?'Upcoming':PHASE_DESCS[phase]}</div>
-      ${isActive&&site.risks&&site.risks.length?`<div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:4px">${site.risks.map(r=>`<span style="font-family:var(--mono);font-size:8px;padding:2px 6px;border-radius:4px;background:var(--red-dim);color:var(--red2)">${r}</span>`).join('')}</div>`:''}
-    </div>`;
-  }).join('')}</div>`;
+  // scroll to site in sub column
+  const subEl=document.getElementById(`sub-site-${siteId}`);
+  if(subEl) subEl.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
-function closeSubTimeline(){
-  activeSubSiteId=null;
-  document.getElementById('sub-tl-col').classList.remove('open');
-  document.querySelectorAll('.vtl-site-row').forEach(el=>el.classList.remove('active-site'));
-}
+function openSubTimeline(projectId,siteId){ selectSubSite(projectId,siteId); }
+function closeSubTimeline(){ document.querySelectorAll('.vtl-site-row').forEach(el=>el.classList.remove('active-site')); }
 
 let postCallProjectId = null;
 let postCallMood = null;
@@ -2158,7 +2143,7 @@ function selectMood(mood, el){
   el.style.borderColor=borders[mood];
 }
 
-function savePostCall(generateDebrief){
+function savePostCall(){
   const p = projects.find(x=>x.id===postCallProjectId);
   if(!p) return;
 
@@ -2210,10 +2195,6 @@ function savePostCall(generateDebrief){
     const tabs=document.querySelectorAll('.panel-tab');
     if(tabs[3]) switchPanelTab('journal',tabs[3]);
   },150);
-
-  if(generateDebrief){
-    setTimeout(()=>panelGenerate(postCallProjectId),300);
-  }
 
   showToast('Post-call update saved');
 }
@@ -2541,6 +2522,8 @@ function openClientPanel(id){
   // show client view
   document.getElementById('dash-empty').style.display='none';
   document.getElementById('client-view').classList.add('open');
+  const topbar=document.getElementById('project-topbar');
+  if(topbar) topbar.style.display='flex';
 
   // timeline header
   const s=calcHealth(p),c=healthColorHex(s);
@@ -2549,6 +2532,7 @@ function openClientPanel(id){
   document.getElementById('tl-meta').textContent=p.industry+' · '+p.phase+(days?` · ${days}d to go-live`:'');
 
   renderVerticalTimeline(p);
+  renderSubTimelines(p);
 
   // panel score
   document.getElementById('panel-col-score').innerHTML=`<span style="color:${c}">${s}</span><span style="font-size:16px;color:var(--text3);font-family:var(--mono)">/100</span>`;
@@ -2574,10 +2558,10 @@ function openClientPanel(id){
 function closeClientPanel(){
   document.getElementById('dash-empty').style.display='';
   document.getElementById('client-view').classList.remove('open');
-  document.getElementById('sub-tl-col').classList.remove('open');
+  const topbar=document.getElementById('project-topbar');
+  if(topbar) topbar.style.display='none';
   document.querySelectorAll('.sb-client').forEach(el=>el.classList.remove('active-client'));
   activePanelId=null;
-  activeSubSiteId=null;
 }
 
 function switchPanelTab(name,el){
