@@ -1767,19 +1767,17 @@ function loadFromStorage(){
   try{
     const raw=localStorage.getItem(STORAGE_KEY);
     if(raw){
-      const p=JSON.parse(raw);
-      // Only load if saved data has sites on project 1 (i.e. is the rich demo version)
-      if(Array.isArray(p)&&p.length>0&&p[0].sites&&p[0].sites.length>0){
-        projects=p;
+      const saved=JSON.parse(raw);
+      if(Array.isArray(saved)&&saved.length>0){
+        // Keep demo projects fresh from code, append any user-added projects
+        const demoIds=DEMO_PROJECTS.map(p=>p.id);
+        const userProjects=saved.filter(p=>!demoIds.includes(p.id));
+        projects=[...JSON.parse(JSON.stringify(DEMO_PROJECTS)),...userProjects];
         return;
       }
     }
-    // Fresh start or old data without sites — reload demo
-    projects=JSON.parse(JSON.stringify(DEMO_PROJECTS));
-    localStorage.setItem(STORAGE_KEY,JSON.stringify(projects));
-  }catch(e){
-    projects=JSON.parse(JSON.stringify(DEMO_PROJECTS));
-  }
+  }catch(e){}
+  projects=JSON.parse(JSON.stringify(DEMO_PROJECTS));
 }
 function showToast(msg){
   const t=document.getElementById('save-toast');
