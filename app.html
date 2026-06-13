@@ -282,25 +282,25 @@ main{overflow:hidden;background:var(--bg);display:flex;flex-direction:column;hei
 }
 .col-header-right{display:flex;gap:6px;align-items:center;flex-shrink:0;}
 
-/* ── COL A — TIMELINE (45%) ── */
+/* ── COL A — TIMELINE (38%) ── */
 .tl-col{
-  flex:0 0 45%;border-right:1px solid var(--border);
+  flex:0 0 38%;border-right:1px solid var(--border);
   display:flex;flex-direction:column;overflow:hidden;
   background:var(--bg);
 }
-.tl-col-body{flex:1;overflow-y:auto;padding:28px 32px 48px;}
+.tl-col-body{flex:1;overflow-y:auto;padding:24px 28px 48px;}
 
-/* ── COL B — SITES (25%) ── */
+/* ── COL B — SITES (27%) ── */
 .sub-tl-col{
-  flex:0 0 25%;border-right:1px solid var(--border);
+  flex:0 0 27%;border-right:1px solid var(--border);
   background:var(--bg2);
   display:flex;flex-direction:column;overflow:hidden;
 }
-.sub-tl-body{flex:1;overflow-y:auto;padding:20px 20px 32px;}
+.sub-tl-body{flex:1;overflow-y:auto;padding:16px 16px 32px;}
 
-/* ── COL C — PANEL (30%) ── */
+/* ── COL C — PANEL (35%) ── */
 .panel-col{
-  flex:0 0 30%;display:flex;flex-direction:column;
+  flex:0 0 35%;display:flex;flex-direction:column;
   overflow:hidden;background:var(--bg2);
 }
 
@@ -805,7 +805,7 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
   padding:20px 22px 16px;border-bottom:1px solid var(--border);
   display:flex;align-items:center;justify-content:space-between;
 }
-.postcall-title{font-family:var(--display);font-size:15px;font-weight:700;}
+.session-modal-title{font-family:var(--display);font-size:15px;font-weight:700;}
 .postcall-body{padding:18px 22px 22px;display:flex;flex-direction:column;gap:14px;}
 .confirm-modal{background:var(--bg2);border:1px solid var(--border2);border-radius:14px;width:360px;max-width:92vw;padding:28px;text-align:center;transform:translateY(20px) scale(0.98);transition:transform 0.2s cubic-bezier(.34,1.3,.64,1);}
 .modal-overlay.open .confirm-modal{transform:translateY(0) scale(1);}
@@ -962,14 +962,14 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
             <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--green),transparent)"></div>
             <div style="font-family:var(--display);font-size:32px;font-weight:700;color:var(--green);margin-bottom:12px;letter-spacing:-1px">02</div>
             <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--green);text-transform:uppercase;margin-bottom:10px">Explore the timeline</div>
-            <div style="font-size:12px;color:var(--text2);line-height:1.7">Read through the phases, check the health score, browse the journal and milestones. For multi-site projects like Mango, see how each country tracks independently.</div>
+            <div style="font-size:12px;color:var(--text2);line-height:1.7">Read through the phases, check the health score, browse the project log and milestones. For multi-site projects like Mango, see how each country tracks independently.</div>
           </div>
 
           <div style="background:linear-gradient(135deg,rgba(91,156,246,0.08),rgba(91,156,246,0.02));border:1px solid rgba(91,156,246,0.2);border-radius:16px;padding:28px 20px;text-align:center;position:relative;overflow:hidden">
             <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--blue),transparent)"></div>
             <div style="font-family:var(--display);font-size:32px;font-weight:700;color:var(--blue);margin-bottom:12px;letter-spacing:-1px">03</div>
             <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--blue);text-transform:uppercase;margin-bottom:10px">Add your own project</div>
-            <div style="font-size:12px;color:var(--text2);line-height:1.7">Hit "New project" in the top right. Set the phase, go-live date and health scores. Log your first notes and track progress phase by phase.</div>
+            <div style="font-size:12px;color:var(--text2);line-height:1.7">Hit "New project" in the top right. Set the phase, go-live date and health scores. Log your first session notes and track progress phase by phase.</div>
           </div>
 
         </div>
@@ -1006,7 +1006,7 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
       <div class="sub-tl-col">
         <div class="col-header">
           <div class="col-header-left">
-            <div class="col-header-label">Sites progress</div>
+            <div class="col-header-label">Rollout sites</div>
             <div class="col-header-title" id="sub-tl-name">—</div>
             <div class="col-header-meta" id="sub-tl-meta"></div>
           </div>
@@ -1026,13 +1026,13 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
           </div>
         </div>
         <div class="panel-tabs">
-          <div class="panel-tab active" onclick="switchPanelTab('overview',this)">Overview</div>
-          <div class="panel-tab" onclick="switchPanelTab('journal',this)">Journal <span id="panel-journal-badge"></span></div>
+          <div class="panel-tab active" onclick="switchPanelTab('overview',this)">Summary</div>
+          <div class="panel-tab" onclick="switchPanelTab('log',this)">Project log <span id="panel-log-badge"></span></div>
           <div class="panel-tab" onclick="switchPanelTab('milestones',this)">Milestones</div>
           <div class="panel-tab" onclick="switchPanelTab('sites',this)">Sites <span id="panel-sites-badge"></span></div>
         </div>
         <div class="panel-tab-content active" id="panel-tab-overview"></div>
-        <div class="panel-tab-content" id="panel-tab-journal"></div>
+        <div class="panel-tab-content" id="panel-tab-log"></div>
         <div class="panel-tab-content" id="panel-tab-milestones"></div>
         <div class="panel-tab-content" id="panel-tab-sites"></div>
       </div>
@@ -1086,7 +1086,7 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
   <div class="postcall-modal">
     <div class="postcall-header">
       <div>
-        <div class="postcall-title"><i class="ti ti-phone-incoming" style="color:var(--blue);margin-right:8px"></i>Post-call update</div>
+        <div class="session-modal-title"><i class="ti ti-notebook" style="color:var(--blue);margin-right:8px"></i>Log a session</div>
         <div style="font-size:11px;color:var(--text3);margin-top:3px" id="postcall-client-name"></div>
       </div>
       <div class="modal-close" onclick="closeModal('postcall-modal')" style="position:relative;top:auto;right:auto"><i class="ti ti-x"></i></div>
@@ -1094,19 +1094,19 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
     <div class="postcall-body">
       <!-- Quick score adjustments -->
       <div>
-        <div style="font-family:var(--mono);font-size:9px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-bottom:10px">How did the call go?</div>
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-bottom:10px">How did the session go?</div>
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px" id="postcall-mood">
           <div class="mood-btn" data-mood="great" onclick="selectMood('great',this)" style="text-align:center;padding:12px 8px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all 0.15s">
             <div style="font-size:22px;margin-bottom:4px">🟢</div>
-            <div style="font-family:var(--mono);font-size:9px;color:var(--text2)">Great</div>
+            <div style="font-family:var(--mono);font-size:9px;color:var(--text2)">Productive</div>
           </div>
           <div class="mood-btn" data-mood="ok" onclick="selectMood('ok',this)" style="text-align:center;padding:12px 8px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all 0.15s">
             <div style="font-size:22px;margin-bottom:4px">🟡</div>
-            <div style="font-family:var(--mono);font-size:9px;color:var(--text2)">OK</div>
+            <div style="font-family:var(--mono);font-size:9px;color:var(--text2)">Neutral</div>
           </div>
           <div class="mood-btn" data-mood="tough" onclick="selectMood('tough',this)" style="text-align:center;padding:12px 8px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all 0.15s">
             <div style="font-size:22px;margin-bottom:4px">🔴</div>
-            <div style="font-family:var(--mono);font-size:9px;color:var(--text2)">Tough</div>
+            <div style="font-family:var(--mono);font-size:9px;color:var(--text2)">Blocked</div>
           </div>
         </div>
       </div>
@@ -1115,16 +1115,16 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
       <div>
         <div style="font-family:var(--mono);font-size:9px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-bottom:8px">Call notes</div>
         <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px 14px">
-          <textarea id="postcall-notes" placeholder="What was discussed? Decisions made, blockers raised, next steps agreed..." style="background:transparent;border:none;outline:none;width:100%;font-size:12px;color:var(--text2);line-height:1.7;resize:none;min-height:100px;font-family:var(--sans)"></textarea>
+          <textarea id="postcall-notes" placeholder="Meeting notes, decisions made, blockers raised, next steps agreed..." style="background:transparent;border:none;outline:none;width:100%;font-size:12px;color:var(--text2);line-height:1.7;resize:none;min-height:100px;font-family:var(--sans)"></textarea>
         </div>
       </div>
 
       <!-- Quick actions -->
       <div>
-        <div style="font-family:var(--mono);font-size:9px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-bottom:8px">Quick updates</div>
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-bottom:8px">Quick project update</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
           <div class="form-group">
-            <label>Phase</label>
+            <label>Current phase</label>
             <select id="postcall-phase">
               <option value="">No change</option>
               <option>Discovery</option><option>Configuration</option>
@@ -1144,14 +1144,14 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
           </div>
         </div>
         <div class="form-group" style="margin-top:8px">
-          <label>New risk flag (optional)</label>
+          <label>Flag a new risk (optional)</label>
           <input type="text" id="postcall-risk" placeholder="e.g. sponsor unavailable, budget review pending">
         </div>
       </div>
 
       <div style="display:flex;gap:8px;justify-content:flex-end;padding-top:4px">
         <button class="btn btn-ghost btn-sm" onclick="closeModal('postcall-modal')">Cancel</button>
-        <button class="btn btn-primary btn-sm" onclick="savePostCall()"><i class="ti ti-device-floppy"></i> Save update</button>
+        <button class="btn btn-primary btn-sm" onclick="savePostCall()"><i class="ti ti-device-floppy"></i> Save session</button>
       </div>
     </div>
   </div>
@@ -1184,7 +1184,7 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
       <div class="form-grid">
         <div class="form-group"><label>Site name</label><input type="text" id="se-name"></div>
         <div class="form-group"><label>Flag emoji</label><input type="text" id="se-flag" placeholder="🇬🇧"></div>
-        <div class="form-group"><label>Phase</label><select id="se-phase"><option>Discovery</option><option>Configuration</option><option>Integration</option><option>UAT</option><option>Go-live</option><option>Post go-live</option></select></div>
+        <div class="form-group"><label>Current phase</label><select id="se-phase"><option>Discovery</option><option>Configuration</option><option>Integration</option><option>UAT</option><option>Go-live</option><option>Post go-live</option></select></div>
         <div class="form-group"><label>Status</label><select id="se-status"><option value="on-track">On track</option><option value="healthy">Healthy</option><option value="at-risk">At risk</option><option value="delayed">Delayed</option></select></div>
         <div class="form-group full"><label>Go-live date</label><input type="text" id="se-golive" placeholder="e.g. Aug 15, 2026"></div>
         <div class="form-group full">
@@ -1242,7 +1242,7 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
       <div class="form-grid">
         <div class="form-group"><label>Client name</label><input type="text" id="e-name"></div>
         <div class="form-group"><label>Industry</label><select id="e-industry"><option>Fashion</option><option>Retail</option><option>Luxury</option><option>E-commerce</option><option>FMCG</option></select></div>
-        <div class="form-group"><label>Phase</label><select id="e-phase"><option>Discovery</option><option>Configuration</option><option>Integration</option><option>UAT</option><option>Go-live</option><option>Post go-live</option></select></div>
+        <div class="form-group"><label>Current phase</label><select id="e-phase"><option>Discovery</option><option>Configuration</option><option>Integration</option><option>UAT</option><option>Go-live</option><option>Post go-live</option></select></div>
         <div class="form-group"><label>Status</label><select id="e-status"><option value="on-track">On track</option><option value="healthy">Healthy</option><option value="at-risk">At risk</option><option value="delayed">Delayed</option></select></div>
         <div class="form-group full"><label>Go-live date</label><input type="text" id="e-golive" placeholder="e.g. Aug 15, 2026"></div>
         <div class="form-group full">
@@ -1282,7 +1282,7 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
       <div class="form-grid">
         <div class="form-group"><label>Client name</label><input type="text" id="f-name" placeholder="e.g. Mango Retail"></div>
         <div class="form-group"><label>Industry</label><select id="f-industry"><option>Fashion</option><option>Retail</option><option>Luxury</option><option>E-commerce</option><option>FMCG</option></select></div>
-        <div class="form-group"><label>Phase</label><select id="f-phase"><option>Discovery</option><option>Configuration</option><option>Integration</option><option>UAT</option><option>Go-live</option><option>Post go-live</option></select></div>
+        <div class="form-group"><label>Current phase</label><select id="f-phase"><option>Discovery</option><option>Configuration</option><option>Integration</option><option>UAT</option><option>Go-live</option><option>Post go-live</option></select></div>
         <div class="form-group"><label>Go-live date</label><input type="text" id="f-golive" placeholder="e.g. Aug 15, 2026"></div>
         <div class="form-group full">
           <label>Stakeholder alignment — <span id="sa-v" style="color:var(--red2)">60%</span></label>
@@ -1814,7 +1814,7 @@ function openDetail(id){
 
   const sessionCount=p.noteSessions&&p.noteSessions.length?p.noteSessions.length:0;
   document.getElementById('detail-tabs').innerHTML=`
-    <div class="detail-tab active" onclick="switchTab('overview',this)"><i class="ti ti-layout-dashboard" style="font-size:11px"></i>Overview</div>
+    <div class="detail-tab active" onclick="switchTab('overview',this)"><i class="ti ti-layout-dashboard" style="font-size:11px"></i>Summary</div>
     <div class="detail-tab" onclick="switchTab('notes',this)"><i class="ti ti-notes" style="font-size:11px"></i>Notes${sessionCount?` <span style="background:var(--bg4);border-radius:4px;padding:1px 5px;font-size:9px">${sessionCount}</span>`:''}</div>
     <div class="detail-tab" onclick="switchTab('debrief',this)"><i class="ti ti-sparkles" style="font-size:11px"></i>AI Debrief${p.lastDebrief?' <span style="background:var(--red);border-radius:4px;padding:1px 5px;font-size:9px;color:#fff">new</span>':''}</div>`;
 
@@ -1829,7 +1829,7 @@ function openDetail(id){
     <div id="tab-overview" class="tab-panel active">
       <div class="detail-body">
         <div class="detail-sect">
-          <div class="detail-sect-title">Health dimensions</div>
+          <div class="detail-sect-title">Implementation health</div>
           ${dims.map(d=>`<div class="dim-row"><div class="dim-lbl">${d.label}</div><div class="dim-bar"><div class="dim-fill" style="width:${d.val}%;background:${d.color}"></div></div><div class="dim-num">${d.val}</div></div>`).join('')}
         </div>
         ${p.risks.length?`<div class="detail-sect"><div class="detail-sect-title">Risk flags</div><div class="risk-chips" style="gap:6px">${p.risks.map(r=>`<span class="risk-chip ${s>=60?'rchip-amber':'rchip-red'}" style="font-size:11px;padding:4px 10px">${r}</span>`).join('')}</div></div>`:''}
@@ -1946,7 +1946,7 @@ async function generateDebrief(id){
 
 PROJECT DATA:
 - Client: ${p.name} (${p.industry})
-- Phase: ${p.phase} | Go-live: ${p.goLive}
+- Current phase: ${p.phase} | Go-live: ${p.goLive}
 - Health score: ${calcHealth(p)}/100
 - Stakeholder alignment: ${p.alignment}% | Delivery confidence: ${p.confidence}%
 - Product adoption: ${p.adoption}% | Timeline adherence: ${p.timeline}%
@@ -2125,7 +2125,7 @@ function renderSubTimelines(p){
     const phases=PHASE_ORDER.map((ph,i)=>{
       const done=i<sIdx,act=i===sIdx;
       const cls=done?'done':act?'active':'pending';
-      return `<div class="vtl-phase" style="padding-bottom:${i===PHASE_ORDER.length-1?0:22}px">
+      return `<div class="vtl-phase" style="padding-bottom:${i===PHASE_ORDER.length-1?0:16}px">
         <div class="vtl-node ${cls}" style="left:-26px;width:12px;height:12px;${act?`background:${sc};box-shadow:0 0 0 4px ${sc}15`:done?'background:var(--green)':''}">
           ${done?`<i class="ti ti-check" style="font-size:6px;color:#000"></i>`:act?`<i class="ti ti-player-play" style="font-size:5px;color:#fff"></i>`:''}
         </div>
@@ -2135,19 +2135,20 @@ function renderSubTimelines(p){
       </div>`;
     }).join('');
 
-    return `<div id="sub-site-${site.id}" style="padding-bottom:${isLast?0:32}px;margin-bottom:${isLast?0:32}px;border-bottom:${isLast?'none':'1px solid var(--border)'}">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px" class="vtl-site-row" id="vtl-site-${site.id}" onclick="selectSubSite(${p.id},${site.id})" style="cursor:pointer">
+    return `<div id="sub-site-${site.id}" style="padding-bottom:${isLast?0:28}px;margin-bottom:${isLast?0:28}px;border-bottom:${isLast?'none':'1px solid var(--border)'}">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
         <span style="font-size:20px;flex-shrink:0">${site.flag||'🏢'}</span>
-        <div style="flex:1">
+        <div style="flex:1;min-width:0">
           <div style="font-size:13px;font-weight:600">${site.name}</div>
           <div style="font-family:var(--mono);font-size:9px;color:var(--text3)">${site.phase}</div>
         </div>
-        <div style="text-align:right">
-          <div style="font-family:var(--display);font-size:22px;font-weight:700;color:${sc};line-height:1">${ss}</div>
+        <div style="text-align:right;flex-shrink:0;margin-right:6px">
+          <div style="font-family:var(--display);font-size:20px;font-weight:700;color:${sc};line-height:1">${ss}</div>
           ${sd!==null?`<div style="font-family:var(--mono);font-size:9px;color:${sdColor}">${sd}d</div>`:''}
         </div>
+        <div onclick="openSiteEdit(${p.id},${site.id})" style="width:24px;height:24px;border-radius:6px;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text3);font-size:11px;transition:all 0.12s;flex-shrink:0" title="Edit site" onmouseover="this.style.color='var(--text)';this.style.borderColor='var(--border2)'" onmouseout="this.style.color='var(--text3)';this.style.borderColor='var(--border)'"><i class="ti ti-pencil"></i></div>
       </div>
-      <div class="vtl" style="padding-left:32px;max-width:none">${phases}</div>
+      <div class="vtl" style="padding-left:28px;max-width:none">${phases}</div>
     </div>`;
   }).join('');
 }
@@ -2210,9 +2211,9 @@ function savePostCall(){
   const newRisk = document.getElementById('postcall-risk').value.trim();
 
   // Build log text
-  const moodMap={great:'✅ Great call',ok:'🟡 OK call',tough:'🔴 Tough call'};
+  const moodMap={great:'✅ Productive session',ok:'🟡 Neutral session',tough:'🔴 Blocked session'};
   const moodText = postCallMood ? moodMap[postCallMood]+' — ' : '';
-  const fullText = moodText + (notes || 'Post-call update logged.');
+  const fullText = moodText + (notes || 'Session update logged.');
 
   // Log as meeting entry
   if(!p.activity) p.activity=[];
@@ -2250,10 +2251,10 @@ function savePostCall(){
   openClientPanel(postCallProjectId);
   setTimeout(()=>{
     const tabs=document.querySelectorAll('.panel-tab');
-    if(tabs[3]) switchPanelTab('journal',tabs[3]);
+    if(tabs[3]) switchPanelTab('log',tabs[3]);
   },150);
 
-  showToast('Post-call update saved');
+  showToast('Session update saved');
 }
 
 // ── CONFIRM MODAL ─────────────────────────────────────────────────
@@ -2512,7 +2513,7 @@ function renderTable(){
       <td onclick="openClientPanel(${p.id})">${statusBadge(p.status)}</td>
       <td>
         <div style="display:flex;align-items:center;gap:4px">
-          <button class="postcall-btn" onclick="openPostCall(${p.id})" title="Post-call update"><i class="ti ti-phone-incoming"></i></button>
+          <button class="postcall-btn" onclick="openPostCall(${p.id})" title="Log a session"><i class="ti ti-phone-incoming"></i></button>
           <button onclick="deleteProject(${p.id})" style="background:transparent;border:none;cursor:pointer;color:var(--text3);padding:4px 6px;border-radius:6px;transition:all 0.12s;font-size:13px" title="Remove project" onmouseover="this.style.color='var(--red2)';this.style.background='var(--red-dim)'" onmouseout="this.style.color='var(--text3)';this.style.background='transparent'"><i class="ti ti-trash"></i></button>
         </div>
       </td>
@@ -2640,7 +2641,7 @@ function renderPanelOverview(p){
   document.getElementById('panel-tab-overview').innerHTML=`
     <!-- DIMENSIONS -->
     <div style="padding:14px 16px 12px">
-      <div style="font-family:var(--mono);font-size:8px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-bottom:12px">Health dimensions</div>
+      <div style="font-family:var(--mono);font-size:8px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-bottom:12px">Implementation health</div>
       ${dims.map(d=>`
         <div style="margin-bottom:10px">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
@@ -2817,14 +2818,14 @@ function deleteMilestone(pid,idx){
 
 // ── PANEL JOURNAL (merged Notes + Activity) ───────────────────────
 function renderPanelJournal(p){
-  const el=document.getElementById('panel-tab-journal');
+  const el=document.getElementById('panel-tab-log');
   if(!el) return;
   if(!p.noteSessions) p.noteSessions=[];
   if(!p.activity) p.activity=[];
 
   // badge = total entries
   const total=p.noteSessions.length + p.activity.filter(a=>a.type!=='milestone'||true).length;
-  const badge=document.getElementById('panel-journal-badge');
+  const badge=document.getElementById('panel-log-badge');
   if(badge) badge.innerHTML=total?`<span style="background:var(--bg4);border-radius:3px;padding:0 4px;font-size:8px">${total}</span>`:'';
 
   // log type buttons
@@ -2854,14 +2855,14 @@ function renderPanelJournal(p){
       </div>
       <div class="log-delete" onclick="${e._type==='session'?`deleteSession(${p.id},${e.idx})`:`deleteLogEntry(${p.id},${e.idx})`}"><i class="ti ti-x"></i></div>
     </div>`).join('')
-    : `<div class="panel-empty"><i class="ti ti-notebook" style="font-size:20px;display:block;margin-bottom:6px;opacity:0.3"></i>Nothing logged yet</div>`;
+    : `<div class="panel-empty"><i class="ti ti-notebook" style="font-size:20px;display:block;margin-bottom:6px;opacity:0.3"></i>No sessions logged yet</div>`;
 
   el.innerHTML=`
     <div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:10px">
       <div class="log-type-row">${typeBtns}</div>
       ${selectedLogType==='note'
-        ? `<textarea id="journal-text-${p.id}" placeholder="Paste emails, call notes, Slack threads — anything raw" style="background:transparent;border:none;outline:none;width:100%;font-size:12px;color:var(--text2);line-height:1.6;resize:none;min-height:70px;font-family:var(--sans);margin-bottom:6px"></textarea>`
-        : `<input type="text" id="journal-text-${p.id}" placeholder="What happened?" style="font-size:11px;padding:6px 8px;width:100%;margin-bottom:6px">`
+        ? `<textarea id="journal-text-${p.id}" placeholder="Paste meeting notes, emails, Slack threads — anything raw" style="background:transparent;border:none;outline:none;width:100%;font-size:12px;color:var(--text2);line-height:1.6;resize:none;min-height:70px;font-family:var(--sans);margin-bottom:6px"></textarea>`
+        : `<input type="text" id="journal-text-${p.id}" placeholder="What was discussed or decided?" style="font-size:11px;padding:6px 8px;width:100%;margin-bottom:6px">`
       }
       <div style="display:flex;justify-content:flex-end">
         <button class="btn btn-primary btn-sm" onclick="addJournalEntry(${p.id})"><i class="ti ti-plus"></i> Log</button>
@@ -2908,10 +2909,10 @@ function selectLogType(type,pid){
 }
 
 const LOG_TYPES={
-  meeting:{icon:'ti-video',bg:'var(--blue-dim)',ic:'var(--blue)',label:'Meeting'},
-  risk:{icon:'ti-alert-triangle',bg:'var(--red-dim)',ic:'var(--red2)',label:'Risk'},
-  milestone:{icon:'ti-circle-check',bg:'var(--green-dim)',ic:'var(--green)',label:'Milestone'},
-  note:{icon:'ti-file-text',bg:'var(--amber-dim)',ic:'var(--amber)',label:'Note'}
+  meeting:{icon:'ti-video',bg:'var(--blue-dim)',ic:'var(--blue)',label:'Steering / call'},
+  risk:{icon:'ti-alert-triangle',bg:'var(--red-dim)',ic:'var(--red2)',label:'Risk flag'},
+  milestone:{icon:'ti-circle-check',bg:'var(--green-dim)',ic:'var(--green)',label:'Sign-off'},
+  note:{icon:'ti-file-text',bg:'var(--amber-dim)',ic:'var(--amber)',label:'Meeting notes'}
 };
 
 let selectedLogType='note';
@@ -2943,7 +2944,7 @@ function renderPanelActivity(p){
     <div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:12px">
       <div style="font-family:var(--mono);font-size:8px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">Log entry</div>
       <div class="log-type-row">${typeBtns}</div>
-      <input type="text" id="log-text-${p.id}" placeholder="What happened?" style="font-size:11px;padding:6px 8px;width:100%;margin-bottom:6px">
+      <input type="text" id="log-text-${p.id}" placeholder="What was discussed or decided?" style="font-size:11px;padding:6px 8px;width:100%;margin-bottom:6px">
       <div style="display:flex;justify-content:flex-end">
         <button class="btn btn-primary btn-sm" onclick="addLogEntry(${p.id})"><i class="ti ti-plus"></i> Add</button>
       </div>
@@ -3072,7 +3073,7 @@ async function panelGenerate(id){
   const prompt=`You are an expert Customer Success Manager analyst. Analyse this implementation project and produce a structured debrief for the PM.
 
 PROJECT:
-- Client: ${p.name} (${p.industry}) | Phase: ${p.phase} | Go-live: ${p.goLive}
+- Client: ${p.name} (${p.industry}) | Current phase: ${p.phase} | Go-live: ${p.goLive}
 - Health: ${calcHealth(p)}/100 | Alignment: ${p.alignment}% | Confidence: ${p.confidence}%
 - Adoption: ${p.adoption}% | Timeline: ${p.timeline}%
 - Risks: ${p.risks.join(', ')||'None'}
@@ -3281,7 +3282,7 @@ async function updateGenerate(){
 
 PROJECT DATA:
 - Client: ${p.name} (${p.industry})
-- Phase: ${p.phase} | Go-live: ${p.goLive}
+- Current phase: ${p.phase} | Go-live: ${p.goLive}
 - Health score: ${calcHealth(p)}/100
 - Stakeholder alignment: ${p.alignment}% | Delivery confidence: ${p.confidence}%
 - Product adoption: ${p.adoption}% | Timeline adherence: ${p.timeline}%
