@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pulse — The life of your implementation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Unbounded:wght@300;400;600;700;900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+:root{
+  --bg:#080810;--bg2:#0f0f1a;--bg3:#161624;--bg4:#1e1e30;
+  --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.12);
+  --text:#f0eefa;--text2:#9490b0;--text3:#4e4a68;
+  --red:#e8314a;--red2:#ff5068;--red-dim:rgba(232,49,74,0.12);--red-glow:rgba(232,49,74,0.25);
+  --green:#2dd4a0;--amber:#f5a623;--blue:#5b9cf6;
+  --mono:'DM Mono',monospace;--sans:'Inter',sans-serif;--display:'Unbounded',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.6;overflow-x:hidden;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+@keyframes ecg{0%{stroke-dashoffset:300;}100%{stroke-dashoffset:0;}}
+@keyframes ecg-loop{0%{stroke-dashoffset:300;}70%{stroke-dashoffset:0;}100%{stroke-dashoffset:0;}}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(0.8);}}
+@keyframes line-grow{from{width:0;}to{width:100%;}}
+@keyframes glow-pulse{0%,100%{box-shadow:0 0 8px rgba(232,49,74,0.2);}50%{box-shadow:0 0 20px rgba(232,49,74,0.5);}}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 48px;height:56px;
+  background:rgba(8,8,16,0.92);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:14px;letter-spacing:2px;text-decoration:none;color:var(--text);}
+.nav-logo .ecg-path{stroke-dasharray:120;stroke-dashoffset:120;animation:ecg-loop 2.2s ease-in-out infinite;}
+.logo-s{color:var(--red2);}
+.nav-cta{display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:8px;font-size:12px;font-weight:500;background:var(--red);color:#fff;text-decoration:none;transition:all 0.15s;}
+.nav-cta:hover{background:var(--red2);transform:translateY(-1px);}
+
+/* HERO */
+.hero{
+  min-height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:120px 48px 80px;text-align:center;
+  position:relative;overflow:hidden;
+}
+.hero-glow{
+  position:absolute;top:30%;left:50%;transform:translate(-50%,-50%);
+  width:600px;height:400px;
+  background:radial-gradient(ellipse,rgba(232,49,74,0.07) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:10px;letter-spacing:2px;
+  color:var(--text3);text-transform:uppercase;
+  border:1px solid var(--border2);border-radius:20px;
+  padding:6px 16px;margin-bottom:40px;
+  position:relative;z-index:1;
+}
+.hero-tag-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--red2);
+  animation:pulse-dot 2s ease-in-out infinite;
+}
+h1{
+  font-family:var(--display);
+  font-size:clamp(36px,6vw,80px);
+  font-weight:700;letter-spacing:-3px;line-height:0.95;
+  margin-bottom:32px;position:relative;z-index:1;
+}
+h1 .line1{display:block;color:var(--text3);}
+h1 .line2{display:block;color:var(--text);}
+h1 .line3{display:block;color:var(--red2);}
+
+/* THE ECG LINE — hero centrepiece */
+.ecg-hero{
+  width:100%;max-width:700px;margin:0 auto 40px;
+  position:relative;z-index:1;
+}
+.ecg-hero svg{width:100%;height:auto;overflow:visible;}
+.ecg-hero .main-line{
+  stroke-dasharray:800;stroke-dashoffset:800;
+  animation:ecg 2.5s cubic-bezier(.4,0,.2,1) 0.5s forwards;
+}
+.ecg-hero .phase-labels{font-family:var(--mono);font-size:10px;fill:var(--text3);}
+
+.hero-sub{
+  font-size:clamp(14px,2vw,17px);color:var(--text2);
+  max-width:500px;line-height:1.8;margin-bottom:40px;
+  position:relative;z-index:1;
+}
+.hero-sub strong{color:var(--text);font-weight:500;}
+.hero-cta{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:14px 32px;border-radius:10px;font-size:14px;font-weight:500;
+  background:var(--red);color:#fff;text-decoration:none;
+  transition:all 0.15s;box-shadow:0 0 24px var(--red-dim);
+  position:relative;z-index:1;
+}
+.hero-cta:hover{background:var(--red2);box-shadow:0 0 40px var(--red-glow);transform:translateY(-2px);}
+.hero-meta{margin-top:14px;font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:0.5px;position:relative;z-index:1;}
+
+/* TIMELINE SECTION */
+.timeline-section{padding:100px 48px;}
+.timeline-inner{max-width:900px;margin:0 auto;}
+.section-eyebrow{
+  font-family:var(--mono);font-size:10px;letter-spacing:2px;
+  color:var(--red2);text-transform:uppercase;
+  display:flex;align-items:center;gap:8px;margin-bottom:20px;
+}
+.section-eyebrow::before{content:'';width:20px;height:1px;background:var(--red2);}
+.section-title{
+  font-family:var(--display);font-size:clamp(22px,3.5vw,38px);
+  font-weight:700;letter-spacing:-1px;line-height:1.1;
+  margin-bottom:64px;max-width:560px;
+}
+.section-title em{color:var(--red2);font-style:normal;}
+
+/* phase journey */
+.phase-journey{position:relative;padding-left:0;}
+.phase-line{
+  position:absolute;left:20px;top:28px;bottom:28px;
+  width:1px;background:linear-gradient(to bottom,transparent,var(--border2) 10%,var(--border2) 90%,transparent);
+}
+.phase-item{
+  display:grid;grid-template-columns:40px 1fr;gap:20px;
+  margin-bottom:40px;align-items:flex-start;
+  opacity:0;transform:translateX(-10px);
+  transition:opacity 0.5s ease,transform 0.5s ease;
+}
+.phase-item.visible{opacity:1;transform:translateX(0);}
+.phase-item:last-child{margin-bottom:0;}
+.phase-node-wrap{display:flex;flex-direction:column;align-items:center;gap:0;}
+.phase-node{
+  width:40px;height:40px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--display);font-size:13px;font-weight:700;
+  background:var(--bg2);border:1px solid var(--border2);
+  flex-shrink:0;position:relative;z-index:1;
+}
+.phase-node.active{
+  background:var(--red-dim);border-color:rgba(232,49,74,0.3);
+  color:var(--red2);animation:glow-pulse 2s ease-in-out infinite;
+}
+.phase-content{padding-top:8px;}
+.phase-label{
+  font-family:var(--mono);font-size:9px;letter-spacing:1.5px;
+  color:var(--text3);text-transform:uppercase;margin-bottom:4px;
+}
+.phase-name{font-family:var(--display);font-size:16px;font-weight:700;letter-spacing:-0.3px;margin-bottom:6px;}
+.phase-desc{font-size:13px;color:var(--text2);line-height:1.6;max-width:500px;}
+.phase-chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;}
+.phase-chip{
+  font-family:var(--mono);font-size:9px;
+  padding:3px 8px;border-radius:4px;
+  background:var(--bg3);border:1px solid var(--border);
+  color:var(--text3);
+}
+
+/* WHAT PULSE CAPTURES */
+.capture-section{
+  padding:100px 48px;
+  border-top:1px solid var(--border);
+}
+.capture-inner{max-width:900px;margin:0 auto;}
+.capture-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:48px;}
+.capture-card{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:14px;padding:22px;
+  transition:border-color 0.2s,transform 0.2s;
+}
+.capture-card:hover{border-color:var(--border2);transform:translateY(-3px);}
+.capture-icon{
+  width:38px;height:38px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:17px;margin-bottom:14px;
+}
+.capture-title{font-size:13px;font-weight:600;margin-bottom:6px;}
+.capture-desc{font-size:12px;color:var(--text2);line-height:1.6;}
+
+/* CTA */
+.cta-section{padding:80px 48px;border-top:1px solid var(--border);}
+.cta-inner{
+  max-width:640px;margin:0 auto;text-align:center;
+  background:var(--bg2);border:1px solid var(--border2);
+  border-radius:20px;padding:56px 48px;position:relative;overflow:hidden;
+}
+.cta-glow{
+  position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+  width:400px;height:200px;
+  background:radial-gradient(ellipse,rgba(232,49,74,0.06),transparent 70%);
+  pointer-events:none;
+}
+.cta-title{
+  font-family:var(--display);font-size:clamp(22px,3vw,34px);
+  font-weight:700;letter-spacing:-1px;line-height:1.1;
+  margin-bottom:14px;
+}
+.cta-title em{color:var(--red2);font-style:normal;}
+.cta-sub{font-size:14px;color:var(--text2);margin-bottom:32px;line-height:1.7;}
+.cta-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:14px 32px;border-radius:10px;font-size:14px;font-weight:500;
+  background:var(--red);color:#fff;text-decoration:none;
+  transition:all 0.15s;box-shadow:0 0 24px var(--red-dim);
+}
+.cta-btn:hover{background:var(--red2);box-shadow:0 0 40px var(--red-glow);transform:translateY(-2px);}
+
+/* FOOTER */
+footer{
+  border-top:1px solid var(--border);padding:20px 48px;
+  display:flex;align-items:center;justify-content:space-between;
+  font-family:var(--mono);font-size:9px;color:var(--text3);
+}
+footer a{color:var(--text2);text-decoration:none;}
+
+@media(max-width:768px){
+  nav,section,footer{padding-left:20px;padding-right:20px;}
+  nav{padding:0 20px;}
+  .hero{padding:100px 20px 60px;}
+  .capture-grid{grid-template-columns:1fr;}
+  .cta-inner{padding:36px 24px;}
+  footer{flex-direction:column;gap:6px;text-align:center;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <svg width="40" height="16" viewBox="0 0 52 22" fill="none">
+      <path class="ecg-path" d="M0,11 L12,11 L15,11 L17,3 L19,19 L21,7 L23,11 L52,11" stroke="#e8314a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    </svg>
+    <span>PUL<span class="logo-s">S</span>E</span>
+  </a>
+  <a href="pulse_v9.html" class="nav-cta"><i class="ti ti-layout-dashboard"></i> Open app</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+
+  <div class="hero-tag"><div class="hero-tag-dot"></div>Implementation · End to end</div>
+
+  <h1>
+    <span class="line1">From kickoff</span>
+    <span class="line2">to go-live —</span>
+    <span class="line3">nothing slips.</span>
+  </h1>
+
+  <!-- ECG TIMELINE LINE -->
+  <div class="ecg-hero">
+    <svg viewBox="0 0 700 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- phase dots -->
+      <circle cx="58"  cy="60" r="5" fill="#4e4a68"/>
+      <circle cx="175" cy="60" r="5" fill="#4e4a68"/>
+      <circle cx="292" cy="60" r="5" fill="#4e4a68"/>
+      <circle cx="408" cy="60" r="5" fill="#4e4a68"/>
+      <circle cx="525" cy="60" r="5" fill="#e8314a" filter="url(#glow)"/>
+      <circle cx="642" cy="60" r="5" fill="#2dd4a0"/>
+      <!-- active pulse at go-live -->
+      <circle cx="525" cy="60" r="12" fill="rgba(232,49,74,0.1)" class="glow-ring"/>
+      <!-- labels -->
+      <text x="58"  y="88" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#4e4a68" letter-spacing="0.5">DISCOVERY</text>
+      <text x="175" y="88" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#4e4a68" letter-spacing="0.5">CONFIG</text>
+      <text x="292" y="88" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#4e4a68" letter-spacing="0.5">INTEGRATION</text>
+      <text x="408" y="88" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#4e4a68" letter-spacing="0.5">UAT</text>
+      <text x="525" y="88" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#e8314a" letter-spacing="0.5">GO-LIVE</text>
+      <text x="642" y="88" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#2dd4a0" letter-spacing="0.5">POST GL</text>
+      <!-- the ECG line -->
+      <path class="main-line"
+        d="M0,60 L40,60 L58,60 L80,60 L95,60 L100,60
+           L120,60 L140,60 L155,60 L175,60
+           L195,60 L210,60 L220,60 L225,20 L235,100 L245,35 L255,60
+           L275,60 L292,60 L310,60
+           L330,60 L345,60 L350,25 L360,95 L370,40 L380,60
+           L400,60 L408,60 L420,60
+           L440,60 L455,60 L460,10 L470,110 L480,20 L492,60
+           L510,60 L525,60
+           L545,60 L570,60 L590,60 L600,45 L610,75 L620,60
+           L642,60 L700,60"
+        stroke="url(#lineGrad)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <defs>
+        <linearGradient id="lineGrad" x1="0" y1="0" x2="700" y2="0" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#4e4a68"/>
+          <stop offset="65%" stop-color="#e8314a"/>
+          <stop offset="100%" stop-color="#2dd4a0"/>
+        </linearGradient>
+        <filter id="glow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+    </svg>
+  </div>
+
+  <p class="hero-sub">
+    Pulse tracks your SaaS implementation <strong>from first stakeholder meeting to post go-live</strong> — every phase, every decision, every risk — in one place.
+  </p>
+  <a href="pulse_v9.html" class="hero-cta"><i class="ti ti-heartbeat"></i> Open Pulse</a>
+  <div class="hero-meta">No setup · No account · Everything stays local</div>
+</section>
+
+<!-- PHASE JOURNEY -->
+<section class="timeline-section">
+  <div class="timeline-inner">
+    <div class="section-eyebrow">The full journey</div>
+    <div class="section-title">Every phase of your implementation.<br><em>Tracked. Documented. In control.</em></div>
+
+    <div class="phase-journey">
+      <div class="phase-line"></div>
+
+      <div class="phase-item">
+        <div class="phase-node-wrap">
+          <div class="phase-node">01</div>
+        </div>
+        <div class="phase-content">
+          <div class="phase-label">Discovery</div>
+          <div class="phase-name">Understand. Align. Define.</div>
+          <div class="phase-desc">Log your discovery workshops, map stakeholders, capture the client's current state and target vision. Everything said in these first weeks matters — Pulse keeps it.</div>
+          <div class="phase-chips">
+            <span class="phase-chip">Stakeholder mapping</span>
+            <span class="phase-chip">Workshop notes</span>
+            <span class="phase-chip">Scope definition</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase-item">
+        <div class="phase-node-wrap">
+          <div class="phase-node">02</div>
+        </div>
+        <div class="phase-content">
+          <div class="phase-label">Configuration</div>
+          <div class="phase-name">Build. Configure. Validate.</div>
+          <div class="phase-desc">Track configuration milestones, log decisions, flag blockers early. Know at any moment what's been validated and what's still open.</div>
+          <div class="phase-chips">
+            <span class="phase-chip">Milestone tracking</span>
+            <span class="phase-chip">Decision log</span>
+            <span class="phase-chip">Blocker flags</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase-item">
+        <div class="phase-node-wrap">
+          <div class="phase-node">03</div>
+        </div>
+        <div class="phase-content">
+          <div class="phase-label">Integration & UAT</div>
+          <div class="phase-name">Connect. Test. Sign off.</div>
+          <div class="phase-desc">Integration dependencies, test results, escalations, go/no-go criteria — all tracked in the project journal with dates and owners. Nothing falls through the cracks.</div>
+          <div class="phase-chips">
+            <span class="phase-chip">Risk tracking</span>
+            <span class="phase-chip">Sign-off status</span>
+            <span class="phase-chip">Escalation log</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase-item">
+        <div class="phase-node-wrap">
+          <div class="phase-node active">04</div>
+        </div>
+        <div class="phase-content">
+          <div class="phase-label">Go-live</div>
+          <div class="phase-name">The moment everything has led to.</div>
+          <div class="phase-desc">Pulse has tracked every step to get here. Your health score reflects the real state of the project — alignment, confidence, adoption, timeline. You know if you're ready before you ask.</div>
+          <div class="phase-chips">
+            <span class="phase-chip" style="color:var(--red2);border-color:rgba(232,49,74,0.2)">Go-live countdown</span>
+            <span class="phase-chip">Health score</span>
+            <span class="phase-chip">AI debrief</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase-item">
+        <div class="phase-node-wrap">
+          <div class="phase-node" style="color:var(--green);border-color:rgba(45,212,160,0.2)">05</div>
+        </div>
+        <div class="phase-content">
+          <div class="phase-label">Post go-live</div>
+          <div class="phase-name">Adoption. Stabilisation. Handover.</div>
+          <div class="phase-desc">The project doesn't end at go-live. Pulse continues tracking adoption, open issues, and stakeholder satisfaction — until the client truly stands on their own.</div>
+          <div class="phase-chips">
+            <span class="phase-chip">Adoption tracking</span>
+            <span class="phase-chip">Issue log</span>
+            <span class="phase-chip">Handover checklist</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- WHAT PULSE CAPTURES -->
+<section class="capture-section">
+  <div class="capture-inner">
+    <div class="section-eyebrow">What Pulse captures</div>
+    <div class="section-title">Everything that happens<br>between kickoff and closure.</div>
+    <div class="capture-grid">
+      <div class="capture-card">
+        <div class="capture-icon" style="background:rgba(124,106,247,0.1);color:#7c6af7"><i class="ti ti-users"></i></div>
+        <div class="capture-title">Stakeholders</div>
+        <div class="capture-desc">Every person involved — name, role, side. Sponsor changes, new contacts, silent stakeholders. All documented.</div>
+      </div>
+      <div class="capture-card">
+        <div class="capture-icon" style="background:rgba(91,156,246,0.1);color:var(--blue)"><i class="ti ti-notebook"></i></div>
+        <div class="capture-title">Project journal</div>
+        <div class="capture-desc">A chronological log of everything — meetings, decisions, risks, escalations, raw notes. Paste from email or Slack.</div>
+      </div>
+      <div class="capture-card">
+        <div class="capture-icon" style="background:rgba(245,166,35,0.1);color:var(--amber)"><i class="ti ti-calendar-event"></i></div>
+        <div class="capture-title">Milestones</div>
+        <div class="capture-desc">Key dates per project — sign-offs, training sessions, go/no-go reviews. Visible on the roadmap, tracked to completion.</div>
+      </div>
+      <div class="capture-card">
+        <div class="capture-icon" style="background:rgba(232,49,74,0.1);color:var(--red2)"><i class="ti ti-alert-triangle"></i></div>
+        <div class="capture-title">Risk flags</div>
+        <div class="capture-desc">Log risks the moment you spot them. Track resolution. Know what's open, what's escalated, what's been mitigated.</div>
+      </div>
+      <div class="capture-card">
+        <div class="capture-icon" style="background:rgba(45,212,160,0.1);color:var(--green)"><i class="ti ti-heartbeat"></i></div>
+        <div class="capture-title">Health score</div>
+        <div class="capture-desc">A live score across alignment, confidence, adoption and timeline. Updated as you progress. Tells you where the project is, not where it should be.</div>
+      </div>
+      <div class="capture-card">
+        <div class="capture-icon" style="background:rgba(232,49,74,0.1);color:var(--red2)"><i class="ti ti-sparkles"></i></div>
+        <div class="capture-title">AI debrief</div>
+        <div class="capture-desc">One click. Pulse reads the full project history and generates a structured brief — situation, risks, next actions, opening line for your next call.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-inner">
+    <div class="cta-glow"></div>
+    <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--red2);text-transform:uppercase;margin-bottom:18px;display:flex;align-items:center;justify-content:center;gap:6px"><i class="ti ti-heartbeat"></i>Start from day one</div>
+    <div class="cta-title">Your implementation<br>has a <em>pulse.</em><br>Track it.</div>
+    <p class="cta-sub">Open Pulse, create your project, and start building the full picture of your implementation — from the first meeting to the last handover.</p>
+    <a href="pulse_v9.html" class="cta-btn"><i class="ti ti-layout-dashboard"></i> Open Pulse</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div style="display:flex;align-items:center;gap:8px">
+    <svg width="22" height="9" viewBox="0 0 52 22" fill="none"><path d="M0,11 L12,11 L15,11 L17,3 L19,19 L21,7 L23,11 L52,11" stroke="#e8314a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+    Pulse · Implementation Health Tracker
+  </div>
+  <div>Built by <a href="https://www.linkedin.com/in/thomas-hotton" target="_blank">Tom Hotton</a></div>
+</footer>
+
+<script>
+// ECG nav animation
+document.querySelector('.ecg-path').style.strokeDasharray = '120';
+document.querySelector('.ecg-path').style.strokeDashoffset = '120';
+
+// Phase items scroll reveal
+const items = document.querySelectorAll('.phase-item');
+const capture = document.querySelectorAll('.capture-card');
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach((e,i)=>{
+    if(e.isIntersecting){
+      setTimeout(()=>{e.target.classList.add('visible');},i*80);
+    }
+  });
+},{threshold:0.15});
+items.forEach(el=>obs.observe(el));
+
+const obs2 = new IntersectionObserver(entries=>{
+  entries.forEach((e,i)=>{
+    if(e.isIntersecting){
+      e.target.style.opacity='0';
+      e.target.style.transform='translateY(12px)';
+      setTimeout(()=>{
+        e.target.style.transition='opacity 0.5s ease,transform 0.5s ease';
+        e.target.style.opacity='1';
+        e.target.style.transform='translateY(0)';
+      },i*80);
+    }
+  });
+},{threshold:0.1});
+capture.forEach(el=>obs2.observe(el));
+</script>
+</body>
+</html>
