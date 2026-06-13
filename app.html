@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pulse — Implementation Health Tracker</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23080810'/><path d='M2,16 L8,16 L10,16 L11,8 L13,24 L15,11 L17,16 L30,16' stroke='%23e8314a' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round' fill='none'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Unbounded:wght@300;400;600;700;900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
@@ -218,7 +219,9 @@ aside{
 .sb-client-info{flex:1;min-width:0;}
 .sb-client-name{font-size:12px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .sb-client-phase{font-family:var(--mono);font-size:9px;color:var(--text3);}
-.sb-client-right{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+.sb-client:hover .sb-delete-btn{opacity:1!important;}
+.sb-delete-btn:hover{color:var(--red2)!important;background:var(--red-dim);}
+.sb-client{padding:0!important;}
 .sb-dot{width:5px;height:5px;border-radius:50%;}
 .sb-score{font-family:var(--mono);font-size:10px;}
 
@@ -1343,13 +1346,25 @@ const DEMO_PROJECTS = [
     risks:["no exec sponsor","API blockers","resource gap"],status:"at-risk",
     stakeholders:[
       {name:"Philippe Laurent",role:"CTO",init:"PL",color:"#f87171"},
-      {name:"Camille Renard",role:"Impl. Manager",init:"CR",color:"#60a5fa"}
+      {name:"Camille Renard",role:"Impl. Manager",init:"CR",color:"#60a5fa"},
+      {name:"Sophie Marchand",role:"IT Director",init:"SM",color:"#f5a623"}
     ],
-    notes:"API integration stalled for 2 weeks. No executive sponsor confirmed. Camille managing solo — bandwidth risk.",
+    notes:"API integration stalled for 2 weeks. Infra team not available until end of June. No executive sponsor confirmed — Camille managing solo which is a bandwidth risk. Need escalation path agreed before next steering.",
+    milestones:[
+      {day:"22",month:"JUN",name:"API integration target",badge:"red"},
+      {day:"10",month:"JUL",name:"Exec sponsor sign-off",badge:"red"},
+      {day:"01",month:"AUG",name:"Integration phase complete",badge:"amber"}
+    ],
+    noteSessions:[
+      {date:"9 Jun 2026, 14:30",text:"Call with Camille — API team still blocked. Infra lead on holiday until 23 Jun. Sophie Marchand agreed to escalate internally but no commitment yet. Philippe not on the call again."},
+      {date:"2 Jun 2026, 11:00",text:"Steering committee — tense. Timeline slipping. Raised exec sponsor issue formally. Camille agreed to escalate by EOW. Action: follow up Thursday."}
+    ],
     activity:[
       {type:"risk",text:"API auth blocked by infra team",time:"1d ago",bg:"var(--red-dim)",ic:"var(--red2)",icon:"ti-alert-circle"},
-      {type:"note",text:"No exec sponsor confirmed yet",time:"3d ago",bg:"var(--red-dim)",ic:"var(--red2)",icon:"ti-user-off"},
-      {type:"meeting",text:"Escalation call scheduled",time:"6d ago",bg:"var(--blue-dim)",ic:"var(--blue)",icon:"ti-phone"}
+      {type:"risk",text:"No exec sponsor confirmed yet",time:"3d ago",bg:"var(--red-dim)",ic:"var(--red2)",icon:"ti-user-off"},
+      {type:"meeting",text:"Escalation call with Sophie Marchand",time:"5d ago",bg:"var(--blue-dim)",ic:"var(--blue)",icon:"ti-phone"},
+      {type:"meeting",text:"Steering committee — timeline review",time:"11d ago",bg:"var(--blue-dim)",ic:"var(--blue)",icon:"ti-users"},
+      {type:"risk",text:"Resource gap flagged — Camille sole contact",time:"14d ago",bg:"var(--red-dim)",ic:"var(--red2)",icon:"ti-alert-triangle"}
     ]
   },
   {
@@ -1361,25 +1376,51 @@ const DEMO_PROJECTS = [
       {name:"Anita Voss",role:"Tech Lead",init:"AV",color:"#7c6af7"},
       {name:"Rémi Blanc",role:"Change Manager",init:"RB",color:"#60a5fa"}
     ],
-    notes:"Best-performing onboarding this quarter. All stakeholders aligned. Configuration 80% complete.",
+    notes:"Best-performing onboarding this quarter. All stakeholders fully aligned and proactive. Configuration 80% complete ahead of schedule. Rémi has already started internal comms for change management. Strong exec support from Thomas.",
+    milestones:[
+      {day:"28",month:"JUN",name:"Configuration milestone review",badge:"green"},
+      {day:"15",month:"JUL",name:"Integration kickoff",badge:"blue"},
+      {day:"01",month:"SEP",name:"UAT start",badge:"blue"},
+      {day:"20",month:"OCT",name:"Go-live",badge:"green"}
+    ],
+    noteSessions:[
+      {date:"10 Jun 2026, 10:00",text:"Weekly sync with Anita — config track 80% done. Catalogue mapping complete. Pricing engine config next week. No blockers. Thomas joined briefly, very supportive."},
+      {date:"3 Jun 2026, 10:00",text:"Change management review with Rémi — internal comms plan drafted, training slots booked for September. Team engagement high."}
+    ],
     activity:[
-      {type:"milestone",text:"Phase 2 config validated",time:"1d ago",bg:"var(--green-dim)",ic:"var(--green)",icon:"ti-circle-check"},
-      {type:"milestone",text:"Training plan signed off",time:"3d ago",bg:"var(--green-dim)",ic:"var(--green)",icon:"ti-check"},
-      {type:"meeting",text:"QBR with Thomas Leroy",time:"7d ago",bg:"var(--blue-dim)",ic:"var(--blue)",icon:"ti-star"}
+      {type:"milestone",text:"Configuration 80% complete — ahead of schedule",time:"1d ago",bg:"var(--green-dim)",ic:"var(--green)",icon:"ti-circle-check"},
+      {type:"milestone",text:"Catalogue mapping signed off",time:"3d ago",bg:"var(--green-dim)",ic:"var(--green)",icon:"ti-check"},
+      {type:"meeting",text:"Weekly sync with Anita Voss",time:"3d ago",bg:"var(--blue-dim)",ic:"var(--blue)",icon:"ti-video"},
+      {type:"meeting",text:"Change management review with Rémi",time:"10d ago",bg:"var(--blue-dim)",ic:"var(--blue)",icon:"ti-users"},
+      {type:"milestone",text:"Training slots booked for September",time:"10d ago",bg:"var(--green-dim)",ic:"var(--green)",icon:"ti-calendar-event"}
     ]
   },
   {
     id:4,name:"Decathlon EMEA",industry:"Retail",phase:"Discovery",goLive:"Dec 1, 2026",
     alignment:68,confidence:72,adoption:55,timeline:80,
-    risks:["data mapping TBD"],status:"on-track",
+    risks:["data mapping TBD","scope not fully defined"],status:"on-track",
     stakeholders:[
       {name:"Jonas Weber",role:"PMO Lead",init:"JW",color:"#f5a623"},
-      {name:"Lena Müller",role:"Data Architect",init:"LM",color:"#7c6af7"}
+      {name:"Lena Müller",role:"Data Architect",init:"LM",color:"#7c6af7"},
+      {name:"Carlos Ruiz",role:"Regional IT Head",init:"CR",color:"#60a5fa"}
     ],
-    notes:"Discovery workshops completed. Awaiting data mapping output from Lena. Timeline tight but manageable.",
+    notes:"All 3 discovery workshops completed across FR, DE and ES markets. Lena's data mapping doc in progress — expected by 20 Jun. Scope still partially open on warehouse integration. Carlos joining next call to clarify.",
+    milestones:[
+      {day:"20",month:"JUN",name:"Data mapping delivered",badge:"amber"},
+      {day:"05",month:"JUL",name:"Scope sign-off",badge:"amber"},
+      {day:"15",month:"JUL",name:"Configuration kickoff",badge:"blue"},
+      {day:"01",month:"DEC",name:"Go-live",badge:"blue"}
+    ],
+    noteSessions:[
+      {date:"8 Jun 2026, 09:00",text:"Workshop 3/3 — ES market. Good energy, 18 participants. Warehouse integration scope still open. Carlos promised input by 15 Jun. Lena will deliver data mapping doc by 20 Jun."},
+      {date:"28 May 2026, 09:00",text:"Workshop 2/3 — DE market. Strong participation from Jonas. Some concerns around legacy ERP data quality — flagged as risk."}
+    ],
     activity:[
-      {type:"milestone",text:"Workshop 3/3 completed",time:"2d ago",bg:"var(--green-dim)",ic:"var(--green)",icon:"ti-check"},
-      {type:"note",text:"Data mapping doc in progress",time:"5d ago",bg:"var(--amber-dim)",ic:"var(--amber)",icon:"ti-file-text"}
+      {type:"milestone",text:"Workshop 3/3 completed — ES market",time:"2d ago",bg:"var(--green-dim)",ic:"var(--green)",icon:"ti-check"},
+      {type:"note",text:"Data mapping doc in progress — due 20 Jun",time:"2d ago",bg:"var(--amber-dim)",ic:"var(--amber)",icon:"ti-file-text"},
+      {type:"meeting",text:"Discovery workshop — DE market",time:"9d ago",bg:"var(--blue-dim)",ic:"var(--blue)",icon:"ti-video"},
+      {type:"risk",text:"Legacy ERP data quality flagged",time:"9d ago",bg:"var(--red-dim)",ic:"var(--red2)",icon:"ti-alert-triangle"},
+      {type:"meeting",text:"Discovery workshop — FR market",time:"16d ago",bg:"var(--blue-dim)",ic:"var(--blue)",icon:"ti-video"}
     ]
   }
 ];
@@ -1513,18 +1554,24 @@ function renderSidebar(){
     return;
   }
 
+  const demoIds=DEMO_PROJECTS.map(p=>p.id);
+
   el.innerHTML=projects.map(p=>{
     const s=calcHealth(p),c=healthColorHex(s);
     const dot=statusDot[p.status]||'var(--text3)';
-    return `<div class="sb-client" onclick="openClientPanel(${p.id})" id="sc-${p.id}">
-      <div class="sb-avatar" style="background:${c}18;color:${c}">${p.name.substring(0,2).toUpperCase()}</div>
-      <div class="sb-client-info">
-        <div class="sb-client-name">${p.name}</div>
-        <div class="sb-client-phase">${p.phase}</div>
+    const isDemo=demoIds.includes(p.id);
+    return `<div class="sb-client ${activePanelId===p.id?'active-client':''}" id="sc-${p.id}">
+      <div onclick="openClientPanel(${p.id})" style="display:flex;align-items:center;gap:8px;flex:1;min-width:0;padding:7px 0 7px 8px">
+        <div class="sb-avatar" style="background:${c}18;color:${c}">${p.name.substring(0,2).toUpperCase()}</div>
+        <div class="sb-client-info">
+          <div class="sb-client-name">${p.name}${isDemo?`<span style="font-family:var(--mono);font-size:7px;color:var(--text3);margin-left:5px;vertical-align:middle">(demo)</span>`:''}</div>
+          <div class="sb-client-phase">${p.phase}</div>
+        </div>
       </div>
-      <div class="sb-client-right">
+      <div class="sb-client-right" style="padding-right:6px;display:flex;align-items:center;gap:5px">
         <div class="sb-dot" style="background:${dot}"></div>
         <span class="sb-score" style="color:${c}">${s}</span>
+        <div onclick="event.stopPropagation();deleteProject(${p.id})" style="width:18px;height:18px;border-radius:4px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text3);font-size:10px;opacity:0;transition:all 0.12s" class="sb-delete-btn" title="Remove"><i class="ti ti-trash"></i></div>
       </div>
     </div>`;
   }).join('');
