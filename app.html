@@ -1396,31 +1396,41 @@ const DEMO_PROJECTS = [
     ]
   },
   {
-    id:4,name:"Decathlon EMEA",industry:"Retail",phase:"Discovery",goLive:"Dec 1, 2026",
-    alignment:68,confidence:72,adoption:55,timeline:80,
-    risks:["data mapping TBD","scope not fully defined"],status:"on-track",
+    id:4,name:"Decathlon EMEA",industry:"Retail",phase:"Post go-live",goLive:"Dec 1, 2026",
+    alignment:94,confidence:91,adoption:87,timeline:96,
+    risks:[],status:"healthy",
     stakeholders:[
       {name:"Jonas Weber",role:"PMO Lead",init:"JW",color:"#f5a623"},
       {name:"Lena Müller",role:"Data Architect",init:"LM",color:"#7c6af7"},
-      {name:"Carlos Ruiz",role:"Regional IT Head",init:"CR",color:"#60a5fa"}
+      {name:"Carlos Ruiz",role:"Regional IT Head",init:"CR",color:"#60a5fa"},
+      {name:"Marie Fontaine",role:"Change Manager",init:"MF",color:"#2dd4a0"}
     ],
-    notes:"All 3 discovery workshops completed across FR, DE and ES markets. Lena's data mapping doc in progress — expected by 20 Jun. Scope still partially open on warehouse integration. Carlos joining next call to clarify.",
+    notes:"Full EMEA rollout completed on schedule across FR, DE and ES. Go-live Dec 1 — zero critical incidents. Adoption tracking above target at 87%. Post go-live stabilisation phase running smoothly. Jonas leading internal handover.",
     milestones:[
-      {day:"20",month:"JUN",name:"Data mapping delivered",badge:"amber"},
-      {day:"05",month:"JUL",name:"Scope sign-off",badge:"amber"},
-      {day:"15",month:"JUL",name:"Configuration kickoff",badge:"blue"},
-      {day:"01",month:"DEC",name:"Go-live",badge:"blue"}
+      {day:"20",month:"JUN",name:"Data mapping delivered",badge:"green"},
+      {day:"05",month:"JUL",name:"Scope sign-off",badge:"green"},
+      {day:"15",month:"JUL",name:"Configuration kickoff",badge:"green"},
+      {day:"15",month:"SEP",name:"UAT start",badge:"green"},
+      {day:"10",month:"NOV",name:"Go-live readiness review",badge:"green"},
+      {day:"01",month:"DEC",name:"Go-live — all markets",badge:"green"},
+      {day:"15",month:"DEC",name:"Post go-live review",badge:"green"}
     ],
     noteSessions:[
-      {date:"8 Jun 2026, 09:00",text:"Workshop 3/3 — ES market. Good energy, 18 participants. Warehouse integration scope still open. Carlos promised input by 15 Jun. Lena will deliver data mapping doc by 20 Jun."},
-      {date:"28 May 2026, 09:00",text:"Workshop 2/3 — DE market. Strong participation from Jonas. Some concerns around legacy ERP data quality — flagged as risk."}
+      {date:"10 Dec 2026, 10:00",text:"Post go-live review — all 3 markets stable. 87% adoption after 10 days. FR slightly ahead, DE on track, ES needs one more training session. No critical bugs. Jonas very happy with delivery quality."},
+      {date:"01 Dec 2026, 08:00",text:"GO-LIVE DAY — all systems green. FR went live at 08:00, DE at 09:00, ES at 10:00. War room active until 18:00. Zero SEV1 incidents. Carlos signed off at 17:30. Team incredible."},
+      {date:"14 Nov 2026, 14:00",text:"Go-live readiness review — all checklist items green. Rollback plan validated. Support team briefed. Marie confirms training completion rate 94% across all markets. We are go."},
+      {date:"20 Oct 2026, 11:00",text:"UAT sign-off — all 47 test cases passed. 3 minor bugs logged and fixed within 48h. Lena confirmed data integrity checks clean. Carlos gave formal approval."},
+      {date:"15 Sep 2026, 09:00",text:"UAT kickoff — 12 testers across 3 markets. Test plan distributed. Lena leading data validation track. First results expected by end of week."}
     ],
     activity:[
-      {type:"milestone",text:"Workshop 3/3 completed — ES market",time:"2d ago",bg:"var(--green-dim)",ic:"var(--green)",icon:"ti-check"},
-      {type:"note",text:"Data mapping doc in progress — due 20 Jun",time:"2d ago",bg:"var(--amber-dim)",ic:"var(--amber)",icon:"ti-file-text"},
-      {type:"meeting",text:"Discovery workshop — DE market",time:"9d ago",bg:"var(--blue-dim)",ic:"var(--blue)",icon:"ti-video"},
-      {type:"risk",text:"Legacy ERP data quality flagged",time:"9d ago",bg:"var(--red-dim)",ic:"var(--red2)",icon:"ti-alert-triangle"},
-      {type:"meeting",text:"Discovery workshop — FR market",time:"16d ago",bg:"var(--blue-dim)",ic:"var(--blue)",icon:"ti-video"}
+      {type:"milestone",text:"Post go-live review — all markets stable",time:"3d ago",bg:"var(--green-dim)",ic:"var(--green)",icon:"ti-circle-check"},
+      {type:"meeting",text:"Adoption check-in with Jonas Weber",time:"5d ago",bg:"var(--blue-dim)",ic:"var(--blue)",icon:"ti-video"},
+      {type:"milestone",text:"Go-live completed — FR, DE, ES 🎉",time:"12d ago",bg:"var(--green-dim)",ic:"var(--green)",icon:"ti-rocket"},
+      {type:"meeting",text:"Go-live readiness sign-off with Carlos",time:"24d ago",bg:"var(--blue-dim)",ic:"var(--blue)",icon:"ti-check"},
+      {type:"milestone",text:"UAT sign-off — 47/47 test cases passed",time:"52d ago",bg:"var(--green-dim)",ic:"var(--green)",icon:"ti-circle-check"},
+      {type:"meeting",text:"UAT kickoff — 12 testers across 3 markets",time:"74d ago",bg:"var(--blue-dim)",ic:"var(--blue)",icon:"ti-users"},
+      {type:"milestone",text:"Configuration completed ahead of schedule",time:"95d ago",bg:"var(--green-dim)",ic:"var(--green)",icon:"ti-check"},
+      {type:"milestone",text:"Data mapping delivered by Lena",time:"112d ago",bg:"var(--green-dim)",ic:"var(--green)",icon:"ti-file-text"}
     ]
   }
 ];
