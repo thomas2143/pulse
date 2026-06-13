@@ -192,7 +192,7 @@ main{overflow:hidden;background:var(--bg);display:flex;flex-direction:column;}
 /* ── ROADMAP TIMELINE ── */
 .roadmap{display:flex;flex-direction:column;gap:0;margin-bottom:20px;}
 .roadmap-row{
-  display:grid;grid-template-columns:150px 1fr 100px;
+  display:grid;grid-template-columns:150px 1fr 72px;
   align-items:center;padding:12px 0;
   border-bottom:1px solid var(--border);
   cursor:pointer;transition:background 0.12s;
@@ -231,8 +231,8 @@ main{overflow:hidden;background:var(--bg);display:flex;flex-direction:column;}
   width:6px;height:6px;border-radius:1px;rotate:45deg;z-index:3;
 }
 
-.roadmap-right{display:flex;align-items:center;justify-content:flex-end;padding-right:14px;gap:8px;}
-.roadmap-days{font-family:var(--mono);font-size:10px;white-space:nowrap;}
+.roadmap-right{display:flex;flex-direction:column;align-items:flex-end;justify-content:center;padding-right:12px;gap:3px;}
+.roadmap-days{font-family:var(--mono);font-size:10px;white-space:nowrap;text-align:right;}
 .roadmap-status{}
 
 /* table */
@@ -510,7 +510,31 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
 .home-card-score{font-family:var(--display);font-size:20px;font-weight:700;letter-spacing:-1px;margin-left:auto;flex-shrink:0;}
 .home-empty{text-align:center;color:var(--text3);font-family:var(--mono);font-size:11px;}
 .nav-logo{cursor:pointer;}
-/* ── CONFIRM MODAL ── */
+/* post-call button */
+.postcall-btn{
+  background:transparent;border:1px solid var(--border);
+  cursor:pointer;color:var(--text3);padding:4px 7px;
+  border-radius:6px;transition:all 0.12s;font-size:12px;
+  display:inline-flex;align-items:center;gap:4px;
+  font-family:var(--mono);font-size:10px;
+}
+.postcall-btn:hover{color:var(--blue);background:var(--blue-dim);border-color:rgba(91,156,246,0.3);}
+
+/* post-call modal */
+.postcall-modal{
+  background:var(--bg2);border:1px solid var(--border2);
+  border-radius:16px;width:520px;max-width:95vw;
+  max-height:85vh;overflow-y:auto;
+  transform:translateY(20px) scale(0.98);
+  transition:transform 0.25s cubic-bezier(.34,1.3,.64,1);
+}
+.modal-overlay.open .postcall-modal{transform:translateY(0) scale(1);}
+.postcall-header{
+  padding:20px 22px 16px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.postcall-title{font-family:var(--display);font-size:15px;font-weight:700;}
+.postcall-body{padding:18px 22px 22px;display:flex;flex-direction:column;gap:14px;}
 .confirm-modal{background:var(--bg2);border:1px solid var(--border2);border-radius:14px;width:360px;max-width:92vw;padding:28px;text-align:center;transform:translateY(20px) scale(0.98);transition:transform 0.2s cubic-bezier(.34,1.3,.64,1);}
 .modal-overlay.open .confirm-modal{transform:translateY(0) scale(1);}
 .confirm-icon{font-size:28px;margin-bottom:12px;}
@@ -771,6 +795,83 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
   </div>
 
 </main>
+</div>
+
+<!-- POST-CALL MODAL -->
+<div class="modal-overlay" id="postcall-modal" onclick="closeOnOverlay(event)">
+  <div class="postcall-modal">
+    <div class="postcall-header">
+      <div>
+        <div class="postcall-title"><i class="ti ti-phone-incoming" style="color:var(--blue);margin-right:8px"></i>Post-call update</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:3px" id="postcall-client-name"></div>
+      </div>
+      <div class="modal-close" onclick="closeModal('postcall-modal')" style="position:relative;top:auto;right:auto"><i class="ti ti-x"></i></div>
+    </div>
+    <div class="postcall-body">
+      <!-- Quick score adjustments -->
+      <div>
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-bottom:10px">How did the call go?</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px" id="postcall-mood">
+          <div class="mood-btn" data-mood="great" onclick="selectMood('great',this)" style="text-align:center;padding:12px 8px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all 0.15s">
+            <div style="font-size:22px;margin-bottom:4px">🟢</div>
+            <div style="font-family:var(--mono);font-size:9px;color:var(--text2)">Great</div>
+          </div>
+          <div class="mood-btn" data-mood="ok" onclick="selectMood('ok',this)" style="text-align:center;padding:12px 8px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all 0.15s">
+            <div style="font-size:22px;margin-bottom:4px">🟡</div>
+            <div style="font-family:var(--mono);font-size:9px;color:var(--text2)">OK</div>
+          </div>
+          <div class="mood-btn" data-mood="tough" onclick="selectMood('tough',this)" style="text-align:center;padding:12px 8px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all 0.15s">
+            <div style="font-size:22px;margin-bottom:4px">🔴</div>
+            <div style="font-family:var(--mono);font-size:9px;color:var(--text2)">Tough</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Notes -->
+      <div>
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-bottom:8px">Call notes</div>
+        <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px 14px">
+          <textarea id="postcall-notes" placeholder="What was discussed? Decisions made, blockers raised, next steps agreed..." style="background:transparent;border:none;outline:none;width:100%;font-size:12px;color:var(--text2);line-height:1.7;resize:none;min-height:100px;font-family:var(--sans)"></textarea>
+        </div>
+      </div>
+
+      <!-- Quick actions -->
+      <div>
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-bottom:8px">Quick updates</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div class="form-group">
+            <label>Phase</label>
+            <select id="postcall-phase">
+              <option value="">No change</option>
+              <option>Discovery</option><option>Configuration</option>
+              <option>Integration</option><option>UAT</option>
+              <option>Go-live</option><option>Post go-live</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Status</label>
+            <select id="postcall-status">
+              <option value="">No change</option>
+              <option value="healthy">Healthy</option>
+              <option value="on-track">On track</option>
+              <option value="at-risk">At risk</option>
+              <option value="delayed">Delayed</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group" style="margin-top:8px">
+          <label>New risk flag (optional)</label>
+          <input type="text" id="postcall-risk" placeholder="e.g. sponsor unavailable, budget review pending">
+        </div>
+      </div>
+
+      <div style="display:flex;gap:8px;justify-content:flex-end;padding-top:4px">
+        <button class="btn btn-ghost btn-sm" onclick="closeModal('postcall-modal')">Cancel</button>
+        <button class="btn btn-ghost btn-sm" onclick="savePostCall(false)"><i class="ti ti-device-floppy"></i> Save notes</button>
+        <button class="btn btn-primary btn-sm" onclick="savePostCall(true)"><i class="ti ti-sparkles"></i> Save & Debrief</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- CONFIRM MODAL -->
@@ -1160,7 +1261,7 @@ function renderRoadmap(){
     : projects;
 
   const phaseOrder=['Discovery','Configuration','Integration','UAT','Go-live','Post go-live'];
-  const phaseLabels=['Discovery','Config','Integration','UAT','Go-live','Post GL'];
+  const phaseLabels=['Discovery','Config','Integr.','UAT','Go-live','Post'];
 
   // get milestones per company
   const milestonesByCompany={};
@@ -1222,7 +1323,7 @@ function renderRoadmap(){
           </div>
         </div>
         <div class="roadmap-right">
-          <div><div class="roadmap-days" style="color:${sDaysColor};font-size:9px">${sDays!==null?sDays+'d':'TBD'}</div><div style="font-family:var(--mono);font-size:7px;color:var(--text3)">to go-live</div></div>
+          <div class="roadmap-days" style="color:${sDaysColor};font-size:9px">${sDays!==null?sDays+'d':'—'}</div>
           ${statusBadge(site.status)}
         </div>
       </div>`;
@@ -1247,10 +1348,7 @@ function renderRoadmap(){
         </div>
       </div>
       <div class="roadmap-right">
-        <div>
-          <div class="roadmap-days" style="color:${daysColor}">${days!==null?days+'d':'TBD'}</div>
-          <div style="font-family:var(--mono);font-size:8px;color:var(--text3)">to go-live</div>
-        </div>
+        <div class="roadmap-days" style="color:${daysColor}">${days!==null?days+'d':'—'}</div>
         ${statusBadge(p.status)}
       </div>
     </div>${siteRows}`;
@@ -1616,6 +1714,102 @@ function velocityBadge(p){
   return `<span class="velocity down"><i class="ti ti-trending-down" style="font-size:8px"></i>${delta}</span>`;
 }
 
+// ── POST-CALL UPDATE ──────────────────────────────────────────────
+let postCallProjectId = null;
+let postCallMood = null;
+
+function openPostCall(id){
+  postCallProjectId = id;
+  postCallMood = null;
+  const p = projects.find(x=>x.id===id);
+  if(!p) return;
+
+  // reset form
+  document.getElementById('postcall-notes').value = '';
+  document.getElementById('postcall-phase').value = '';
+  document.getElementById('postcall-status').value = '';
+  document.getElementById('postcall-risk').value = '';
+  document.getElementById('postcall-client-name').textContent = p.name + ' · ' + p.phase;
+  document.querySelectorAll('.mood-btn').forEach(b=>{
+    b.style.borderColor='var(--border)';
+    b.style.background='var(--bg3)';
+  });
+
+  document.getElementById('postcall-modal').classList.add('open');
+}
+
+function selectMood(mood, el){
+  postCallMood = mood;
+  document.querySelectorAll('.mood-btn').forEach(b=>{
+    b.style.borderColor='var(--border)';
+    b.style.background='var(--bg3)';
+  });
+  const colors={great:'rgba(45,212,160,0.15)',ok:'rgba(245,166,35,0.12)',tough:'rgba(232,49,74,0.12)'};
+  const borders={great:'rgba(45,212,160,0.3)',ok:'rgba(245,166,35,0.3)',tough:'rgba(232,49,74,0.3)'};
+  el.style.background=colors[mood];
+  el.style.borderColor=borders[mood];
+}
+
+function savePostCall(generateDebrief){
+  const p = projects.find(x=>x.id===postCallProjectId);
+  if(!p) return;
+
+  const notes = document.getElementById('postcall-notes').value.trim();
+  const phase = document.getElementById('postcall-phase').value;
+  const status = document.getElementById('postcall-status').value;
+  const newRisk = document.getElementById('postcall-risk').value.trim();
+
+  // Build log text
+  const moodMap={great:'✅ Great call',ok:'🟡 OK call',tough:'🔴 Tough call'};
+  const moodText = postCallMood ? moodMap[postCallMood]+' — ' : '';
+  const fullText = moodText + (notes || 'Post-call update logged.');
+
+  // Log as meeting entry
+  if(!p.activity) p.activity=[];
+  p.activity.push({
+    type:'meeting', text:fullText,
+    time:new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}),
+    bg:'var(--blue-dim)',ic:'var(--blue)',icon:'ti-phone-incoming'
+  });
+
+  // Save as note session too (for AI debrief context)
+  if(notes){
+    if(!p.noteSessions) p.noteSessions=[];
+    p.noteSessions.push({
+      date:new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}),
+      text:'[Post-call · '+new Date().toLocaleDateString('en-GB')+'] '+notes
+    });
+    p.lastDebrief=null; // invalidate
+  }
+
+  // Apply quick updates
+  if(phase) p.phase=phase;
+  if(status) p.status=status;
+  if(newRisk && !p.risks.includes(newRisk)) p.risks.push(newRisk);
+
+  // Tough call → flag at-risk automatically
+  if(postCallMood==='tough' && p.status!=='at-risk'){
+    p.status='at-risk';
+  }
+
+  saveToStorage();
+  closeModal('postcall-modal');
+  renderAll();
+
+  // Open panel on journal tab
+  openClientPanel(postCallProjectId);
+  setTimeout(()=>{
+    const tabs=document.querySelectorAll('.panel-tab');
+    if(tabs[3]) switchPanelTab('journal',tabs[3]);
+  },150);
+
+  if(generateDebrief){
+    setTimeout(()=>panelGenerate(postCallProjectId),300);
+  }
+
+  showToast('Post-call update saved');
+}
+
 // ── CONFIRM MODAL ─────────────────────────────────────────────────
 function showConfirm(icon,title,sub,onOk,okLabel){
   document.getElementById('confirm-icon').textContent=icon;
@@ -1877,7 +2071,12 @@ function renderTable(){
       <td onclick="openClientPanel(${p.id})" style="font-family:var(--mono);font-size:11px;color:var(--text2)">${daysStr}</td>
       <td onclick="openClientPanel(${p.id})"><div class="ins-line">${inlineInsight(p)}</div></td>
       <td onclick="openClientPanel(${p.id})">${statusBadge(p.status)}</td>
-      <td><button onclick="deleteProject(${p.id})" style="background:transparent;border:none;cursor:pointer;color:var(--text3);padding:4px 6px;border-radius:6px;transition:all 0.12s;font-size:13px" title="Remove project" onmouseover="this.style.color='var(--red2)';this.style.background='var(--red-dim)'" onmouseout="this.style.color='var(--text3)';this.style.background='transparent'"><i class="ti ti-trash"></i></button></td>
+      <td>
+        <div style="display:flex;align-items:center;gap:4px">
+          <button class="postcall-btn" onclick="openPostCall(${p.id})" title="Post-call update"><i class="ti ti-phone-incoming"></i></button>
+          <button onclick="deleteProject(${p.id})" style="background:transparent;border:none;cursor:pointer;color:var(--text3);padding:4px 6px;border-radius:6px;transition:all 0.12s;font-size:13px" title="Remove project" onmouseover="this.style.color='var(--red2)';this.style.background='var(--red-dim)'" onmouseout="this.style.color='var(--text3)';this.style.background='transparent'"><i class="ti ti-trash"></i></button>
+        </div>
+      </td>
     </tr>`;
   }).join('');
 }
