@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+-<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -30,6 +30,132 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
 
 /* ── LAYOUT ── */
 .shell{display:grid;grid-template-columns:var(--sidebar) 1fr;grid-template-rows:52px 1fr;height:100vh;}
+
+/* ── DASHBOARD 4-COL LAYOUT ── */
+.dash-split{
+  display:flex;height:100%;overflow:hidden;
+  transition:all 0.25s ease;
+}
+
+/* COL 2 — vertical timeline */
+.col-timeline{
+  width:0;overflow:hidden;
+  border-right:1px solid var(--border);
+  background:var(--bg);
+  display:flex;flex-direction:column;
+  transition:width 0.25s ease;
+  flex-shrink:0;
+}
+.col-timeline.open{width:160px;}
+
+/* COL 3 — sub-timeline */
+.col-subtimeline{
+  width:0;overflow:hidden;
+  border-right:1px solid var(--border);
+  background:var(--bg2);
+  display:flex;flex-direction:column;
+  transition:width 0.25s ease;
+  flex-shrink:0;
+}
+.col-subtimeline.open{width:160px;}
+
+/* COL 4 — main content */
+.dash-main{
+  flex:1;overflow-y:auto;
+  padding:20px 24px;
+  min-width:0;
+}
+
+/* timeline column styles */
+.tl-header{
+  padding:14px 14px 10px;
+  border-bottom:1px solid var(--border);
+  flex-shrink:0;
+}
+.tl-client-name{
+  font-size:11px;font-weight:600;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  margin-bottom:2px;
+}
+.tl-client-score{
+  font-family:var(--mono);font-size:10px;
+}
+
+.tl-body{flex:1;overflow-y:auto;padding:16px 14px;}
+.tl-track{position:relative;padding-left:20px;}
+
+/* phase node */
+.tl-phase{
+  position:relative;margin-bottom:0;
+  padding-bottom:28px;
+}
+.tl-phase:last-child{padding-bottom:0;}
+.tl-phase::before{
+  content:'';
+  position:absolute;left:7px;top:16px;bottom:0;
+  width:1px;background:var(--border2);
+}
+.tl-phase:last-child::before{display:none;}
+.tl-node{
+  position:absolute;left:0;top:0;
+  width:14px;height:14px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:8px;border:2px solid var(--bg);
+  flex-shrink:0;z-index:1;
+}
+.tl-node.done{background:var(--green);}
+.tl-node.active{background:var(--red);box-shadow:0 0 0 3px rgba(232,49,74,0.2);}
+.tl-node.pending{background:var(--bg4);border-color:var(--border2);}
+.tl-phase-name{
+  font-family:var(--mono);font-size:9px;
+  letter-spacing:0.5px;padding-top:1px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.tl-phase-name.active{color:var(--text);font-weight:500;}
+.tl-phase-name.done{color:var(--green);}
+.tl-phase-name.pending{color:var(--text3);}
+.tl-phase-date{
+  font-family:var(--mono);font-size:8px;color:var(--text3);
+  margin-top:1px;
+}
+.tl-phase-days{
+  font-family:var(--mono);font-size:8px;
+  margin-top:2px;display:inline-block;
+  padding:1px 5px;border-radius:3px;
+}
+
+/* site items in timeline */
+.tl-sites{margin-top:8px;padding-left:4px;}
+.tl-site{
+  display:flex;align-items:center;gap:6px;
+  padding:5px 8px;border-radius:7px;
+  cursor:pointer;transition:all 0.12s;
+  margin-bottom:3px;border:1px solid transparent;
+  font-size:10px;
+}
+.tl-site:hover{background:var(--bg3);border-color:var(--border);}
+.tl-site.active-site{background:var(--bg3);border-color:var(--border2);}
+.tl-site-flag{font-size:13px;flex-shrink:0;}
+.tl-site-info{flex:1;min-width:0;}
+.tl-site-name{font-size:10px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.tl-site-phase{font-family:var(--mono);font-size:8px;color:var(--text3);}
+.tl-site-score{font-family:var(--mono);font-size:9px;font-weight:500;flex-shrink:0;}
+
+/* sub-timeline */
+.stl-header{
+  padding:14px 14px 10px;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  flex-shrink:0;
+}
+.stl-close{
+  width:18px;height:18px;border-radius:4px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:var(--text3);font-size:10px;
+  transition:all 0.12s;
+}
+.stl-close:hover{background:var(--bg3);color:var(--text);}
+.stl-body{flex:1;overflow-y:auto;padding:16px 14px;}
 
 /* ── NAV ── */
 nav{
@@ -114,16 +240,142 @@ aside{
 .sb-scratch{padding:4px 8px 12px;}
 
 /* ── MAIN ── */
-main{overflow:hidden;background:var(--bg);display:flex;flex-direction:column;}
-
-/* view panels */
-.view{display:none;flex:1;overflow:hidden;}
+main{overflow:hidden;background:var(--bg);display:flex;flex-direction:column;height:calc(100vh - 52px);}
+.view{display:none;flex:1;overflow:hidden;height:100%;}
 .view.active{display:flex;flex-direction:column;}
 
-/* dashboard split */
-.dash-split{display:grid;grid-template-columns:1fr;flex:1;overflow:hidden;transition:grid-template-columns 0.25s ease;}
-.dash-split.panel-open{grid-template-columns:1fr 340px;}
-.dash-main{overflow-y:auto;padding:24px 28px;}
+/* ── EMPTY STATE ── */
+.dash-empty{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  color:var(--text3);text-align:center;gap:10px;
+}
+.dash-empty-icon{font-size:36px;opacity:0.12;}
+.dash-empty-title{font-family:var(--display);font-size:15px;font-weight:700;color:var(--text3);letter-spacing:-0.3px;}
+.dash-empty-sub{font-family:var(--mono);font-size:10px;letter-spacing:0.5px;color:var(--text3);}
+
+/* ── CLIENT VIEW ── */
+.client-view{display:none;flex:1;overflow:hidden;}
+.client-view.open{display:flex;}
+
+/* TIMELINE COLUMN */
+.tl-col{
+  flex:0 0 50%;border-right:1px solid var(--border);
+  display:flex;flex-direction:column;overflow:hidden;
+  transition:flex-basis 0.25s ease;
+}
+
+/* SUB-TIMELINE COLUMN — hidden by default */
+.sub-tl-col{
+  flex:0 0 0;overflow:hidden;
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;
+  background:var(--bg2);
+  transition:flex-basis 0.25s ease;
+}
+.sub-tl-col.open{flex:0 0 25%;}
+.sub-tl-header{
+  padding:16px 16px 12px;border-bottom:1px solid var(--border);
+  display:flex;align-items:flex-start;justify-content:space-between;
+  flex-shrink:0;gap:8px;
+}
+.sub-tl-name{font-size:13px;font-weight:600;}
+.sub-tl-meta{font-family:var(--mono);font-size:9px;color:var(--text3);margin-top:2px;}
+.sub-tl-body{flex:1;overflow-y:auto;padding:20px 16px;}
+
+/* PANEL COLUMN — 25% normally, shrinks when sub-tl opens */
+.panel-col{
+  flex:0 0 25%;display:flex;flex-direction:column;
+  overflow:hidden;background:var(--bg2);
+  transition:flex-basis 0.25s ease;
+}
+
+/* vertical phase track */
+.vtl{position:relative;padding-left:28px;max-width:560px;}
+.vtl-phase{position:relative;padding-bottom:36px;}
+.vtl-phase:last-child{padding-bottom:0;}
+.vtl-phase::before{
+  content:'';position:absolute;
+  left:-18px;top:16px;bottom:0;width:1px;
+  background:var(--border2);
+}
+.vtl-phase:last-child::before{display:none;}
+.vtl-node{
+  position:absolute;left:-25px;top:3px;
+  width:14px;height:14px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:7px;border:2px solid var(--bg);z-index:2;
+}
+.vtl-node.done{background:var(--green);}
+.vtl-node.active{background:var(--red);box-shadow:0 0 0 4px rgba(232,49,74,0.15);}
+.vtl-node.pending{background:var(--bg4);border-color:var(--border2);}
+.vtl-phase-name{font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:3px;}
+.vtl-phase-name.done{color:var(--green);}
+.vtl-phase-name.active{color:var(--red2);}
+.vtl-phase-name.pending{color:var(--text3);}
+.vtl-phase-desc{font-size:13px;color:var(--text2);line-height:1.5;margin-bottom:8px;}
+.vtl-phase-desc.pending{color:var(--text3);font-size:12px;}
+.vtl-countdown{
+  display:flex;align-items:baseline;gap:8px;margin-bottom:4px;
+}
+.vtl-countdown-num{font-family:var(--display);font-size:40px;font-weight:700;letter-spacing:-2px;line-height:1;}
+.vtl-countdown-unit{font-family:var(--mono);font-size:11px;color:var(--text3);}
+.vtl-golive-date{font-family:var(--mono);font-size:10px;color:var(--text3);margin-bottom:12px;}
+
+/* sites */
+.vtl-sites{margin-top:14px;display:flex;flex-direction:column;gap:6px;}
+.vtl-site-row{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 16px;border-radius:12px;
+  background:var(--bg2);border:1px solid var(--border);
+  cursor:pointer;transition:all 0.15s;
+}
+.vtl-site-row:hover{border-color:var(--border2);transform:translateX(4px);}
+.vtl-site-row.active-site{border-color:var(--border2);background:var(--bg3);}
+.vtl-site-flag{font-size:20px;flex-shrink:0;}
+.vtl-site-info{flex:1;min-width:0;}
+.vtl-site-name{font-size:13px;font-weight:500;}
+.vtl-site-phase{font-family:var(--mono);font-size:9px;color:var(--text3);margin-top:1px;}
+.vtl-site-score{font-family:var(--display);font-size:20px;font-weight:700;letter-spacing:-0.5px;flex-shrink:0;}
+.vtl-site-days{font-family:var(--mono);font-size:9px;flex-shrink:0;}
+
+/* sub-timeline inline */
+.vtl-sub{
+  display:none;margin-top:6px;margin-left:32px;
+  padding:14px 16px;background:var(--bg3);
+  border:1px solid var(--border);border-radius:10px;
+  animation:fadeUp 0.2s ease both;
+}
+.vtl-sub.open{display:block;}
+.vtl-sub-header{font-family:var(--mono);font-size:8px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-bottom:12px;}
+.vtl-sub-track{display:flex;align-items:flex-start;position:relative;}
+.vtl-sub-phase{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;position:relative;}
+.vtl-sub-node{width:10px;height:10px;border-radius:50%;border:2px solid var(--bg3);flex-shrink:0;z-index:1;}
+.vtl-sub-node.done{background:var(--green);}
+.vtl-sub-node.active{background:var(--red);box-shadow:0 0 0 3px rgba(232,49,74,0.2);}
+.vtl-sub-node.pending{background:var(--bg4);border-color:var(--border2);}
+.vtl-sub-connector{position:absolute;top:4px;left:50%;right:-50%;height:1px;background:var(--border2);z-index:0;}
+.vtl-sub-connector.done{background:var(--green);}
+.vtl-sub-label{font-family:var(--mono);font-size:7px;color:var(--text3);text-align:center;white-space:nowrap;}
+.vtl-sub-label.active{color:var(--text);}
+.vtl-sub-label.done{color:var(--green);}
+.vtl-sub-risks{margin-top:10px;display:flex;flex-wrap:wrap;gap:4px;}
+
+/* PANEL COLUMN — 35% */
+.panel-col{
+  flex:0 0 35%;display:flex;flex-direction:column;
+  overflow:hidden;background:var(--bg2);
+}
+.panel-col-header{
+  padding:20px 16px 14px;border-bottom:1px solid var(--border);flex-shrink:0;
+}
+.panel-col-score{
+  font-family:var(--display);font-size:48px;font-weight:700;
+  letter-spacing:-2px;line-height:1;margin-bottom:6px;
+}
+.panel-col-actions{display:flex;gap:6px;margin-top:10px;}
+
+/* dashboard split for panel-open compat */
 .dash-panel{
   border-left:1px solid var(--border);
   background:var(--bg2);
@@ -662,98 +914,108 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
 
   <!-- DASHBOARD VIEW -->
   <div class="view active" id="view-dashboard">
-    <div class="dash-split" id="dash-split">
 
-      <!-- LEFT: main dashboard -->
-      <div class="dash-main">
-        <div class="ph">
+    <!-- EMPTY STATE — welcome cards -->
+    <div class="dash-empty" id="dash-empty">
+      <div style="text-align:center;max-width:720px;width:100%;padding:0 32px">
+
+        <!-- Logo + tagline -->
+        <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:12px">
+          <svg width="52" height="20" viewBox="0 0 52 22" fill="none">
+            <path d="M0,11 L12,11 L15,11 L17,3 L19,19 L21,7 L23,11 L52,11" stroke="#e8314a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none" style="stroke-dasharray:120;stroke-dashoffset:0"/>
+          </svg>
+          <span style="font-family:var(--display);font-size:22px;font-weight:700;letter-spacing:3px">PUL<span style="color:var(--red2)">S</span>E</span>
+        </div>
+        <div style="font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-bottom:48px">Implementation Health Tracker</div>
+
+        <!-- 3 cards -->
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:40px">
+
+          <div style="background:linear-gradient(135deg,rgba(232,49,74,0.1),rgba(232,49,74,0.04));border:1px solid rgba(232,49,74,0.25);border-radius:16px;padding:28px 20px;text-align:center;position:relative;overflow:hidden">
+            <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--red),transparent)"></div>
+            <div style="font-family:var(--display);font-size:32px;font-weight:700;color:var(--red2);margin-bottom:12px;letter-spacing:-1px">01</div>
+            <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--red2);text-transform:uppercase;margin-bottom:10px">Select a client</div>
+            <div style="font-size:12px;color:var(--text2);line-height:1.7">Click any client in the sidebar. Demo projects are pre-loaded with real implementation data.</div>
+          </div>
+
+          <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:28px 20px;text-align:center;position:relative;overflow:hidden">
+            <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--border2),transparent)"></div>
+            <div style="font-family:var(--display);font-size:32px;font-weight:700;color:var(--text3);margin-bottom:12px;letter-spacing:-1px">02</div>
+            <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-bottom:10px">Track the timeline</div>
+            <div style="font-size:12px;color:var(--text2);line-height:1.7">Follow the project from Discovery to Post go-live. Every phase, every site, every risk — in one view.</div>
+          </div>
+
+          <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:28px 20px;text-align:center;position:relative;overflow:hidden">
+            <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--border2),transparent)"></div>
+            <div style="font-family:var(--display);font-size:32px;font-weight:700;color:var(--text3);margin-bottom:12px;letter-spacing:-1px">03</div>
+            <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-bottom:10px">Generate a debrief</div>
+            <div style="font-size:12px;color:var(--text2);line-height:1.7">Log your notes after each call. Hit Debrief — get a full AI brief in 30 seconds.</div>
+          </div>
+
+        </div>
+
+        <div style="font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:1px;display:flex;align-items:center;justify-content:center;gap:8px">
+          <span style="color:var(--red2)">←</span> select a client from the sidebar
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CLIENT VIEW (hidden by default) -->
+    <div class="client-view" id="client-view">
+
+      <!-- COL 1: TIMELINE -->
+      <div class="tl-col" id="tl-col">
+        <div class="tl-col-header">
           <div>
-            <div class="ph-title">Dashboard</div>
-            <div class="ph-sub">Real-time health · <span id="ph-date"></span></div>
+            <div class="tl-col-title" id="tl-title">—</div>
+            <div class="tl-col-meta" id="tl-meta"></div>
           </div>
-          <button class="btn btn-primary btn-sm" onclick="openNewProject()"><i class="ti ti-plus"></i> Add project</button>
-        </div>
-
-        <!-- ROADMAP TIMELINE -->
-        <div class="roadmap" id="roadmap"></div>
-
-        <div class="tbl-header">
-          <div class="tbl-title">
-            Details
-            <span class="tbl-count" id="proj-count"></span>
-          </div>
-          <div class="tbl-filters">
-            <div class="fpill on" data-filter="all" onclick="setFilter('all',this)">All</div>
-            <div class="fsep"></div>
-            <div class="fpill fr" data-filter="at-risk" onclick="setFilter('at-risk',this)"><i class="ti ti-alert-triangle" style="font-size:9px"></i>Risk</div>
-            <div class="fpill fa" data-filter="on-track" onclick="setFilter('on-track',this)">On track</div>
-            <div class="fpill fg" data-filter="healthy" onclick="setFilter('healthy',this)">Healthy</div>
-            <div class="fsep"></div>
-            <div class="fdrop" id="phase-dropdown">
-              <div class="fdrop-btn" id="phase-btn" onclick="togglePhaseDropdown()">
-                <i class="ti ti-adjustments-horizontal" style="font-size:9px"></i>Phase
-                <i class="ti ti-chevron-down" style="font-size:8px"></i>
-              </div>
-              <div class="fdrop-menu" id="phase-menu">
-                <div class="fdrop-item" onclick="setFilter('all',document.querySelector('[data-filter=all]'));closePhaseDropdown()">All phases</div>
-                <div class="fdrop-item" onclick="setPhaseFilter('Discovery')">Discovery</div>
-                <div class="fdrop-item" onclick="setPhaseFilter('Configuration')">Configuration</div>
-                <div class="fdrop-item" onclick="setPhaseFilter('Integration')">Integration</div>
-                <div class="fdrop-item" onclick="setPhaseFilter('UAT')">UAT</div>
-                <div class="fdrop-item" onclick="setPhaseFilter('Go-live')">Go-live</div>
-                <div class="fdrop-item" onclick="setPhaseFilter('Post go-live')">Post go-live</div>
-              </div>
-            </div>
+          <div style="display:flex;gap:6px">
+            <button class="btn btn-primary btn-sm" onclick="panelGenerate(activePanelId)"><i class="ti ti-sparkles"></i> Debrief</button>
+            <div style="width:28px;height:28px;border-radius:7px;cursor:pointer;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--text3);font-size:12px;transition:all 0.12s" onclick="openEditProject(activePanelId)" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text3)'"><i class="ti ti-pencil"></i></div>
+            <div style="width:28px;height:28px;border-radius:7px;cursor:pointer;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--text3);font-size:12px;transition:all 0.12s" onclick="closeClientPanel()" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text3)'"><i class="ti ti-x"></i></div>
           </div>
         </div>
-
-        <div class="tbl-wrap">
-          <table>
-            <thead><tr>
-              <th>Client</th><th>Health</th><th>Phase</th>
-              <th>Go-live</th><th>Insight</th><th>Status</th><th></th>
-            </tr></thead>
-            <tbody id="projects-tbody"></tbody>
-          </table>
+        <div class="tl-col-body">
+          <div class="vtl" id="vtl-track"></div>
         </div>
+      </div>
 
-        <div class="bottom-grid">
-          <div class="panel">
-            <div class="panel-title">Recent activity <span class="panel-tag">7 days</span></div>
-            <div id="activity-feed"></div>
+      <!-- COL 2: SUB-TIMELINE (hidden by default, opens on site click) -->
+      <div class="sub-tl-col" id="sub-tl-col">
+        <div class="sub-tl-header">
+          <div>
+            <div class="sub-tl-name" id="sub-tl-name"></div>
+            <div class="sub-tl-meta" id="sub-tl-meta"></div>
           </div>
-          <div class="panel">
-            <div class="panel-title">Upcoming milestones <span class="panel-tag">30 days</span></div>
-            <div id="upcoming-list"></div>
-          </div>
+          <div style="width:22px;height:22px;border-radius:6px;cursor:pointer;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--text3);font-size:11px;flex-shrink:0" onclick="closeSubTimeline()" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text3)'"><i class="ti ti-x"></i></div>
         </div>
-      </div><!-- /dash-main -->
+        <div class="sub-tl-body">
+          <div id="sub-tl-track"></div>
+        </div>
+      </div>
 
-      <!-- RIGHT: client panel (hidden by default) -->
-      <div class="dash-panel" id="dash-panel" style="display:none">
-        <div class="dash-panel-header">
-          <div class="dash-panel-title" id="panel-client-title">Client</div>
-          <div style="display:flex;align-items:center;gap:6px">
-            <button class="btn btn-primary btn-sm" onclick="panelGenerate(activePanelId)" id="panel-debrief-btn" style="padding:4px 10px;font-size:10px"><i class="ti ti-sparkles"></i> Debrief</button>
-            <div style="width:24px;height:24px;border-radius:6px;cursor:pointer;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--text3);transition:all 0.12s;font-size:12px" onclick="openEditProject(activePanelId)" title="Edit project" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text3)'"><i class="ti ti-pencil"></i></div>
-            <div class="dash-panel-close" onclick="closeClientPanel()"><i class="ti ti-x"></i></div>
-          </div>
+      <!-- COL 3: PANEL -->
+      <div class="panel-col" id="panel-col">
+        <div class="panel-col-header">
+          <div class="panel-col-score" id="panel-col-score"></div>
+          <div id="panel-col-status"></div>
         </div>
         <div class="panel-tabs">
           <div class="panel-tab active" onclick="switchPanelTab('overview',this)">Overview</div>
-          <div class="panel-tab" onclick="switchPanelTab('sites',this)">Sites <span id="panel-sites-badge"></span></div>
-          <div class="panel-tab" onclick="switchPanelTab('milestones',this)">Milestones</div>
           <div class="panel-tab" onclick="switchPanelTab('journal',this)">Journal <span id="panel-journal-badge"></span></div>
+          <div class="panel-tab" onclick="switchPanelTab('milestones',this)">Milestones</div>
+          <div class="panel-tab" onclick="switchPanelTab('sites',this)">Sites <span id="panel-sites-badge"></span></div>
         </div>
         <div class="panel-tab-content active" id="panel-tab-overview"></div>
-        <div class="panel-tab-content" id="panel-tab-sites"></div>
-        <div class="panel-tab-content" id="panel-tab-milestones"></div>
         <div class="panel-tab-content" id="panel-tab-journal"></div>
-        <!-- debrief result area (shown below tabs when active) -->
-        <div id="panel-debrief-area" style="display:none;padding:14px 16px;border-top:1px solid var(--border);flex:1;overflow-y:auto"></div>
-      </div><!-- /dash-panel -->
+        <div class="panel-tab-content" id="panel-tab-milestones"></div>
+        <div class="panel-tab-content" id="panel-tab-sites"></div>
+        <div id="panel-debrief-area" style="display:none;padding:14px 16px;border-top:1px solid var(--border);overflow-y:auto;flex:1"></div>
+      </div>
 
-    </div><!-- /dash-split -->
+    </div><!-- /client-view -->
   </div>
 
   <!-- UPDATE VIEW -->
@@ -1359,8 +1621,10 @@ function renderRoadmap(){
 function renderMetrics(){const el2=document.getElementById('stat-row');if(el2)el2.innerHTML='';}
 
 function renderActivity(){
-  const all=projects.flatMap(p=>p.activity.map(a=>({...a,company:p.name}))).slice(0,5);
-  document.getElementById('activity-feed').innerHTML=all.map(a=>`
+  const el=document.getElementById('activity-feed');
+  if(!el) return;
+  const all=projects.flatMap(p=>(p.activity||[]).map(a=>({...a,company:p.name}))).slice(0,5);
+  el.innerHTML=all.map(a=>`
     <div class="act-item">
       <div class="act-icon" style="background:${a.bg};color:${a.ic}"><i class="ti ${a.icon}"></i></div>
       <div><div class="act-text">${a.text}</div><div class="act-meta">${a.company} · ${a.time}</div></div>
@@ -1714,7 +1978,151 @@ function velocityBadge(p){
   return `<span class="velocity down"><i class="ti ti-trending-down" style="font-size:8px"></i>${delta}</span>`;
 }
 
-// ── POST-CALL UPDATE ──────────────────────────────────────────────
+// ── VERTICAL TIMELINE ─────────────────────────────────────────────
+const PHASE_ORDER=['Discovery','Configuration','Integration','UAT','Go-live','Post go-live'];
+const PHASE_DESCS={
+  'Discovery':'Workshops, stakeholder mapping, scope definition and project plan.',
+  'Configuration':'Platform setup, customisation and workflow configuration.',
+  'Integration':'API connections, data migration and system integrations.',
+  'UAT':'User acceptance testing, bug fixes and sign-off.',
+  'Go-live':'Production deployment and initial rollout.',
+  'Post go-live':'Adoption monitoring, support and stabilisation.'
+};
+
+function renderVerticalTimeline(p){
+  const el=document.getElementById('vtl-track');
+  if(!el) return;
+  const currentIdx=PHASE_ORDER.indexOf(p.phase);
+  const c=healthColorHex(calcHealth(p));
+  const days=daysUntil(p.goLive);
+
+  el.innerHTML=PHASE_ORDER.map((phase,i)=>{
+    const isDone=i<currentIdx;
+    const isActive=i===currentIdx;
+    const isPending=i>currentIdx;
+    const cls=isDone?'done':isActive?'active':'pending';
+
+    // sites at or around this phase
+    const sitesHere=p.sites?p.sites.filter(s=>PHASE_ORDER.indexOf(s.phase)>=i-1&&PHASE_ORDER.indexOf(s.phase)<=i):[];
+
+    const siteRows=isActive&&p.sites&&p.sites.length?`
+      <div class="vtl-sites">
+        ${p.sites.map(site=>{
+          const ss=calcHealth(site),sc=healthColorHex(ss);
+          const sd=daysUntil(site.goLive);
+          const sIdx=PHASE_ORDER.indexOf(site.phase);
+          const sdColor=sd===null?'var(--text3)':sd<=30?'var(--red2)':sd<=90?'var(--amber)':'var(--green)';
+          const miniDots=PHASE_ORDER.map((ph,pi)=>{
+            const done=pi<sIdx,act=pi===sIdx;
+            return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;position:relative">
+              ${pi<PHASE_ORDER.length-1?`<div style="position:absolute;top:4px;left:50%;right:-50%;height:1px;background:${done?sc:'var(--border2)'};z-index:0"></div>`:''}
+              <div style="width:8px;height:8px;border-radius:50%;z-index:1;background:${done?sc:act?sc:'var(--bg4)'};border:1px solid ${act?sc:'var(--border2)'};${act?`box-shadow:0 0 0 2px ${sc}30`:''}"></div>
+              <div style="font-family:var(--mono);font-size:6px;color:${act?'var(--text)':done?sc:'var(--text3)'};text-align:center">${ph.split(' ')[0].substring(0,4)}</div>
+            </div>`;
+          }).join('');
+          return `<div class="vtl-site-row" id="vtl-site-${site.id}" onclick="openSubTimeline(${p.id},${site.id})">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+              <span style="font-size:18px;flex-shrink:0">${site.flag||'🏢'}</span>
+              <div style="flex:1">
+                <div style="font-size:13px;font-weight:600">${site.name}</div>
+                <div style="font-family:var(--mono);font-size:9px;color:var(--text3)">${site.phase}</div>
+              </div>
+              <div style="text-align:right;flex-shrink:0">
+                <div style="font-family:var(--display);font-size:20px;font-weight:700;letter-spacing:-0.5px;color:${sc};line-height:1">${ss}</div>
+                ${sd!==null?`<div style="font-family:var(--mono);font-size:9px;color:${sdColor}">${sd}d</div>`:''}
+              </div>
+            </div>
+            <div style="display:flex;align-items:flex-start;padding-top:8px;border-top:1px solid var(--border)">${miniDots}</div>
+            ${site.risks&&site.risks.length?`<div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:3px">${site.risks.map(r=>`<span style="font-family:var(--mono);font-size:8px;padding:1px 5px;border-radius:3px;background:var(--red-dim);color:var(--red2)">${r}</span>`).join('')}</div>`:''}
+          </div>`;
+        }).join('')}
+      </div>` : '';
+
+    return `<div class="vtl-phase">
+      <div class="vtl-node ${cls}" style="${isActive?`background:${c};box-shadow:0 0 0 4px ${c}20`:isDone?'background:var(--green)':''}">
+        ${isDone?`<i class="ti ti-check" style="font-size:7px;color:#000"></i>`:isActive?`<i class="ti ti-player-play" style="font-size:6px;color:#fff"></i>`:''}
+      </div>
+      <div class="vtl-phase-name ${cls}">${phase}</div>
+      ${isActive&&days!==null?`
+        <div class="vtl-countdown">
+          <div class="vtl-countdown-num" style="color:${days<=30?'var(--red2)':days<=90?'var(--amber)':'var(--green)'}">${days}</div>
+          <div style="font-family:var(--mono);font-size:11px;color:var(--text3)">days to go-live</div>
+        </div>
+        <div class="vtl-golive-date">${p.goLive}</div>
+      `:''}
+      <div class="vtl-phase-desc ${cls}">${isPending?'Upcoming':PHASE_DESCS[phase]}</div>
+      ${siteRows}
+    </div>`;
+  }).join('');
+}
+
+let activeSubSiteId=null;
+
+function openSubTimeline(projectId,siteId){
+  const p=projects.find(x=>x.id===projectId);
+  const site=p&&p.sites&&p.sites.find(s=>s.id===siteId);
+  if(!site) return;
+
+  // toggle — same site = close
+  if(activeSubSiteId===siteId){
+    closeSubTimeline();
+    return;
+  }
+
+  // close previous
+  if(activeSubSiteId){
+    const prev=document.getElementById(`vtl-site-${activeSubSiteId}`);
+    if(prev) prev.classList.remove('active-site');
+  }
+  activeSubSiteId=siteId;
+
+  // highlight site card
+  document.querySelectorAll('.vtl-site-row').forEach(el=>el.classList.remove('active-site'));
+  const siteEl=document.getElementById(`vtl-site-${siteId}`);
+  if(siteEl) siteEl.classList.add('active-site');
+
+  // open sub-tl column
+  const col=document.getElementById('sub-tl-col');
+  col.classList.add('open');
+
+  // header
+  const ss=calcHealth(site),sc=healthColorHex(ss);
+  const days=daysUntil(site.goLive);
+  document.getElementById('sub-tl-name').innerHTML=`${site.flag||'🏢'} ${site.name} <span style="color:${sc};font-family:var(--mono);font-size:10px;font-weight:600">${ss}</span>`;
+  document.getElementById('sub-tl-meta').textContent=site.phase+(days!==null?` · ${days}d to go-live`:'');
+
+  // render vertical sub-timeline
+  const el=document.getElementById('sub-tl-track');
+  if(!el) return;
+  const sIdx=PHASE_ORDER.indexOf(site.phase);
+
+  el.innerHTML=`<div class="vtl" style="padding-left:24px;max-width:none">${PHASE_ORDER.map((phase,i)=>{
+    const isDone=i<sIdx;
+    const isActive=i===sIdx;
+    const isPending=i>sIdx;
+    const cls=isDone?'done':isActive?'active':'pending';
+    const isActiveDays=isActive&&days!==null;
+    return `<div class="vtl-phase">
+      <div class="vtl-node ${cls}" style="${isActive?`background:${sc};box-shadow:0 0 0 4px ${sc}20`:isDone?'background:var(--green)':''}">
+        ${isDone?`<i class="ti ti-check" style="font-size:7px;color:#000"></i>`:isActive?`<i class="ti ti-player-play" style="font-size:6px;color:#fff"></i>`:''}
+      </div>
+      <div class="vtl-phase-name ${cls}">${phase}</div>
+      ${isActiveDays?`<div class="vtl-countdown" style="margin-top:6px">
+        <div class="vtl-countdown-num" style="color:${days<=30?'var(--red2)':days<=90?'var(--amber)':'var(--green)'};font-size:28px">${days}</div>
+        <div style="font-family:var(--mono);font-size:10px;color:var(--text3)">days</div>
+      </div>`:''}
+      <div class="vtl-phase-desc ${cls}" style="font-size:11px">${isPending?'Upcoming':PHASE_DESCS[phase]}</div>
+      ${isActive&&site.risks&&site.risks.length?`<div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:4px">${site.risks.map(r=>`<span style="font-family:var(--mono);font-size:8px;padding:2px 6px;border-radius:4px;background:var(--red-dim);color:var(--red2)">${r}</span>`).join('')}</div>`:''}
+    </div>`;
+  }).join('')}</div>`;
+}
+
+function closeSubTimeline(){
+  activeSubSiteId=null;
+  document.getElementById('sub-tl-col').classList.remove('open');
+  document.querySelectorAll('.vtl-site-row').forEach(el=>el.classList.remove('active-site'));
+}
+
 let postCallProjectId = null;
 let postCallMood = null;
 
@@ -2046,16 +2454,9 @@ function inlineInsight(p){
 
 // ── RENDER TABLE ──────────────────────────────────────────────────
 function renderTable(){
-  const filtered=getFiltered();
-  const total=projects.length;
   const countEl=document.getElementById('proj-count');
-  if(activePanelId){
-    const p=projects.find(x=>x.id===activePanelId);
-    if(countEl&&p) countEl.textContent=p.name;
-  } else {
-    if(countEl) countEl.textContent=filtered.length===total?`${total} projects`:`${filtered.length} of ${total}`;
-  }
   const tb=document.getElementById('projects-tbody');
+  if(!tb) return;
   if(!filtered.length){
     tb.innerHTML=`<tr><td colspan="7" class="tbl-empty">${projects.length?'No projects match this filter':'No projects yet — add one from the sidebar'}</td></tr>`;
     return;
@@ -2119,7 +2520,6 @@ function toggleSection(name){
 let activePanelId = null;
 
 function openClientPanel(id){
-  // always ensure dashboard view is active first
   const dashView=document.getElementById('view-dashboard');
   if(!dashView.classList.contains('active')){
     document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
@@ -2129,63 +2529,55 @@ function openClientPanel(id){
     if(navEl) navEl.classList.add('active');
   }
 
-  const p = projects.find(x=>x.id===id);
+  const p=projects.find(x=>x.id===id);
   if(!p) return;
-  activePanelId = id;
+  activePanelId=id;
 
   // highlight sidebar
   document.querySelectorAll('.sb-client').forEach(el=>el.classList.remove('active-client'));
-  const sc=document.getElementById('sc-'+id);
-  if(sc) sc.classList.add('active-client');
+  const scEl=document.getElementById('sc-'+id);
+  if(scEl) scEl.classList.add('active-client');
 
-  // open split
-  const split=document.getElementById('dash-split');
-  const panel=document.getElementById('dash-panel');
-  split.classList.add('panel-open');
-  panel.style.display='flex';
+  // show client view
+  document.getElementById('dash-empty').style.display='none';
+  document.getElementById('client-view').classList.add('open');
 
-  // title
+  // timeline header
   const s=calcHealth(p),c=healthColorHex(s);
-  document.getElementById('panel-client-title').innerHTML=`
-    <div style="width:22px;height:22px;border-radius:6px;background:${c}18;color:${c};display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:9px;font-weight:700">${p.name.substring(0,2).toUpperCase()}</div>
-    ${p.name}`;
+  const days=daysUntil(p.goLive);
+  document.getElementById('tl-title').textContent=p.name;
+  document.getElementById('tl-meta').textContent=p.industry+' · '+p.phase+(days?` · ${days}d to go-live`:'');
 
-  // sites badge
-  const sitesCount = p.sites && p.sites.length;
-  const sitesBadge = document.getElementById('panel-sites-badge');
-  if(sitesBadge) sitesBadge.innerHTML = sitesCount ? `<span style="background:var(--bg4);border-radius:3px;padding:0 4px;font-size:8px">${sitesCount}</span>` : '';
+  renderVerticalTimeline(p);
 
-  // notes badge
-  const sc2=p.noteSessions&&p.noteSessions.length;
-  const badge=document.getElementById('panel-notes-badge');
-  if(badge) badge.innerHTML=sc2?`<span style="background:var(--bg4);border-radius:3px;padding:0 4px;font-size:8px">${sc2}</span>`:'';
+  // panel score
+  document.getElementById('panel-col-score').innerHTML=`<span style="color:${c}">${s}</span><span style="font-size:16px;color:var(--text3);font-family:var(--mono)">/100</span>`;
+  document.getElementById('panel-col-status').innerHTML=statusBadge(p.status)+' '+velocityBadge(p);
 
-  // reset to overview tab
+  const sitesBadge=document.getElementById('panel-sites-badge');
+  if(sitesBadge) sitesBadge.innerHTML=p.sites&&p.sites.length?`<span style="background:var(--bg4);border-radius:3px;padding:0 4px;font-size:8px">${p.sites.length}</span>`:'';
+
   document.querySelectorAll('.panel-tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.panel-tab-content').forEach(t=>t.classList.remove('active'));
   document.querySelector('.panel-tab').classList.add('active');
   document.getElementById('panel-tab-overview').classList.add('active');
 
+  const da=document.getElementById('panel-debrief-area');
+  if(da){da.style.display='none';da.innerHTML='';}
+
   renderPanelOverview(p);
   renderPanelSites(p);
   renderPanelMilestones(p);
   renderPanelJournal(p);
-  // hide debrief area on open
-  const da=document.getElementById('panel-debrief-area');
-  if(da){da.style.display='none';da.innerHTML='';}
-
-  // filter dashboard to this project only
-  renderRoadmap();
-  renderTable();
 }
 
 function closeClientPanel(){
-  document.getElementById('dash-split').classList.remove('panel-open');
-  document.getElementById('dash-panel').style.display='none';
+  document.getElementById('dash-empty').style.display='';
+  document.getElementById('client-view').classList.remove('open');
+  document.getElementById('sub-tl-col').classList.remove('open');
   document.querySelectorAll('.sb-client').forEach(el=>el.classList.remove('active-client'));
   activePanelId=null;
-  renderRoadmap();
-  renderTable();
+  activeSubSiteId=null;
 }
 
 function switchPanelTab(name,el){
@@ -2205,22 +2597,9 @@ function renderPanelOverview(p){
     {label:'Timeline adherence',val:p.timeline,color:'#f5a623'}
   ];
   document.getElementById('panel-tab-overview').innerHTML=`
-    <!-- NORTH STAR SCORE -->
-    <div style="text-align:center;padding:24px 16px 20px;border-bottom:1px solid var(--border)">
-      <div style="font-family:var(--display);font-size:72px;font-weight:700;letter-spacing:-4px;line-height:1;color:${c};text-shadow:0 0 40px ${c}40">${s}</div>
-      <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-top:6px">Health score</div>
-      <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:10px">
-        ${statusBadge(p.status)}
-        ${velocityBadge(p)}
-      </div>
-      ${days!==null?`<div style="font-family:var(--mono);font-size:11px;margin-top:8px;color:${days<=30?'var(--red2)':days<=90?'var(--amber)':'var(--text3)'}">
-        ${days<=30?'⚠ ':''}<span style="font-weight:500">${days}d</span> to go-live · ${p.goLive}
-      </div>`:''}
-    </div>
-
     <!-- DIMENSIONS -->
-    <div style="padding:16px 16px 12px">
-      <div style="font-family:var(--mono);font-size:8px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-bottom:12px">Dimensions</div>
+    <div style="padding:14px 16px 12px">
+      <div style="font-family:var(--mono);font-size:8px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-bottom:12px">Health dimensions</div>
       ${dims.map(d=>`
         <div style="margin-bottom:10px">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
@@ -2228,7 +2607,7 @@ function renderPanelOverview(p){
             <div style="font-family:var(--mono);font-size:11px;font-weight:500;color:${d.color}">${d.val}</div>
           </div>
           <div style="height:3px;background:var(--bg4);border-radius:2px;overflow:hidden">
-            <div style="height:100%;width:${d.val}%;background:${d.color};border-radius:2px;transition:width 0.8s ease"></div>
+            <div style="height:100%;width:${d.val}%;background:${d.color};border-radius:2px"></div>
           </div>
         </div>`).join('')}
     </div>
@@ -2969,12 +3348,10 @@ function renderAll(){
   const el=document.getElementById('ph-date');
   if(el) el.textContent=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
   renderSidebar();
-  renderRoadmap();
-  renderMetrics();
-  generateInsights();
-  renderTable();
-  renderActivity();
-  renderUpcoming();
+  if(activePanelId){
+    const p=projects.find(x=>x.id===activePanelId);
+    if(p) renderVerticalTimeline(p);
+  }
 }
 
 loadFromStorage();
