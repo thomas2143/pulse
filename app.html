@@ -192,34 +192,33 @@ main{overflow:hidden;background:var(--bg);display:flex;flex-direction:column;}
 /* ── ROADMAP TIMELINE ── */
 .roadmap{display:flex;flex-direction:column;gap:0;margin-bottom:20px;}
 .roadmap-row{
-  display:grid;grid-template-columns:140px 1fr 90px;
-  align-items:center;gap:0;
-  padding:10px 0;border-bottom:1px solid var(--border);
+  display:grid;grid-template-columns:150px 1fr 100px;
+  align-items:center;padding:12px 0;
+  border-bottom:1px solid var(--border);
   cursor:pointer;transition:background 0.12s;
-  border-radius:0;
 }
 .roadmap-row:first-child{border-top:1px solid var(--border);}
 .roadmap-row:hover{background:var(--bg3);}
-.roadmap-client{display:flex;align-items:center;gap:8px;padding:0 12px;}
-.roadmap-av{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:10px;font-weight:700;flex-shrink:0;}
+.roadmap-client{display:flex;align-items:center;gap:10px;padding:0 14px;}
+.roadmap-av{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:11px;font-weight:700;flex-shrink:0;}
 .roadmap-name{font-size:12px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .roadmap-score{font-family:var(--mono);font-size:10px;margin-top:1px;}
 
 .roadmap-track{position:relative;padding:0 8px;}
-.roadmap-line{position:relative;height:6px;background:var(--bg4);border-radius:3px;margin:10px 0 20px;}
-.roadmap-progress{position:absolute;left:0;top:0;height:100%;border-radius:3px;transition:width 0.8s ease;}
+.roadmap-line{position:relative;height:4px;background:var(--bg4);border-radius:2px;margin:14px 0 20px;}
+.roadmap-progress{position:absolute;left:0;top:0;height:100%;border-radius:2px;transition:width 0.8s ease;}
 .roadmap-phases{position:absolute;top:0;left:0;right:0;display:flex;}
 .roadmap-phase-seg{flex:1;position:relative;}
 .roadmap-phase-dot{
   position:absolute;top:50%;transform:translate(-50%,-50%);
-  width:10px;height:10px;border-radius:50%;
+  width:8px;height:8px;border-radius:50%;
   border:2px solid var(--bg);z-index:2;
 }
 .roadmap-phase-dot.done{background:var(--green);}
 .roadmap-phase-dot.active{background:var(--red);box-shadow:0 0 0 3px rgba(232,49,74,0.2);}
 .roadmap-phase-dot.pending{background:var(--bg4);border-color:var(--border2);}
 .roadmap-phase-label{
-  position:absolute;top:14px;left:0;transform:translateX(-50%);
+  position:absolute;top:12px;left:0;transform:translateX(-50%);
   font-family:var(--mono);font-size:8px;color:var(--text3);
   white-space:nowrap;letter-spacing:0.3px;
 }
@@ -229,11 +228,10 @@ main{overflow:hidden;background:var(--bg);display:flex;flex-direction:column;}
 .roadmap-milestones{position:absolute;top:-8px;left:0;right:0;pointer-events:none;}
 .roadmap-milestone{
   position:absolute;transform:translateX(-50%);
-  width:6px;height:6px;border-radius:1px;rotate:45deg;
-  z-index:3;
+  width:6px;height:6px;border-radius:1px;rotate:45deg;z-index:3;
 }
 
-.roadmap-right{display:flex;align-items:center;justify-content:flex-end;padding-right:12px;gap:8px;}
+.roadmap-right{display:flex;align-items:center;justify-content:flex-end;padding-right:14px;gap:8px;}
 .roadmap-days{font-family:var(--mono);font-size:10px;white-space:nowrap;}
 .roadmap-status{}
 
@@ -512,6 +510,25 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
 .home-card-score{font-family:var(--display);font-size:20px;font-weight:700;letter-spacing:-1px;margin-left:auto;flex-shrink:0;}
 .home-empty{text-align:center;color:var(--text3);font-family:var(--mono);font-size:11px;}
 .nav-logo{cursor:pointer;}
+/* ── CONFIRM MODAL ── */
+.confirm-modal{background:var(--bg2);border:1px solid var(--border2);border-radius:14px;width:360px;max-width:92vw;padding:28px;text-align:center;transform:translateY(20px) scale(0.98);transition:transform 0.2s cubic-bezier(.34,1.3,.64,1);}
+.modal-overlay.open .confirm-modal{transform:translateY(0) scale(1);}
+.confirm-icon{font-size:28px;margin-bottom:12px;}
+.confirm-title{font-family:var(--display);font-size:15px;font-weight:700;margin-bottom:6px;}
+.confirm-sub{font-size:12px;color:var(--text2);margin-bottom:22px;line-height:1.6;}
+.confirm-actions{display:flex;gap:8px;justify-content:center;}
+
+/* stakeholder builder */
+.sh-builder{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-top:4px;}
+.sh-list{margin-bottom:8px;}
+.sh-tag{display:flex;align-items:center;gap:6px;padding:5px 8px;background:var(--bg4);border-radius:6px;font-size:11px;margin-bottom:4px;}
+.sh-tag-av{width:18px;height:18px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:7px;font-weight:700;flex-shrink:0;}
+.sh-tag-remove{cursor:pointer;color:var(--text3);font-size:10px;margin-left:auto;padding:2px;}
+.sh-tag-remove:hover{color:var(--red2);}
+.sh-inputs{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px;}
+.sh-add-btn{display:inline-flex;align-items:center;gap:4px;font-family:var(--mono);font-size:9px;color:var(--text3);cursor:pointer;padding:4px 0;transition:color 0.12s;}
+.sh-add-btn:hover{color:var(--text2);}
+
 .update-layout{display:grid;grid-template-columns:200px 1fr;gap:14px;height:calc(100vh - 140px);}
 .update-picker{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:12px;overflow-y:auto;}
 .update-picker-title{font-family:var(--mono);font-size:8px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-bottom:8px;padding:0 4px;}
@@ -756,6 +773,65 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
 </main>
 </div>
 
+<!-- CONFIRM MODAL -->
+<div class="modal-overlay" id="confirm-modal">
+  <div class="confirm-modal">
+    <div class="confirm-icon" id="confirm-icon">🗑️</div>
+    <div class="confirm-title" id="confirm-title">Are you sure?</div>
+    <div class="confirm-sub" id="confirm-sub">This action cannot be undone.</div>
+    <div class="confirm-actions">
+      <button class="btn btn-ghost btn-sm" onclick="closeModal('confirm-modal')">Cancel</button>
+      <button class="btn btn-sm" id="confirm-ok-btn" style="background:var(--red);color:#fff">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- SITE EDIT MODAL -->
+<div class="modal-overlay" id="site-edit-modal" onclick="closeOnOverlay(event)">
+  <div class="modal">
+    <div class="modal-close" onclick="closeModal('site-edit-modal')"><i class="ti ti-x"></i></div>
+    <div class="form-head">
+      <div style="font-family:var(--display);font-size:16px;font-weight:700;margin-bottom:2px">Edit site</div>
+      <div style="font-size:12px;color:var(--text2)" id="site-edit-sub"></div>
+    </div>
+    <div class="form-body">
+      <input type="hidden" id="se-project-id">
+      <input type="hidden" id="se-site-id">
+      <div class="form-grid">
+        <div class="form-group"><label>Site name</label><input type="text" id="se-name"></div>
+        <div class="form-group"><label>Flag emoji</label><input type="text" id="se-flag" placeholder="🇬🇧"></div>
+        <div class="form-group"><label>Phase</label><select id="se-phase"><option>Discovery</option><option>Configuration</option><option>Integration</option><option>UAT</option><option>Go-live</option><option>Post go-live</option></select></div>
+        <div class="form-group"><label>Status</label><select id="se-status"><option value="on-track">On track</option><option value="healthy">Healthy</option><option value="at-risk">At risk</option><option value="delayed">Delayed</option></select></div>
+        <div class="form-group full"><label>Go-live date</label><input type="text" id="se-golive" placeholder="e.g. Aug 15, 2026"></div>
+        <div class="form-group full">
+          <label>Stakeholder alignment — <span id="se-sa-v" style="color:var(--red2)">70%</span></label>
+          <div class="range-row"><span style="font-size:9px;color:var(--text3);font-family:var(--mono)">Low</span><input type="range" id="se-align" min="0" max="100" step="5" value="70" oninput="document.getElementById('se-sa-v').textContent=this.value+'%'"><span style="font-size:9px;color:var(--text3);font-family:var(--mono)">High</span></div>
+        </div>
+        <div class="form-group full">
+          <label>Delivery confidence — <span id="se-dc-v" style="color:var(--red2)">70%</span></label>
+          <div class="range-row"><span style="font-size:9px;color:var(--text3);font-family:var(--mono)">Low</span><input type="range" id="se-conf" min="0" max="100" step="5" value="70" oninput="document.getElementById('se-dc-v').textContent=this.value+'%'"><span style="font-size:9px;color:var(--text3);font-family:var(--mono)">High</span></div>
+        </div>
+        <div class="form-group full">
+          <label>Product adoption — <span id="se-ad-v" style="color:var(--red2)">50%</span></label>
+          <div class="range-row"><span style="font-size:9px;color:var(--text3);font-family:var(--mono)">Low</span><input type="range" id="se-adopt" min="0" max="100" step="5" value="50" oninput="document.getElementById('se-ad-v').textContent=this.value+'%'"><span style="font-size:9px;color:var(--text3);font-family:var(--mono)">High</span></div>
+        </div>
+        <div class="form-group full">
+          <label>Timeline adherence — <span id="se-tl-v" style="color:var(--red2)">80%</span></label>
+          <div class="range-row"><span style="font-size:9px;color:var(--text3);font-family:var(--mono)">Low</span><input type="range" id="se-timeline" min="0" max="100" step="5" value="80" oninput="document.getElementById('se-tl-v').textContent=this.value+'%'"><span style="font-size:9px;color:var(--text3);font-family:var(--mono)">High</span></div>
+        </div>
+        <div class="form-group full"><label>Risk flags (comma-separated)</label><input type="text" id="se-risks"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:16px">
+        <button class="btn btn-sm" style="background:var(--red-dim);color:var(--red2);border:1px solid rgba(232,49,74,0.2)" onclick="deleteSiteFromModal()"><i class="ti ti-trash"></i> Delete site</button>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-ghost btn-sm" onclick="closeModal('site-edit-modal')">Cancel</button>
+          <button class="btn btn-primary btn-sm" onclick="saveSiteEdit()"><i class="ti ti-check"></i> Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- SAVE TOAST -->
 <div class="save-toast" id="save-toast"><i class="ti ti-device-floppy"></i><span id="save-toast-msg">Saved</span></div>
 
@@ -834,6 +910,17 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
         </div>
         <div class="form-group full"><label>Risk flags (comma-separated)</label><input type="text" id="f-risks" placeholder="e.g. no sponsor, API blocked, scope creep"></div>
         <div class="form-group full"><label>Notes</label><textarea id="f-notes" placeholder="Key context, blockers, next steps..."></textarea></div>
+        <div class="form-group full">
+          <label>Stakeholders</label>
+          <div class="sh-builder">
+            <div class="sh-list" id="f-sh-list"></div>
+            <div class="sh-inputs">
+              <input type="text" id="f-sh-name" placeholder="Name" style="font-size:11px;padding:6px 8px">
+              <input type="text" id="f-sh-role" placeholder="Role" style="font-size:11px;padding:6px 8px">
+            </div>
+            <div class="sh-add-btn" onclick="addFormStakeholder()"><i class="ti ti-plus" style="font-size:11px"></i> Add stakeholder</div>
+          </div>
+        </div>
       </div>
       <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">
         <button class="btn btn-ghost btn-sm" onclick="closeModal('new-modal')">Cancel</button>
@@ -846,8 +933,6 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
 <script>
 // ── DATA ─────────────────────────────────────────────────────────
 const PHASES = ['Discovery','Configuration','Integration','UAT','Go-live','Post go-live'];
-
-let projects = [];
 
 const DEMO_PROJECTS = [
   {
@@ -925,6 +1010,9 @@ const upcomingMilestones=[
   {day:"28",month:"JUN",name:"Config milestone review",company:"Kiabi Europe",badge:"green"},
   {day:"05",month:"JUL",name:"Workshop debrief",company:"Decathlon EMEA",badge:"blue"}
 ];
+
+let projects = JSON.parse(JSON.stringify(DEMO_PROJECTS));
+
 function calcHealth(p){return Math.round(p.alignment*0.35+p.confidence*0.35+p.adoption*0.15+p.timeline*0.15);}
 function healthColor(s){return s>=75?"var(--green)":s>=50?"var(--amber)":"var(--red2)";}
 function healthColorHex(s){return s>=75?"#2dd4a0":s>=50?"#f5a623":"#ff5068";}
@@ -1066,6 +1154,11 @@ function renderRoadmap(){
   if(!el) return;
   if(!projects.length){el.innerHTML='';return;}
 
+  // if a client is selected, show only that project
+  const toShow = activePanelId
+    ? projects.filter(p=>p.id===activePanelId)
+    : projects;
+
   const phaseOrder=['Discovery','Configuration','Integration','UAT','Go-live','Post go-live'];
   const phaseLabels=['Discovery','Config','Integration','UAT','Go-live','Post GL'];
 
@@ -1076,7 +1169,7 @@ function renderRoadmap(){
     milestonesByCompany[m.company].push(m);
   });
 
-  el.innerHTML=projects.map(p=>{
+  el.innerHTML=toShow.map(p=>{
     const s=calcHealth(p),c=healthColorHex(s);
     const days=daysUntil(p.goLive);
     const daysColor=days===null?'var(--text3)':days<=30?'var(--red2)':days<=90?'var(--amber)':'var(--green)';
@@ -1523,11 +1616,126 @@ function velocityBadge(p){
   return `<span class="velocity down"><i class="ti ti-trending-down" style="font-size:8px"></i>${delta}</span>`;
 }
 
+// ── CONFIRM MODAL ─────────────────────────────────────────────────
+function showConfirm(icon,title,sub,onOk,okLabel){
+  document.getElementById('confirm-icon').textContent=icon;
+  document.getElementById('confirm-title').textContent=title;
+  document.getElementById('confirm-sub').textContent=sub;
+  const btn=document.getElementById('confirm-ok-btn');
+  btn.textContent=okLabel||'Delete';
+  btn.onclick=()=>{ closeModal('confirm-modal'); onOk(); };
+  document.getElementById('confirm-modal').classList.add('open');
+}
+
+// ── STAKEHOLDER BUILDER ───────────────────────────────────────────
+let formStakeholders=[];
+const SH_COLORS=['#7c6af7','#2dd4a0','#f5a623','#60a5fa','#f87171','#34d399'];
+
+function addFormStakeholder(){
+  const name=document.getElementById('f-sh-name').value.trim();
+  const role=document.getElementById('f-sh-role').value.trim();
+  if(!name) return;
+  const color=SH_COLORS[formStakeholders.length%SH_COLORS.length];
+  const init=name.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+  formStakeholders.push({name,role,init,color});
+  document.getElementById('f-sh-name').value='';
+  document.getElementById('f-sh-role').value='';
+  renderFormStakeholders();
+}
+
+function removeFormStakeholder(idx){
+  formStakeholders.splice(idx,1);
+  renderFormStakeholders();
+}
+
+function renderFormStakeholders(){
+  const list=document.getElementById('f-sh-list');
+  if(!list) return;
+  list.innerHTML=formStakeholders.map((s,i)=>`
+    <div class="sh-tag">
+      <div class="sh-tag-av" style="background:${s.color}20;color:${s.color}">${s.init}</div>
+      <span style="font-weight:500;flex:1">${s.name}</span>
+      <span style="color:var(--text3);font-size:10px">${s.role}</span>
+      <div class="sh-tag-remove" onclick="removeFormStakeholder(${i})"><i class="ti ti-x"></i></div>
+    </div>`).join('');
+}
+
+// ── SITE EDIT ─────────────────────────────────────────────────────
+function openSiteEdit(projectId,siteId){
+  const p=projects.find(x=>x.id===projectId);
+  const site=p&&p.sites&&p.sites.find(s=>s.id===siteId);
+  if(!site) return;
+  document.getElementById('se-project-id').value=projectId;
+  document.getElementById('se-site-id').value=siteId;
+  document.getElementById('se-name').value=site.name;
+  document.getElementById('se-flag').value=site.flag||'';
+  document.getElementById('se-phase').value=site.phase;
+  document.getElementById('se-status').value=site.status;
+  document.getElementById('se-golive').value=site.goLive||'';
+  document.getElementById('se-align').value=site.alignment;
+  document.getElementById('se-sa-v').textContent=site.alignment+'%';
+  document.getElementById('se-conf').value=site.confidence;
+  document.getElementById('se-dc-v').textContent=site.confidence+'%';
+  document.getElementById('se-adopt').value=site.adoption;
+  document.getElementById('se-ad-v').textContent=site.adoption+'%';
+  document.getElementById('se-timeline').value=site.timeline;
+  document.getElementById('se-tl-v').textContent=site.timeline+'%';
+  document.getElementById('se-risks').value=(site.risks||[]).join(', ');
+  document.getElementById('site-edit-sub').textContent=p.name+' · '+site.name;
+  document.getElementById('site-edit-modal').classList.add('open');
+}
+
+function saveSiteEdit(){
+  const pid=parseInt(document.getElementById('se-project-id').value);
+  const sid=parseInt(document.getElementById('se-site-id').value);
+  const p=projects.find(x=>x.id===pid);
+  if(!p||!p.sites) return;
+  const site=p.sites.find(s=>s.id===sid);
+  if(!site) return;
+  site.name=document.getElementById('se-name').value.trim()||site.name;
+  site.flag=document.getElementById('se-flag').value.trim()||'🏢';
+  site.phase=document.getElementById('se-phase').value;
+  site.status=document.getElementById('se-status').value;
+  site.goLive=document.getElementById('se-golive').value||'TBD';
+  site.alignment=parseInt(document.getElementById('se-align').value);
+  site.confidence=parseInt(document.getElementById('se-conf').value);
+  site.adoption=parseInt(document.getElementById('se-adopt').value);
+  site.timeline=parseInt(document.getElementById('se-timeline').value);
+  site.risks=document.getElementById('se-risks').value.split(',').map(r=>r.trim()).filter(Boolean);
+  saveToStorage();
+  closeModal('site-edit-modal');
+  renderAll();
+  const p2=projects.find(x=>x.id===pid);
+  if(activePanelId===pid&&p2) renderPanelSites(p2);
+  showToast(`${site.name} updated`);
+}
+
+function deleteSiteFromModal(){
+  const pid=parseInt(document.getElementById('se-project-id').value);
+  const sid=parseInt(document.getElementById('se-site-id').value);
+  const p=projects.find(x=>x.id===pid);
+  const site=p&&p.sites&&p.sites.find(s=>s.id===sid);
+  if(!site) return;
+  closeModal('site-edit-modal');
+  showConfirm('🗑️',`Delete ${site.name}?`,`This will permanently remove this site from ${p.name}.`,()=>{
+    p.sites=p.sites.filter(s=>s.id!==sid);
+    saveToStorage();
+    renderAll();
+    if(activePanelId===pid) renderPanelSites(p);
+    showToast(`${site.name} deleted`);
+  });
+}
+
 // ── OPEN NEW PROJECT ──────────────────────────────────────────────
+function openNewProject(){
+  formStakeholders=[];
+  renderFormStakeholders();
+  document.getElementById('new-modal').classList.add('open');
+}
 
 function saveProject(){
   const name=document.getElementById('f-name').value.trim();
-  if(!name){alert('Please enter a client name');return;}
+  if(!name){showToast('Please enter a client name');return;}
   const risks=document.getElementById('f-risks').value.split(',').map(r=>r.trim()).filter(Boolean);
   const alignment=parseInt(document.getElementById('f-align').value);
   const confidence=parseInt(document.getElementById('f-conf').value);
@@ -1536,11 +1744,13 @@ function saveProject(){
     phase:document.getElementById('f-phase').value,goLive:document.getElementById('f-golive').value||"TBD",
     alignment,confidence,adoption:Math.round((alignment+confidence)/2*0.8),timeline:Math.round(confidence*0.9),
     risks,status:alignment>=70&&confidence>=70?"on-track":alignment<55||confidence<55?"at-risk":"on-track",
-    stakeholders:[],notes:document.getElementById('f-notes').value,
+    stakeholders:[...formStakeholders],
+    notes:document.getElementById('f-notes').value,
     activity:[{type:"milestone",text:"Project created",time:"just now",bg:"var(--blue-dim)",ic:"var(--blue)",icon:"ti-plus"}]
   });
   renderAll();closeModal('new-modal');saveToStorage();
   ['f-name','f-risks','f-notes','f-golive'].forEach(id=>document.getElementById(id).value='');
+  formStakeholders=[];
 }
 
 function closeModal(id){document.getElementById(id).classList.remove('open');}
@@ -1556,8 +1766,20 @@ function saveToStorage(){
 function loadFromStorage(){
   try{
     const raw=localStorage.getItem(STORAGE_KEY);
-    if(raw){const p=JSON.parse(raw);if(Array.isArray(p)&&p.length>0) projects=p;}
-  }catch(e){}
+    if(raw){
+      const p=JSON.parse(raw);
+      // Only load if saved data has sites on project 1 (i.e. is the rich demo version)
+      if(Array.isArray(p)&&p.length>0&&p[0].sites&&p[0].sites.length>0){
+        projects=p;
+        return;
+      }
+    }
+    // Fresh start or old data without sites — reload demo
+    projects=JSON.parse(JSON.stringify(DEMO_PROJECTS));
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(projects));
+  }catch(e){
+    projects=JSON.parse(JSON.stringify(DEMO_PROJECTS));
+  }
 }
 function showToast(msg){
   const t=document.getElementById('save-toast');
@@ -1610,9 +1832,10 @@ document.addEventListener('click',e=>{
 });
 
 function getFiltered(){
-  if(activeFilter==='all') return projects;
-  if(['at-risk','on-track','healthy'].includes(activeFilter)) return projects.filter(p=>p.status===activeFilter);
-  return projects.filter(p=>p.phase===activeFilter);
+  let list = activePanelId ? projects.filter(p=>p.id===activePanelId) : projects;
+  if(activeFilter==='all') return list;
+  if(['at-risk','on-track','healthy'].includes(activeFilter)) return list.filter(p=>p.status===activeFilter);
+  return list.filter(p=>p.phase===activeFilter);
 }
 
 // ── INLINE INSIGHT ────────────────────────────────────────────────
@@ -1633,7 +1856,13 @@ function inlineInsight(p){
 function renderTable(){
   const filtered=getFiltered();
   const total=projects.length;
-  document.getElementById('proj-count').textContent=filtered.length===total?`${total} projects`:`${filtered.length} of ${total}`;
+  const countEl=document.getElementById('proj-count');
+  if(activePanelId){
+    const p=projects.find(x=>x.id===activePanelId);
+    if(countEl&&p) countEl.textContent=p.name;
+  } else {
+    if(countEl) countEl.textContent=filtered.length===total?`${total} projects`:`${filtered.length} of ${total}`;
+  }
   const tb=document.getElementById('projects-tbody');
   if(!filtered.length){
     tb.innerHTML=`<tr><td colspan="7" class="tbl-empty">${projects.length?'No projects match this filter':'No projects yet — add one from the sidebar'}</td></tr>`;
@@ -1658,11 +1887,13 @@ function renderTable(){
 function deleteProject(id){
   const p=projects.find(x=>x.id===id);
   if(!p) return;
-  if(!confirm(`Remove ${p.name} from Pulse?`)) return;
-  projects=projects.filter(x=>x.id!==id);
-  saveToStorage();
-  renderAll();
-  showToast(`${p.name} removed`);
+  showConfirm('🗑️',`Remove ${p.name}?`,`This will permanently delete ${p.name} and all its data from Pulse.`,()=>{
+    projects=projects.filter(x=>x.id!==id);
+    if(activePanelId===id) closeClientPanel();
+    saveToStorage();
+    renderAll();
+    showToast(`${p.name} removed`);
+  },'Remove');
 }
 
 // ── SIDEBAR TOGGLE ────────────────────────────────────────────────
@@ -1745,6 +1976,10 @@ function openClientPanel(id){
   // hide debrief area on open
   const da=document.getElementById('panel-debrief-area');
   if(da){da.style.display='none';da.innerHTML='';}
+
+  // filter dashboard to this project only
+  renderRoadmap();
+  renderTable();
 }
 
 function closeClientPanel(){
@@ -1752,6 +1987,8 @@ function closeClientPanel(){
   document.getElementById('dash-panel').style.display='none';
   document.querySelectorAll('.sb-client').forEach(el=>el.classList.remove('active-client'));
   activePanelId=null;
+  renderRoadmap();
+  renderTable();
 }
 
 function switchPanelTab(name,el){
@@ -1771,32 +2008,52 @@ function renderPanelOverview(p){
     {label:'Timeline adherence',val:p.timeline,color:'#f5a623'}
   ];
   document.getElementById('panel-tab-overview').innerHTML=`
-    <div class="panel-health-bar">
-      <div class="panel-health-score" style="color:${c}">${s}</div>
-      <div style="flex:1">
-        <div style="font-family:var(--mono);font-size:8px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:2px;display:flex;align-items:center;gap:6px">Health score ${velocityBadge(p)}</div>
-        <div style="font-size:11px;color:var(--text2)">${p.industry} · ${p.phase}</div>
-        <div style="font-family:var(--mono);font-size:10px;margin-top:2px;color:${days&&days<=30?'var(--red2)':days&&days<=90?'var(--amber)':'var(--text3)'}">Go-live: ${p.goLive}${days?` (${days}d)`:''}</div>
+    <!-- NORTH STAR SCORE -->
+    <div style="text-align:center;padding:24px 16px 20px;border-bottom:1px solid var(--border)">
+      <div style="font-family:var(--display);font-size:72px;font-weight:700;letter-spacing:-4px;line-height:1;color:${c};text-shadow:0 0 40px ${c}40">${s}</div>
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-top:6px">Health score</div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:10px">
+        ${statusBadge(p.status)}
+        ${velocityBadge(p)}
       </div>
-      ${statusBadge(p.status)}
+      ${days!==null?`<div style="font-family:var(--mono);font-size:11px;margin-top:8px;color:${days<=30?'var(--red2)':days<=90?'var(--amber)':'var(--text3)'}">
+        ${days<=30?'⚠ ':''}<span style="font-weight:500">${days}d</span> to go-live · ${p.goLive}
+      </div>`:''}
     </div>
-    <div style="margin-bottom:12px">
-      ${dims.map(d=>`<div class="panel-dim">
-        <div class="panel-dim-label">${d.label}</div>
-        <div class="panel-dim-bar"><div class="panel-dim-fill" style="width:${d.val}%;background:${d.color}"></div></div>
-        <div class="panel-dim-num">${d.val}</div>
-      </div>`).join('')}
+
+    <!-- DIMENSIONS -->
+    <div style="padding:16px 16px 12px">
+      <div style="font-family:var(--mono);font-size:8px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-bottom:12px">Dimensions</div>
+      ${dims.map(d=>`
+        <div style="margin-bottom:10px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+            <div style="font-size:11px;color:var(--text2)">${d.label}</div>
+            <div style="font-family:var(--mono);font-size:11px;font-weight:500;color:${d.color}">${d.val}</div>
+          </div>
+          <div style="height:3px;background:var(--bg4);border-radius:2px;overflow:hidden">
+            <div style="height:100%;width:${d.val}%;background:${d.color};border-radius:2px;transition:width 0.8s ease"></div>
+          </div>
+        </div>`).join('')}
     </div>
-    ${p.risks.length?`<div style="margin-bottom:10px">
-      <div style="font-family:var(--mono);font-size:8px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">Risk flags</div>
-      <div style="display:flex;flex-wrap:wrap;gap:4px">${p.risks.map(r=>`<span style="font-family:var(--mono);font-size:9px;padding:2px 7px;border-radius:4px;background:var(--red-dim);color:var(--red2)">${r}</span>`).join('')}</div>
+
+    <!-- RISKS -->
+    ${p.risks.length?`
+    <div style="padding:0 16px 14px">
+      <div style="font-family:var(--mono);font-size:8px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-bottom:8px">Risk flags</div>
+      <div style="display:flex;flex-wrap:wrap;gap:5px">
+        ${p.risks.map(r=>`<span style="font-family:var(--mono);font-size:9px;padding:3px 8px;border-radius:5px;background:var(--red-dim);color:var(--red2);border:1px solid rgba(232,49,74,0.15)">${r}</span>`).join('')}
+      </div>
     </div>`:''}
-    ${p.stakeholders.length?`<div>
-      <div style="font-family:var(--mono);font-size:8px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">Stakeholders</div>
-      ${p.stakeholders.map(sh=>`<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)">
-        <div style="width:24px;height:24px;border-radius:50%;background:${sh.color}20;color:${sh.color};display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:9px;font-weight:700;flex-shrink:0">${sh.init}</div>
-        <div><div style="font-size:11px;font-weight:500">${sh.name}</div><div style="font-size:10px;color:var(--text3)">${sh.role}</div></div>
-      </div>`).join('')}
+
+    <!-- STAKEHOLDERS -->
+    ${p.stakeholders.length?`
+    <div style="padding:0 16px 16px;border-top:1px solid var(--border);padding-top:14px">
+      <div style="font-family:var(--mono);font-size:8px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-bottom:10px">Stakeholders</div>
+      ${p.stakeholders.map(sh=>`
+        <div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border)">
+          <div style="width:30px;height:30px;border-radius:50%;background:${sh.color}20;color:${sh.color};display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:10px;font-weight:700;flex-shrink:0">${sh.init}</div>
+          <div><div style="font-size:12px;font-weight:500">${sh.name}</div><div style="font-size:10px;color:var(--text3)">${sh.role}</div></div>
+        </div>`).join('')}
     </div>`:''}`;
 }
 
@@ -1816,14 +2073,17 @@ function renderPanelSites(p){
     const phaseIdx=phaseOrder.indexOf(site.phase);
     const pct=Math.round(((phaseIdx+0.5)/phaseOrder.length)*100);
     const days=daysUntil(site.goLive);
-    return `<div class="panel-site-card" onclick="openSiteDetail(${p.id},${site.id})">
+    return `<div class="panel-site-card">
       <div class="panel-site-header">
         <div class="panel-site-name">
           <span style="font-size:16px">${site.flag||'🏢'}</span>
           <span>${site.name}</span>
           ${site.risks&&site.risks.length?`<span style="font-family:var(--mono);font-size:8px;padding:1px 5px;border-radius:3px;background:var(--red-dim);color:var(--red2)">${site.risks.length} risk${site.risks.length>1?'s':''}</span>`:''}
         </div>
-        <div class="panel-site-score" style="color:${c}">${s}</div>
+        <div style="display:flex;align-items:center;gap:6px">
+          <div class="panel-site-score" style="color:${c}">${s}</div>
+          <div onclick="openSiteEdit(${p.id},${site.id})" style="width:20px;height:20px;border-radius:5px;background:var(--bg4);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text3);font-size:10px;transition:all 0.12s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text3)'"><i class="ti ti-pencil"></i></div>
+        </div>
       </div>
       <div class="panel-site-track">
         <div class="panel-site-progress" style="width:${pct}%;background:${c}"></div>
