@@ -895,11 +895,7 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
       <i class="ti ti-layout-dashboard"></i>
       <span class="sb-link-text">Dashboard</span>
     </div>
-    <div class="sb-link" id="nav-update" onclick="showView('update')">
-      <i class="ti ti-file-text"></i>
-      <span class="sb-link-text">Update client</span>
     </div>
-  </div>
 
   <div class="sb-sep"></div>
 
@@ -1041,44 +1037,7 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
   </div>
 
   <!-- UPDATE VIEW -->
-  <div class="view" id="view-update">
-    <div class="ph">
-      <div>
-        <div class="ph-title">Update client</div>
-        <div class="ph-sub">Select a project · paste notes · generate</div>
-      </div>
-    </div>
-    <div class="update-layout">
-      <div class="update-picker">
-        <div class="update-picker-title">Select project</div>
-        <div id="update-project-list"></div>
-      </div>
-      <div class="update-editor">
-        <div class="update-empty-hint" id="update-empty-hint">
-          <i class="ti ti-arrow-left" style="font-size:22px;opacity:0.2"></i>
-          Select a project
-        </div>
-        <div id="update-editor-inner" style="display:none;flex-direction:column;gap:12px">
-          <div class="update-client-header" id="update-client-header"></div>
-          <div class="update-paste-box">
-            <div style="font-family:var(--mono);font-size:8px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:7px;display:flex;justify-content:space-between">
-              <span>New session</span><span id="update-char-count">0 chars</span>
-            </div>
-            <textarea id="update-note-textarea" placeholder="Paste emails, call notes, tickets, Slack threads — raw is fine. The AI reads all sessions together."></textarea>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-            <button class="btn btn-primary btn-sm" onclick="updateGenerate()"><i class="ti ti-sparkles"></i> Generate & update</button>
-            <button class="btn btn-ghost btn-sm" onclick="updateSaveOnly()"><i class="ti ti-device-floppy"></i> Save only</button>
-            <span id="update-session-count" style="font-family:var(--mono);font-size:9px;color:var(--text3);margin-left:auto"></span>
-          </div>
-          <div id="update-result-area"></div>
-          <div id="update-sessions-history"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-</main>
+  </main>
 </div>
 
 <!-- POST-CALL MODAL -->
