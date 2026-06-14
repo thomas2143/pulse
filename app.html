@@ -1503,6 +1503,24 @@ function generateInsights(){
 }
 
 // ── SIDEBAR ───────────────────────────────────────────────────────
+function lastUpdatedLabel(p){
+  // check lastUpdated timestamp first
+  if(p.lastUpdated){
+    const diff=Math.floor((Date.now()-new Date(p.lastUpdated))/(1000*60*60*24));
+    if(diff===0) return 'today';
+    if(diff===1) return '1d ago';
+    if(diff<7) return `${diff}d ago`;
+    if(diff<30) return `${Math.floor(diff/7)}w ago`;
+    return `${Math.floor(diff/30)}mo ago`;
+  }
+  // fallback: check most recent activity
+  if(p.activity&&p.activity.length){
+    const last=p.activity[p.activity.length-1];
+    if(last.time) return last.time.split(',')[0]||'recently';
+  }
+  return 'no updates';
+}
+
 function renderSidebar(){
   const badge=document.getElementById('at-risk-count');
   if(badge){ badge.textContent=`${projects.length} active`; badge.style.display=''; }
@@ -1536,11 +1554,11 @@ function renderSidebar(){
     const dot=statusDot[p.status]||'var(--text3)';
     const isDemo=demoIds.includes(p.id);
     return `<div class="sb-client ${activePanelId===p.id?'active-client':''}" id="sc-${p.id}">
-      <div onclick="${activePanelId===p.id?'closeClientPanel()':'openClientPanel('+p.id+')'}" style="display:flex;align-items:center;gap:8px;flex:1;min-width:0;padding:7px 0 7px 8px">
+      <div onclick="toggleClientPanel(${p.id})" style="display:flex;align-items:center;gap:8px;flex:1;min-width:0;padding:7px 0 7px 8px">
         <div class="sb-avatar" style="background:${c}18;color:${c}">${p.name.substring(0,2).toUpperCase()}</div>
         <div class="sb-client-info">
           <div class="sb-client-name">${p.name}${isDemo?`<span style="font-family:var(--mono);font-size:7px;color:var(--text3);margin-left:5px;vertical-align:middle">(demo)</span>`:''}</div>
-          <div class="sb-client-phase">${p.phase}</div>
+          <div class="sb-client-phase">${p.phase} · <span style="color:var(--text3)">${lastUpdatedLabel(p)}</span></div>
         </div>
       </div>
       <div class="sb-client-right" style="padding-right:6px;display:flex;align-items:center;gap:5px">
@@ -2576,6 +2594,11 @@ function openClientPanel(id){
   renderPanelSites(p);
   renderPanelMilestones(p);
   renderPanelJournal(p);
+}
+
+function toggleClientPanel(id){
+  if(activePanelId===id) closeClientPanel();
+  else openClientPanel(id);
 }
 
 function closeClientPanel(){
