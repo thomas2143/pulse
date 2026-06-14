@@ -190,7 +190,7 @@ aside{
   display:flex;flex-direction:column;
 }
 .sb-section{padding:16px 12px 8px;}
-.sb-label{font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;padding:0 8px;margin-bottom:6px;}
+.sb-label{font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text2);text-transform:uppercase;padding:0 8px;margin-bottom:6px;font-weight:500;}
 .sb-link{
   display:flex;align-items:center;gap:9px;padding:8px;
   border-radius:8px;color:var(--text2);font-size:12px;
@@ -901,7 +901,7 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
   <div class="sb-section" style="flex:1">
     <div class="sb-label" style="display:flex;align-items:center;justify-content:space-between">
       <span>Clients</span>
-      <span class="sb-badge" style="background:var(--bg3);color:var(--text3);border:1px solid var(--border)" id="at-risk-count"></span>
+      <span class="sb-badge" style="background:var(--bg3);color:var(--text2);border:1px solid var(--border2);font-family:var(--mono);font-size:9px;letter-spacing:0.5px" id="at-risk-count"></span>
     </div>
     <div id="sidebar-clients"></div>
   </div>
@@ -1177,6 +1177,48 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
           <button class="btn btn-ghost btn-sm" onclick="closeModal('site-edit-modal')">Cancel</button>
           <button class="btn btn-primary btn-sm" onclick="saveSiteEdit()"><i class="ti ti-check"></i> Save changes</button>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADD SITE MODAL -->
+<div class="modal-overlay" id="add-site-modal" onclick="closeOnOverlay(event)">
+  <div class="modal">
+    <div class="modal-close" onclick="closeModal('add-site-modal')"><i class="ti ti-x"></i></div>
+    <div class="form-head">
+      <div style="font-family:var(--display);font-size:16px;font-weight:700;margin-bottom:2px">Add a rollout site</div>
+      <div style="font-size:12px;color:var(--text2)" id="add-site-sub"></div>
+    </div>
+    <div class="form-body">
+      <input type="hidden" id="as-project-id">
+      <div class="form-grid">
+        <div class="form-group"><label>Site name</label><input type="text" id="as-name" placeholder="e.g. Mango UK"></div>
+        <div class="form-group"><label>Flag emoji</label><input type="text" id="as-flag" placeholder="🇬🇧"></div>
+        <div class="form-group"><label>Current phase</label><select id="as-phase"><option>Discovery</option><option>Configuration</option><option>Integration</option><option>UAT</option><option>Go-live</option><option>Post go-live</option></select></div>
+        <div class="form-group"><label>Status</label><select id="as-status"><option value="on-track">On track</option><option value="healthy">Healthy</option><option value="at-risk">At risk</option><option value="delayed">Delayed</option></select></div>
+        <div class="form-group full"><label>Go-live date</label><input type="text" id="as-golive" placeholder="e.g. Aug 15, 2026"></div>
+        <div class="form-group full">
+          <label>Stakeholder alignment — <span id="as-sa-v" style="color:var(--red2)">70%</span></label>
+          <div class="range-row"><span style="font-size:9px;color:var(--text3);font-family:var(--mono)">Low</span><input type="range" id="as-align" min="0" max="100" step="5" value="70" oninput="document.getElementById('as-sa-v').textContent=this.value+'%'"><span style="font-size:9px;color:var(--text3);font-family:var(--mono)">High</span></div>
+        </div>
+        <div class="form-group full">
+          <label>Delivery confidence — <span id="as-dc-v" style="color:var(--red2)">70%</span></label>
+          <div class="range-row"><span style="font-size:9px;color:var(--text3);font-family:var(--mono)">Low</span><input type="range" id="as-conf" min="0" max="100" step="5" value="70" oninput="document.getElementById('as-dc-v').textContent=this.value+'%'"><span style="font-size:9px;color:var(--text3);font-family:var(--mono)">High</span></div>
+        </div>
+        <div class="form-group full">
+          <label>Product adoption — <span id="as-ad-v" style="color:var(--red2)">50%</span></label>
+          <div class="range-row"><span style="font-size:9px;color:var(--text3);font-family:var(--mono)">Low</span><input type="range" id="as-adopt" min="0" max="100" step="5" value="50" oninput="document.getElementById('as-ad-v').textContent=this.value+'%'"><span style="font-size:9px;color:var(--text3);font-family:var(--mono)">High</span></div>
+        </div>
+        <div class="form-group full">
+          <label>Timeline adherence — <span id="as-tl-v" style="color:var(--red2)">80%</span></label>
+          <div class="range-row"><span style="font-size:9px;color:var(--text3);font-family:var(--mono)">Low</span><input type="range" id="as-timeline" min="0" max="100" step="5" value="80" oninput="document.getElementById('as-tl-v').textContent=this.value+'%'"><span style="font-size:9px;color:var(--text3);font-family:var(--mono)">High</span></div>
+        </div>
+        <div class="form-group full"><label>Risk flags (comma-separated)</label><input type="text" id="as-risks" placeholder="e.g. API delays, resource gap"></div>
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">
+        <button class="btn btn-ghost btn-sm" onclick="closeModal('add-site-modal')">Cancel</button>
+        <button class="btn btn-primary btn-sm" onclick="saveAddSite()"><i class="ti ti-plus"></i> Add site</button>
       </div>
     </div>
   </div>
@@ -2714,24 +2756,48 @@ function openSiteDetail(projectId, siteId){
 }
 
 function openAddSite(projectId){
-  // simple prompt for now
-  const name=prompt('Site name (e.g. Mango UK):');
-  if(!name||!name.trim()) return;
-  const flag=prompt('Flag emoji (e.g. 🇬🇧):') || '🏢';
   const p=projects.find(x=>x.id===projectId);
   if(!p) return;
+  document.getElementById('as-project-id').value=projectId;
+  document.getElementById('as-name').value='';
+  document.getElementById('as-flag').value='';
+  document.getElementById('as-phase').value='Discovery';
+  document.getElementById('as-status').value='on-track';
+  document.getElementById('as-golive').value='';
+  document.getElementById('as-align').value=70; document.getElementById('as-sa-v').textContent='70%';
+  document.getElementById('as-conf').value=70;  document.getElementById('as-dc-v').textContent='70%';
+  document.getElementById('as-adopt').value=50; document.getElementById('as-ad-v').textContent='50%';
+  document.getElementById('as-timeline').value=80; document.getElementById('as-tl-v').textContent='80%';
+  document.getElementById('as-risks').value='';
+  document.getElementById('as-sub').textContent=p.name;
+  document.getElementById('add-site-modal').classList.add('open');
+}
+
+function saveAddSite(){
+  const pid=parseInt(document.getElementById('as-project-id').value);
+  const p=projects.find(x=>x.id===pid);
+  if(!p) return;
+  const name=document.getElementById('as-name').value.trim();
+  if(!name){showToast('Enter a site name');return;}
   if(!p.sites) p.sites=[];
-  const newId=Date.now();
   p.sites.push({
-    id:newId, name:name.trim(), flag,
-    phase:'Discovery', goLive:'TBD',
-    alignment:70, confidence:70, adoption:50, timeline:80,
-    risks:[], status:'on-track'
+    id:Date.now(),
+    name,
+    flag:document.getElementById('as-flag').value.trim()||'🏢',
+    phase:document.getElementById('as-phase').value,
+    status:document.getElementById('as-status').value,
+    goLive:document.getElementById('as-golive').value||'TBD',
+    alignment:parseInt(document.getElementById('as-align').value),
+    confidence:parseInt(document.getElementById('as-conf').value),
+    adoption:parseInt(document.getElementById('as-adopt').value),
+    timeline:parseInt(document.getElementById('as-timeline').value),
+    risks:document.getElementById('as-risks').value.split(',').map(r=>r.trim()).filter(Boolean)
   });
   saveToStorage();
+  closeModal('add-site-modal');
   renderPanelSites(p);
-  renderRoadmap();
-  showToast(`${name.trim()} added`);
+  renderSubTimelines(p);
+  showToast(`${name} added`);
 }
 
 // ── PANEL MILESTONES ──────────────────────────────────────────────
