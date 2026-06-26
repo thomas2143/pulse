@@ -13,7 +13,7 @@
 :root{
   --bg:#080810;--bg2:#0f0f1a;--bg3:#161624;--bg4:#1e1e30;
   --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.12);
-  --text:#f0eefa;--text2:#9490b0;--text3:#4e4a68;
+  --text:#f0eefa;--text2:#9490b0;--text3:#7d77a0;
   --red:#e8314a;--red2:#ff5068;--red-dim:rgba(232,49,74,0.12);--red-glow:rgba(232,49,74,0.25);
   --green:#2dd4a0;--amber:#f5a623;--blue:#5b9cf6;
   --mono:'DM Mono',monospace;--sans:'Inter',sans-serif;--display:'Unbounded',sans-serif;
@@ -25,7 +25,6 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
 @keyframes ecg{0%{stroke-dashoffset:300;}100%{stroke-dashoffset:0;}}
 @keyframes ecg-loop{0%{stroke-dashoffset:300;}70%{stroke-dashoffset:0;}100%{stroke-dashoffset:0;}}
-@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(0.8);}}
 @keyframes line-grow{from{width:0;}to{width:100%;}}
 @keyframes glow-pulse{0%,100%{box-shadow:0 0 8px rgba(232,49,74,0.2);}50%{box-shadow:0 0 20px rgba(232,49,74,0.5);}}
 
@@ -50,12 +49,6 @@ nav{
   padding:120px 48px 80px;text-align:center;
   position:relative;overflow:hidden;
 }
-.hero-glow{
-  position:absolute;top:30%;left:50%;transform:translate(-50%,-50%);
-  width:600px;height:400px;
-  background:radial-gradient(ellipse,rgba(232,49,74,0.07) 0%,transparent 70%);
-  pointer-events:none;
-}
 .hero-tag{
   display:inline-flex;align-items:center;gap:8px;
   font-family:var(--mono);font-size:10px;letter-spacing:2px;
@@ -63,11 +56,6 @@ nav{
   border:1px solid var(--border2);border-radius:20px;
   padding:6px 16px;margin-bottom:40px;
   position:relative;z-index:1;
-}
-.hero-tag-dot{
-  width:6px;height:6px;border-radius:50%;
-  background:var(--red2);
-  animation:pulse-dot 2s ease-in-out infinite;
 }
 h1{
   font-family:var(--display);
@@ -192,12 +180,6 @@ h1 .line3{display:block;color:var(--red2);}
   background:var(--bg2);border:1px solid var(--border2);
   border-radius:20px;padding:56px 48px;position:relative;overflow:hidden;
 }
-.cta-glow{
-  position:absolute;bottom:0;left:50%;transform:translateX(-50%);
-  width:400px;height:200px;
-  background:radial-gradient(ellipse,rgba(232,49,74,0.06),transparent 70%);
-  pointer-events:none;
-}
 .cta-title{
   font-family:var(--display);font-size:clamp(22px,3vw,34px);
   font-weight:700;letter-spacing:-1px;line-height:1.1;
@@ -246,9 +228,7 @@ footer a{color:var(--text2);text-decoration:none;}
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-glow"></div>
-
-  <div class="hero-tag"><div class="hero-tag-dot"></div>Implementation · End to end</div>
+  <div class="hero-tag">Implementation · End to end</div>
 
   <h1>
     <span class="line1">From kickoff</span>
@@ -269,10 +249,10 @@ footer a{color:var(--text2);text-decoration:none;}
       <!-- active pulse at go-live -->
       <circle cx="525" cy="60" r="12" fill="rgba(232,49,74,0.1)" class="glow-ring"/>
       <!-- labels -->
-      <text x="58"  y="88" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#4e4a68" letter-spacing="0.5">DISCOVERY</text>
-      <text x="175" y="88" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#4e4a68" letter-spacing="0.5">CONFIG</text>
-      <text x="292" y="88" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#4e4a68" letter-spacing="0.5">INTEGRATION</text>
-      <text x="408" y="88" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#4e4a68" letter-spacing="0.5">UAT</text>
+      <text x="58"  y="88" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#7d77a0" letter-spacing="0.5">DISCOVERY</text>
+      <text x="175" y="88" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#7d77a0" letter-spacing="0.5">CONFIG</text>
+      <text x="292" y="88" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#7d77a0" letter-spacing="0.5">INTEGRATION</text>
+      <text x="408" y="88" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#7d77a0" letter-spacing="0.5">UAT</text>
       <text x="525" y="88" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#e8314a" letter-spacing="0.5">GO-LIVE</text>
       <text x="642" y="88" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#2dd4a0" letter-spacing="0.5">POST GL</text>
       <!-- the ECG line -->
@@ -321,7 +301,7 @@ footer a{color:var(--text2);text-decoration:none;}
         </div>
         <div class="phase-content">
           <div class="phase-label">Discovery</div>
-          <div class="phase-name">Understand. Align. Define.</div>
+          <div class="phase-name">Map the account before you commit to a plan.</div>
           <div class="phase-desc">Log your discovery workshops, map stakeholders, capture the client's current state and target vision. Everything said in these first weeks matters — Pulse keeps it.</div>
           <div class="phase-chips">
             <span class="phase-chip">Stakeholder mapping</span>
@@ -353,7 +333,7 @@ footer a{color:var(--text2);text-decoration:none;}
         </div>
         <div class="phase-content">
           <div class="phase-label">Integration & UAT</div>
-          <div class="phase-name">Connect. Test. Sign off.</div>
+          <div class="phase-name">Every dependency gets tested before anyone signs off.</div>
           <div class="phase-desc">Integration dependencies, test results, escalations, go/no-go criteria — all tracked in the project journal with dates and owners. Nothing falls through the cracks.</div>
           <div class="phase-chips">
             <span class="phase-chip">Risk tracking</span>
@@ -406,22 +386,22 @@ footer a{color:var(--text2);text-decoration:none;}
     <div class="section-title">Everything that happens<br>between kickoff and closure.</div>
     <div class="capture-grid">
       <div class="capture-card">
-        <div class="capture-icon" style="background:rgba(124,106,247,0.1);color:#7c6af7"><i class="ti ti-users"></i></div>
+        <div class="capture-icon" style="background:var(--bg3);color:var(--text2)"><i class="ti ti-users"></i></div>
         <div class="capture-title">Stakeholders</div>
         <div class="capture-desc">Every person involved — name, role, side. Sponsor changes, new contacts, silent stakeholders. All documented.</div>
       </div>
       <div class="capture-card">
-        <div class="capture-icon" style="background:rgba(91,156,246,0.1);color:var(--blue)"><i class="ti ti-notebook"></i></div>
+        <div class="capture-icon" style="background:var(--bg3);color:var(--text2)"><i class="ti ti-notebook"></i></div>
         <div class="capture-title">Project journal</div>
         <div class="capture-desc">A chronological log of everything — meetings, decisions, risks, escalations, raw notes. Paste from email or Slack.</div>
       </div>
       <div class="capture-card">
-        <div class="capture-icon" style="background:rgba(245,166,35,0.1);color:var(--amber)"><i class="ti ti-calendar-event"></i></div>
+        <div class="capture-icon" style="background:var(--bg3);color:var(--text2)"><i class="ti ti-calendar-event"></i></div>
         <div class="capture-title">Milestones</div>
         <div class="capture-desc">Key dates per project — sign-offs, training sessions, go/no-go reviews. Visible on the roadmap, tracked to completion.</div>
       </div>
       <div class="capture-card">
-        <div class="capture-icon" style="background:rgba(232,49,74,0.1);color:var(--red2)"><i class="ti ti-alert-triangle"></i></div>
+        <div class="capture-icon" style="background:rgba(245,166,35,0.1);color:var(--amber)"><i class="ti ti-alert-triangle"></i></div>
         <div class="capture-title">Risk flags</div>
         <div class="capture-desc">Log risks the moment you spot them. Track resolution. Know what's open, what's escalated, what's been mitigated.</div>
       </div>
@@ -431,7 +411,7 @@ footer a{color:var(--text2);text-decoration:none;}
         <div class="capture-desc">A live score across alignment, confidence, adoption and timeline. Updated as you progress. Tells you where the project is, not where it should be.</div>
       </div>
       <div class="capture-card">
-        <div class="capture-icon" style="background:rgba(232,49,74,0.1);color:var(--red2)"><i class="ti ti-sparkles"></i></div>
+        <div class="capture-icon" style="background:var(--bg3);color:var(--text2)"><i class="ti ti-sparkles"></i></div>
         <div class="capture-title">AI debrief</div>
         <div class="capture-desc">One click. Pulse reads the full project history and generates a structured brief — situation, risks, next actions, opening line for your next call.</div>
       </div>
@@ -442,7 +422,6 @@ footer a{color:var(--text2);text-decoration:none;}
 <!-- CTA -->
 <section class="cta-section">
   <div class="cta-inner">
-    <div class="cta-glow"></div>
     <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--red2);text-transform:uppercase;margin-bottom:18px;display:flex;align-items:center;justify-content:center;gap:6px"><i class="ti ti-heartbeat"></i>Start from day one</div>
     <div class="cta-title">Your implementation<br>has a <em>pulse.</em><br>Track it.</div>
     <p class="cta-sub">Open Pulse, create your project, and start building the full picture of your implementation — from the first meeting to the last handover.</p>
