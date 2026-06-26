@@ -13,7 +13,7 @@
 :root{
   --bg:#080810;--bg2:#0f0f1a;--bg3:#161624;--bg4:#1e1e30;--bg5:#252538;
   --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.12);
-  --text:#f0eefa;--text2:#9490b0;--text3:#4e4a68;
+  --text:#f0eefa;--text2:#9490b0;--text3:#918bb3;
   --red:#e8314a;--red2:#ff5068;--red-dim:rgba(232,49,74,0.12);--red-glow:rgba(232,49,74,0.25);
   --amber:#f5a623;--amber-dim:rgba(245,166,35,0.10);
   --green:#2dd4a0;--green-dim:rgba(45,212,160,0.10);
@@ -648,7 +648,6 @@ td{padding:10px 16px;font-size:12px;vertical-align:middle;}
 .sh-role{font-size:10px;color:var(--text3);}
 .risk-chip{font-family:var(--mono);font-size:9px;padding:3px 8px;border-radius:4px;display:inline-flex;align-items:center;gap:4px;margin:2px;}
 .rchip-red{background:var(--red-dim);color:var(--red2);}
-.rchip-amber{background:var(--amber-dim);color:var(--amber);}
 .risk-chips{display:flex;flex-wrap:wrap;}
 
 /* notes */
@@ -954,24 +953,21 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
         <!-- 3 cards -->
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:40px">
 
-          <div style="background:linear-gradient(135deg,rgba(232,49,74,0.1),rgba(232,49,74,0.04));border:1px solid rgba(232,49,74,0.25);border-radius:16px;padding:28px 20px;text-align:center;position:relative;overflow:hidden">
-            <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--red),transparent)"></div>
+          <div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:28px 20px;text-align:center">
             <div style="font-family:var(--display);font-size:32px;font-weight:700;color:var(--red2);margin-bottom:12px;letter-spacing:-1px">01</div>
-            <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--red2);text-transform:uppercase;margin-bottom:10px">Click a demo client</div>
+            <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-bottom:10px">Click a demo client</div>
             <div style="font-size:12px;color:var(--text2);line-height:1.7">Select any client in the sidebar — each one is a simulated implementation scenario with phases, risks and stakeholders pre-loaded.</div>
           </div>
 
-          <div style="background:linear-gradient(135deg,rgba(45,212,160,0.08),rgba(45,212,160,0.02));border:1px solid rgba(45,212,160,0.2);border-radius:16px;padding:28px 20px;text-align:center;position:relative;overflow:hidden">
-            <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--green),transparent)"></div>
+          <div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:28px 20px;text-align:center">
             <div style="font-family:var(--display);font-size:32px;font-weight:700;color:var(--green);margin-bottom:12px;letter-spacing:-1px">02</div>
-            <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--green);text-transform:uppercase;margin-bottom:10px">Explore the timeline</div>
+            <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-bottom:10px">Explore the timeline</div>
             <div style="font-size:12px;color:var(--text2);line-height:1.7">Read through the phases, check the health score, browse the project log and milestones. For multi-site projects like Mango, see how each country tracks independently.</div>
           </div>
 
-          <div style="background:linear-gradient(135deg,rgba(91,156,246,0.08),rgba(91,156,246,0.02));border:1px solid rgba(91,156,246,0.2);border-radius:16px;padding:28px 20px;text-align:center;position:relative;overflow:hidden">
-            <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--blue),transparent)"></div>
+          <div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:28px 20px;text-align:center">
             <div style="font-family:var(--display);font-size:32px;font-weight:700;color:var(--blue);margin-bottom:12px;letter-spacing:-1px">03</div>
-            <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--blue);text-transform:uppercase;margin-bottom:10px">Add your own project</div>
+            <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-bottom:10px">Add your own project</div>
             <div style="font-size:12px;color:var(--text2);line-height:1.7">Hit "New project" in the top right. Set the phase, go-live date and health scores. Log your first session notes and track progress phase by phase.</div>
           </div>
 
@@ -1456,6 +1452,19 @@ let projects = JSON.parse(JSON.stringify(DEMO_PROJECTS));
 function calcHealth(p){return Math.round(p.alignment*0.35+p.confidence*0.35+p.adoption*0.15+p.timeline*0.15);}
 function healthColor(s){return s>=75?"var(--green)":s>=50?"var(--amber)":"var(--red2)";}
 function healthColorHex(s){return s>=75?"#2dd4a0":s>=50?"#f5a623":"#ff5068";}
+function getHealthDims(p){
+  return [
+    {label:"Stakeholder alignment",val:p.alignment,color:"#7c6af7"},
+    {label:"Delivery confidence",val:p.confidence,color:"#2dd4a0"},
+    {label:"Product adoption",val:p.adoption,color:"#5b9cf6"},
+    {label:"Timeline adherence",val:p.timeline,color:"#f5a623"}
+  ];
+}
+function badgeMeta(b){
+  const map={red:["var(--red2)","Urgent"],amber:["var(--amber)","Soon"],green:["var(--green)","On track"]};
+  const[color,label]=map[b]||["var(--blue)","Planned"];
+  return {color,label};
+}
 function statusBadge(st){
   const m={healthy:["badge-green","Healthy"],"on-track":["badge-blue","On track"],"at-risk":["badge-red","At risk"],delayed:["badge-amber","Delayed"]};
   const[c,l]=m[st]||["badge-blue",st];
@@ -1654,7 +1663,7 @@ function renderRoadmap(){
     const mils=(milestonesByCompany[p.name]||[]).map(m=>{
       const milPhase=phaseOrder.findIndex(ph=>m.name.toLowerCase().includes(ph.toLowerCase().replace(' ','').slice(0,4)));
       const pct=milPhase>=0?Math.round((milPhase/phaseOrder.length)*100):50;
-      const mc=m.badge==='red'?'var(--red2)':m.badge==='amber'?'var(--amber)':m.badge==='green'?'var(--green)':'var(--blue)';
+      const mc=badgeMeta(m.badge).color;
       return `<div class="roadmap-milestone" style="left:${pct}%;background:${mc}" title="${m.name} · ${m.day} ${m.month}"></div>`;
     }).join('');
 
@@ -1744,7 +1753,7 @@ function renderUpcoming(){
         <div class="up-date"><div class="up-day">${m.day}</div><div class="up-month">${m.month}</div></div>
         <div><div class="up-name">${m.name}</div><div class="up-co">${m.company}</div></div>
       </div>
-      <span class="badge badge-${m.badge}">${m.badge==='red'?'Urgent':m.badge==='amber'?'Soon':m.badge==='green'?'On track':'Planned'}</span>
+      <span class="badge badge-${m.badge}">${badgeMeta(m.badge).label}</span>
     </div>`).join('');
 }
 
@@ -1843,12 +1852,7 @@ function openDetail(id){
     <div class="detail-tab" onclick="switchTab('notes',this)"><i class="ti ti-notes" style="font-size:11px"></i>Notes${sessionCount?` <span style="background:var(--bg4);border-radius:4px;padding:1px 5px;font-size:9px">${sessionCount}</span>`:''}</div>
     <div class="detail-tab" onclick="switchTab('debrief',this)"><i class="ti ti-sparkles" style="font-size:11px"></i>AI Debrief${p.lastDebrief?' <span style="background:var(--red);border-radius:4px;padding:1px 5px;font-size:9px;color:#fff">new</span>':''}</div>`;
 
-  const dims=[
-    {label:"Stakeholder alignment",val:p.alignment,color:"#7c6af7"},
-    {label:"Delivery confidence",val:p.confidence,color:"#2dd4a0"},
-    {label:"Product adoption",val:p.adoption,color:"#5b9cf6"},
-    {label:"Timeline adherence",val:p.timeline,color:"#f5a623"}
-  ];
+  const dims=getHealthDims(p);
 
   document.getElementById('detail-body').innerHTML=`
     <div id="tab-overview" class="tab-panel active">
@@ -1857,7 +1861,7 @@ function openDetail(id){
           <div class="detail-sect-title">Implementation health</div>
           ${dims.map(d=>`<div class="dim-row"><div class="dim-lbl">${d.label}</div><div class="dim-bar"><div class="dim-fill" style="width:${d.val}%;background:${d.color}"></div></div><div class="dim-num">${d.val}</div></div>`).join('')}
         </div>
-        ${p.risks.length?`<div class="detail-sect"><div class="detail-sect-title">Risk flags</div><div class="risk-chips" style="gap:6px">${p.risks.map(r=>`<span class="risk-chip ${s>=60?'rchip-amber':'rchip-red'}" style="font-size:11px;padding:4px 10px">${r}</span>`).join('')}</div></div>`:''}
+        ${p.risks.length?`<div class="detail-sect"><div class="detail-sect-title">Risk flags</div><div class="risk-chips" style="gap:6px">${p.risks.map(r=>`<span class="risk-chip rchip-red" style="font-size:11px;padding:4px 10px">${r}</span>`).join('')}</div></div>`:''}
         <div class="detail-sect">
           <div class="detail-sect-title">Stakeholders</div>
           ${p.stakeholders.length?p.stakeholders.map(sh=>`<div class="sh-row"><div class="sh-av" style="background:${sh.color}20;color:${sh.color}">${sh.init}</div><div><div class="sh-name">${sh.name}</div><div class="sh-role">${sh.role}</div></div></div>`).join(''):'<div style="font-size:12px;color:var(--text3)">No stakeholders added yet.</div>'}
@@ -2662,12 +2666,7 @@ function switchPanelTab(name,el){
 function renderPanelOverview(p){
   const s=calcHealth(p),c=healthColorHex(s);
   const days=daysUntil(p.goLive);
-  const dims=[
-    {label:'Stakeholder alignment',val:p.alignment,color:'#7c6af7'},
-    {label:'Delivery confidence',val:p.confidence,color:'#2dd4a0'},
-    {label:'Product adoption',val:p.adoption,color:'#5b9cf6'},
-    {label:'Timeline adherence',val:p.timeline,color:'#f5a623'}
-  ];
+  const dims=getHealthDims(p);
   document.getElementById('panel-tab-overview').innerHTML=`
     <!-- DIMENSIONS -->
     <div style="padding:14px 16px 12px">
@@ -2807,7 +2806,7 @@ function renderPanelMilestones(p){
   if(!p.milestones) p.milestones=[];
 
   const rows=p.milestones.length ? p.milestones.map((m,i)=>{
-    const bc=m.badge==='red'?'var(--red2)':m.badge==='amber'?'var(--amber)':m.badge==='green'?'var(--green)':'var(--blue)';
+    const bc=badgeMeta(m.badge).color;
     return `<div class="milestone-row">
       <div class="milestone-date-box" style="border:1px solid ${bc}30">
         <div class="milestone-day" style="color:${bc}">${m.day}</div>
@@ -2815,7 +2814,7 @@ function renderPanelMilestones(p){
       </div>
       <div class="milestone-info">
         <div class="milestone-name">${m.name}</div>
-        <span class="badge badge-${m.badge}" style="font-size:8px;padding:1px 6px">${m.badge==='red'?'Urgent':m.badge==='amber'?'Soon':m.badge==='green'?'On track':'Planned'}</span>
+        <span class="badge badge-${m.badge}" style="font-size:8px;padding:1px 6px">${badgeMeta(m.badge).label}</span>
       </div>
       <div class="milestone-delete" onclick="deleteMilestone(${p.id},${i})"><i class="ti ti-trash"></i></div>
     </div>`;
