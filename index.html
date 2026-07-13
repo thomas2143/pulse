@@ -223,7 +223,8 @@ footer a{color:var(--text2);text-decoration:none;}
     </svg>
     <span>PUL<span class="logo-s">S</span>E</span>
   </a>
-  <a href="login.html" class="nav-cta"><i class="ti ti-layout-dashboard"></i> Open app</a>
+  <a href="app.html" class="nav-cta"><i class="ti ti-layout-dashboard"></i> Open app</a>
+  <button onclick="openAuthModal()" style="background:transparent;border:1px solid var(--border2);color:var(--text2);padding:7px 14px;border-radius:8px;font-size:12px;cursor:pointer;font-family:var(--sans);margin-left:8px;transition:all 0.15s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text2)'">Sign in</button>
 </nav>
 
 <!-- HERO -->
@@ -469,6 +470,86 @@ const obs2 = new IntersectionObserver(entries=>{
   });
 },{threshold:0.1});
 capture.forEach(el=>obs2.observe(el));
+</script>
+<div style="position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.2s;backdrop-filter:blur(6px)" id="auth-modal" onclick="if(event.target===this)this.classList.remove('open');this.style.opacity='0';this.style.pointerEvents='none'">
+  <div style="background:#0f0f1a;border:1px solid rgba(255,255,255,0.12);border-radius:20px;width:100%;max-width:380px;padding:28px 24px;position:relative">
+    <div style="position:absolute;top:14px;right:14px;width:28px;height:28px;background:#161624;border:1px solid rgba(255,255,255,0.06);border-radius:7px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#9490b0;font-size:12px" onclick="closeAuthModal()">✕</div>
+    <div style="display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:24px">
+      <svg width="32" height="12" viewBox="0 0 52 22" fill="none"><path d="M0,11 L12,11 L15,11 L17,3 L19,19 L21,7 L23,11 L52,11" stroke="#e8314a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+      <span style="font-family:'Unbounded',sans-serif;font-size:15px;font-weight:700;letter-spacing:2px;color:#f0eefa">PUL<span style="color:#ff5068">S</span>E</span>
+    </div>
+    <div style="display:flex;background:#161624;border-radius:10px;padding:4px;margin-bottom:20px">
+      <div id="idx-tab-login" onclick="idxSwitchTab('login')" style="flex:1;text-align:center;padding:7px;border-radius:7px;font-family:'DM Mono',monospace;font-size:10px;cursor:pointer;background:#0f0f1a;color:#f0eefa;border:1px solid rgba(255,255,255,0.12)">Sign in</div>
+      <div id="idx-tab-signup" onclick="idxSwitchTab('signup')" style="flex:1;text-align:center;padding:7px;border-radius:7px;font-family:'DM Mono',monospace;font-size:10px;cursor:pointer;color:#4e4a68">Create account</div>
+    </div>
+    <div id="idx-form-login">
+      <div style="margin-bottom:14px"><label style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;color:#4e4a68;text-transform:uppercase;display:block;margin-bottom:6px">Email</label><input type="email" id="idx-login-email" placeholder="you@company.com" style="width:100%;background:#161624;border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:10px 12px;color:#f0eefa;font-size:13px;outline:none"></div>
+      <div style="margin-bottom:14px"><label style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;color:#4e4a68;text-transform:uppercase;display:block;margin-bottom:6px">Password</label><input type="password" id="idx-login-password" placeholder="••••••••" style="width:100%;background:#161624;border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:10px 12px;color:#f0eefa;font-size:13px;outline:none"></div>
+      <button id="idx-login-btn" onclick="idxLogin()" style="width:100%;padding:12px;border-radius:9px;background:#e8314a;color:#fff;border:none;font-size:13px;font-weight:500;cursor:pointer;margin-top:4px">Sign in</button>
+      <div id="idx-login-error" style="font-family:'DM Mono',monospace;font-size:10px;color:#ff5068;margin-top:8px;text-align:center;display:none"></div>
+    </div>
+    <div id="idx-form-signup" style="display:none">
+      <div style="margin-bottom:14px"><label style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;color:#4e4a68;text-transform:uppercase;display:block;margin-bottom:6px">Email</label><input type="email" id="idx-signup-email" placeholder="you@company.com" style="width:100%;background:#161624;border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:10px 12px;color:#f0eefa;font-size:13px;outline:none"></div>
+      <div style="margin-bottom:14px"><label style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;color:#4e4a68;text-transform:uppercase;display:block;margin-bottom:6px">Password</label><input type="password" id="idx-signup-password" placeholder="Min. 8 characters" style="width:100%;background:#161624;border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:10px 12px;color:#f0eefa;font-size:13px;outline:none"></div>
+      <button id="idx-signup-btn" onclick="idxSignup()" style="width:100%;padding:12px;border-radius:9px;background:#e8314a;color:#fff;border:none;font-size:13px;font-weight:500;cursor:pointer;margin-top:4px">Create account</button>
+      <div id="idx-signup-error" style="font-family:'DM Mono',monospace;font-size:10px;color:#ff5068;margin-top:8px;text-align:center;display:none"></div>
+      <div id="idx-signup-success" style="font-family:'DM Mono',monospace;font-size:10px;color:#2dd4a0;margin-top:8px;text-align:center;display:none"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const SB_URL='https://offjsbmpssyyervprjik.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9mZmpzYm1wc3N5eWVydnByamlrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM5NDQzMjMsImV4cCI6MjA5OTUyMDMyM30.lZyAlTVtIYPT3oo3OnZQtu066VkF8ovLxj3LlYldgKM';
+
+function openAuthModal(){
+  const m=document.getElementById('auth-modal');
+  m.style.opacity='1';m.style.pointerEvents='all';
+}
+function closeAuthModal(){
+  const m=document.getElementById('auth-modal');
+  m.style.opacity='0';m.style.pointerEvents='none';
+}
+function idxSwitchTab(tab){
+  document.getElementById('idx-tab-login').style.background=tab==='login'?'#0f0f1a':'transparent';
+  document.getElementById('idx-tab-login').style.color=tab==='login'?'#f0eefa':'#4e4a68';
+  document.getElementById('idx-tab-signup').style.background=tab==='signup'?'#0f0f1a':'transparent';
+  document.getElementById('idx-tab-signup').style.color=tab==='signup'?'#f0eefa':'#4e4a68';
+  document.getElementById('idx-form-login').style.display=tab==='login'?'':'none';
+  document.getElementById('idx-form-signup').style.display=tab==='signup'?'':'none';
+}
+async function idxLogin(){
+  const email=document.getElementById('idx-login-email').value.trim();
+  const password=document.getElementById('idx-login-password').value;
+  const btn=document.getElementById('idx-login-btn');
+  const err=document.getElementById('idx-login-error');
+  if(!email||!password){err.textContent='Fill in all fields';err.style.display='block';return;}
+  btn.disabled=true;btn.textContent='Signing in...';err.style.display='none';
+  try{
+    const res=await fetch(`${SB_URL}/auth/v1/token?grant_type=password`,{method:'POST',headers:{'Content-Type':'application/json','apikey':SB_KEY},body:JSON.stringify({email,password})});
+    const data=await res.json();
+    if(!data.access_token){err.textContent=data.error_description||'Invalid credentials';err.style.display='block';btn.disabled=false;btn.textContent='Sign in';return;}
+    localStorage.setItem('pulse_session',JSON.stringify(data));
+    window.location.href='app.html';
+  }catch(e){err.textContent='Connection error';err.style.display='block';btn.disabled=false;btn.textContent='Sign in';}
+}
+async function idxSignup(){
+  const email=document.getElementById('idx-signup-email').value.trim();
+  const password=document.getElementById('idx-signup-password').value;
+  const btn=document.getElementById('idx-signup-btn');
+  const err=document.getElementById('idx-signup-error');
+  const suc=document.getElementById('idx-signup-success');
+  if(!email||!password){err.textContent='Fill in all fields';err.style.display='block';return;}
+  if(password.length<8){err.textContent='Password must be at least 8 characters';err.style.display='block';return;}
+  btn.disabled=true;btn.textContent='Creating...';err.style.display='none';suc.style.display='none';
+  try{
+    const res=await fetch(`${SB_URL}/auth/v1/signup`,{method:'POST',headers:{'Content-Type':'application/json','apikey':SB_KEY},body:JSON.stringify({email,password})});
+    const data=await res.json();
+    if(data.error){err.textContent=data.message||'Signup failed';err.style.display='block';btn.disabled=false;btn.textContent='Create account';return;}
+    if(data.access_token){localStorage.setItem('pulse_session',JSON.stringify(data));window.location.href='app.html';return;}
+    suc.textContent='Check your email to confirm your account.';suc.style.display='block';btn.disabled=false;btn.textContent='Create account';
+  }catch(e){err.textContent='Connection error';err.style.display='block';btn.disabled=false;btn.textContent='Create account';}
+}
 </script>
 </body>
 </html>
