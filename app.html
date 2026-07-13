@@ -881,6 +881,7 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
   </div>
   <div class="nav-center"></div>
   <div class="nav-right">
+    <div id="nav-auth-area"></div>
     <button class="btn btn-primary btn-sm" onclick="openNewProject()"><i class="ti ti-plus"></i> New project</button>
   </div>
 </nav>
@@ -1996,10 +1997,10 @@ Return ONLY a valid JSON object, no markdown, no backticks, no preamble:
 ]}`;
 
   try{
-    const res=await fetch('https://api.groq.com/openai/v1/chat/completions',{
+    const res=await fetch('/api/ai',{
       method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':'Bearer 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'},
-      body:JSON.stringify({model:'llama3-8b-8192',max_tokens:1000,messages:[{role:'user',content:prompt}]})
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({prompt})
     });
     const data=await res.json();
     const raw=data.choices[0].message.content.replace(/```json|```/g,'').trim();
@@ -2427,27 +2428,154 @@ function closeModal(id){document.getElementById(id).classList.remove('open');}
 function closeOnOverlay(e){if(e.target===e.currentTarget)e.currentTarget.classList.remove('open');}
 
 // ── LOCAL STORAGE ─────────────────────────────────────────────────
+// ── AUTH ──────────────────────────────────────────────────────────
+const SUPABASE_URL = 'https://offjsbmpssyyervprjik.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9mZmpzYm1wc3N5eWVydnByamlrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM5NDQzMjMsImV4cCI6MjA5OTUyMDMyM30.lZyAlTVtIYPT3oo3OnZQtu066VkF8ovLxj3LlYldgKM';
+
+let currentUser = null;
+let authToken = null;
+
+function getSession(){
+  try{
+    const s = localStorage.getItem('pulse_session');
+    if(s) return JSON.parse(s);
+  }catch(e){}
+  return null;
+}
+
+function logout(){
+  localStorage.removeItem('pulse_session');
+  window.location.href = 'login.html';
+}
+
+function authHeaders(){
+  return {
+    'Content-Type': 'application/json',
+    'apikey': SUPABASE_ANON_KEY,
+    'Authorization': `Bearer ${authToken}`
+  };
+}
+
+// ── SUPABASE API ──────────────────────────────────────────────────
+async function dbSaveProject(p){
+  // Only save user projects (not demos)
+  const demoIds = DEMO_PROJECTS.map(x=>x.id);
+  if(demoIds.includes(p.id)) return;
+
+  const payload = {
+    user_id: currentUser.id,
+    name: p.name, industry: p.industry, phase: p.phase,
+    status: p.status, go_live: p.goLive,
+    alignment: p.alignment, confidence: p.confidence,
+    adoption: p.adoption, timeline: p.timeline,
+    risks: p.risks, notes: p.notes || ''
+  };
+
+  if(p._dbId){
+    // Update existing
+    await fetch(`${SUPABASE_URL}/rest/v1/projects?id=eq.${p._dbId}`, {
+      method: 'PATCH',
+      headers: {...authHeaders(), 'Prefer': 'return=representation'},
+      body: JSON.stringify(payload)
+    });
+  } else {
+    // Insert new
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/projects`, {
+      method: 'POST',
+      headers: {...authHeaders(), 'Prefer': 'return=representation'},
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if(data && data[0]) p._dbId = data[0].id;
+  }
+}
+
+async function dbDeleteProject(dbId){
+  await fetch(`${SUPABASE_URL}/rest/v1/projects?id=eq.${dbId}`, {
+    method: 'DELETE',
+    headers: authHeaders()
+  });
+}
+
+async function dbLoadProjects(){
+  const res = await fetch(
+    `${SUPABASE_URL}/rest/v1/projects?select=*,sites(*),log_entries(*),milestones(*),note_sessions(*)&order=created_at.desc`,
+    { headers: authHeaders() }
+  );
+  const data = await res.json();
+  if(!Array.isArray(data)) return [];
+
+  return data.map(p=>({
+    _dbId: p.id,
+    id: Date.now() + Math.random(), // local id
+    name: p.name, industry: p.industry, phase: p.phase,
+    status: p.status, goLive: p.go_live,
+    alignment: p.alignment, confidence: p.confidence,
+    adoption: p.adoption, timeline: p.timeline,
+    risks: p.risks || [], notes: p.notes || '',
+    stakeholders: [],
+    sites: (p.sites||[]).map(s=>({
+      _dbId: s.id, id: Date.now()+Math.random(),
+      name: s.name, flag: s.flag, phase: s.phase,
+      status: s.status, goLive: s.go_live,
+      alignment: s.alignment, confidence: s.confidence,
+      adoption: s.adoption, timeline: s.timeline,
+      risks: s.risks||[]
+    })),
+    activity: (p.log_entries||[]).map(e=>({
+      _dbId: e.id, type: e.type, text: e.text,
+      time: new Date(e.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'short'}),
+      bg: LOG_TYPES[e.type]?.bg||'var(--blue-dim)',
+      ic: LOG_TYPES[e.type]?.ic||'var(--blue)',
+      icon: LOG_TYPES[e.type]?.icon||'ti-file-text'
+    })),
+    milestones: (p.milestones||[]).map(m=>({
+      _dbId: m.id, day: m.day, month: m.month,
+      name: m.name, badge: m.badge, company: p.name
+    })),
+    noteSessions: (p.note_sessions||[]).map(s=>({
+      _dbId: s.id,
+      date: new Date(s.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}),
+      text: s.text
+    }))
+  }));
+}
+
+// ── STORAGE (localStorage fallback for demos) ─────────────────────
 const STORAGE_KEY='pulse_projects_v1';
 
-function saveToStorage(){
-  try{localStorage.setItem(STORAGE_KEY,JSON.stringify(projects));showToast('Projects saved');}
-  catch(e){showToast('Save failed');}
+async function saveToStorage(){
+  const demoIds = DEMO_PROJECTS.map(p=>p.id);
+  const userProjects = projects.filter(p=>!demoIds.includes(p.id));
+
+  // Save each user project to Supabase
+  for(const p of userProjects){
+    try{ await dbSaveProject(p); }catch(e){ console.error('Save failed', e); }
+  }
+
+  // Also keep in localStorage as fallback
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(userProjects)); }catch(e){}
+  showToast('Saved');
 }
-function loadFromStorage(){
-  try{
-    const raw=localStorage.getItem(STORAGE_KEY);
-    if(raw){
-      const saved=JSON.parse(raw);
-      if(Array.isArray(saved)&&saved.length>0){
-        // Keep demo projects fresh from code, append any user-added projects
-        const demoIds=DEMO_PROJECTS.map(p=>p.id);
-        const userProjects=saved.filter(p=>!demoIds.includes(p.id));
-        projects=[...JSON.parse(JSON.stringify(DEMO_PROJECTS)),...userProjects];
-        return;
-      }
+
+async function loadFromStorage(){
+  // Always start with fresh demo projects
+  const demos = JSON.parse(JSON.stringify(DEMO_PROJECTS));
+
+  if(currentUser){
+    try{
+      const dbProjects = await dbLoadProjects();
+      projects = [...demos, ...dbProjects];
+    }catch(e){
+      console.error('DB load failed, falling back to localStorage', e);
+      const raw = localStorage.getItem(STORAGE_KEY);
+      const saved = raw ? JSON.parse(raw) : [];
+      projects = [...demos, ...saved];
     }
-  }catch(e){}
-  projects=JSON.parse(JSON.stringify(DEMO_PROJECTS));
+  } else {
+    // No auth — demo only
+    projects = demos;
+  }
 }
 function showToast(msg){
   const t=document.getElementById('save-toast');
@@ -3146,10 +3274,10 @@ Return ONLY valid JSON, no markdown:
 ]}`;
 
   try{
-    const res=await fetch('https://api.groq.com/openai/v1/chat/completions',{
+    const res=await fetch('/api/ai',{
       method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':'Bearer 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'},
-      body:JSON.stringify({model:'llama3-8b-8192',max_tokens:1000,messages:[{role:'user',content:prompt}]})
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({prompt})
     });
     const data=await res.json();
     const raw=data.choices[0].message.content.replace(/```json|```/g,'').trim();
@@ -3370,10 +3498,10 @@ Return ONLY valid JSON, no markdown, no backticks:
 }`;
 
   try{
-    const res = await fetch('https://api.groq.com/openai/v1/chat/completions',{
+    const res = await fetch('/api/ai',{
       method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':'Bearer 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'},
-      body:JSON.stringify({model:'llama3-8b-8192',max_tokens:1200,messages:[{role:'user',content:prompt}]})
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({prompt})
     });
     const data = await res.json();
     const raw = data.choices[0].message.content.replace(/```json|```/g,'').trim();
@@ -3442,6 +3570,18 @@ function addDemo(id){
 function renderAll(){
   const el=document.getElementById('ph-date');
   if(el) el.textContent=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+
+  // Auth area in nav
+  const authArea = document.getElementById('nav-auth-area');
+  if(authArea){
+    if(currentUser){
+      authArea.innerHTML=`<span style="font-family:var(--mono);font-size:10px;color:var(--text3);margin-right:4px">${currentUser.email}</span>
+        <button class="btn btn-ghost btn-sm" onclick="logout()" style="font-size:10px"><i class="ti ti-logout"></i> Sign out</button>`;
+    } else {
+      authArea.innerHTML=`<a href="login.html" class="btn btn-ghost btn-sm" style="font-size:10px;text-decoration:none"><i class="ti ti-login"></i> Sign in</a>`;
+    }
+  }
+
   renderSidebar();
   if(activePanelId){
     const p=projects.find(x=>x.id===activePanelId);
@@ -3449,8 +3589,21 @@ function renderAll(){
   }
 }
 
-loadFromStorage();
-renderAll();
+// ── INIT ──────────────────────────────────────────────────────────
+async function init(){
+  const session = getSession();
+
+  if(session && session.access_token){
+    authToken = session.access_token;
+    currentUser = session.user;
+  }
+  // No redirect — demos work without auth too
+
+  await loadFromStorage();
+  renderAll();
+}
+
+init();
 </script>
 </body>
 </html>
