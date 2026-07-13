@@ -3578,7 +3578,7 @@ function renderAll(){
       authArea.innerHTML=`<span style="font-family:var(--mono);font-size:10px;color:var(--text3);margin-right:4px">${currentUser.email}</span>
         <button class="btn btn-ghost btn-sm" onclick="logout()" style="font-size:10px"><i class="ti ti-logout"></i> Sign out</button>`;
     } else {
-      authArea.innerHTML=`<a href="login.html" class="btn btn-ghost btn-sm" style="font-size:10px;text-decoration:none"><i class="ti ti-login"></i> Sign in</a>`;
+      authArea.innerHTML=`<button class="btn btn-ghost btn-sm" onclick="openAuthModal()" style="font-size:10px"><i class="ti ti-login"></i> Sign in</button>`;
     }
   }
 
@@ -3605,5 +3605,103 @@ async function init(){
 
 init();
 </script>
-</body>
-</html>
+<!-- AUTH MODAL -->
+<div class="modal-overlay" id="auth-modal" onclick="closeOnOverlay(event)">
+  <div class="modal" style="max-width:380px">
+    <div class="modal-close" onclick="closeModal('auth-modal')"><i class="ti ti-x"></i></div>
+    <div style="padding:28px 24px">
+      <div style="display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:24px">
+        <svg width="32" height="12" viewBox="0 0 52 22" fill="none"><path d="M0,11 L12,11 L15,11 L17,3 L19,19 L21,7 L23,11 L52,11" stroke="#e8314a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        <span style="font-family:var(--display);font-size:15px;font-weight:700;letter-spacing:2px">PUL<span style="color:var(--red2)">S</span>E</span>
+      </div>
+      <div style="display:flex;background:var(--bg3);border-radius:10px;padding:4px;margin-bottom:20px">
+        <div id="auth-tab-login" onclick="switchAuthTab('login')" style="flex:1;text-align:center;padding:7px;border-radius:7px;font-family:var(--mono);font-size:10px;cursor:pointer;background:var(--bg2);color:var(--text);border:1px solid var(--border2)">Sign in</div>
+        <div id="auth-tab-signup" onclick="switchAuthTab('signup')" style="flex:1;text-align:center;padding:7px;border-radius:7px;font-family:var(--mono);font-size:10px;cursor:pointer;color:var(--text3)">Create account</div>
+      </div>
+      <div id="auth-form-login">
+        <div class="form-group"><label>Email</label><input type="email" id="auth-login-email" placeholder="you@company.com"></div>
+        <div class="form-group"><label>Password</label><input type="password" id="auth-login-password" placeholder="••••••••"></div>
+        <button class="btn btn-primary" id="auth-login-btn" onclick="authLogin()" style="width:100%;margin-top:8px">Sign in</button>
+        <div id="auth-login-error" style="font-family:var(--mono);font-size:10px;color:var(--red2);margin-top:8px;text-align:center;display:none"></div>
+      </div>
+      <div id="auth-form-signup" style="display:none">
+        <div class="form-group"><label>Email</label><input type="email" id="auth-signup-email" placeholder="you@company.com"></div>
+        <div class="form-group"><label>Password</label><input type="password" id="auth-signup-password" placeholder="Min. 8 characters"></div>
+        <button class="btn btn-primary" id="auth-signup-btn" onclick="authSignup()" style="width:100%;margin-top:8px">Create account</button>
+        <div id="auth-signup-error" style="font-family:var(--mono);font-size:10px;color:var(--red2);margin-top:8px;text-align:center;display:none"></div>
+        <div id="auth-signup-success" style="font-family:var(--mono);font-size:10px;color:var(--green);margin-top:8px;text-align:center;display:none"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function openAuthModal(){ document.getElementById('auth-modal').classList.add('open'); }
+
+function switchAuthTab(tab){
+  document.getElementById('auth-tab-login').style.background = tab==='login'?'var(--bg2)':'transparent';
+  document.getElementById('auth-tab-login').style.color = tab==='login'?'var(--text)':'var(--text3)';
+  document.getElementById('auth-tab-login').style.border = tab==='login'?'1px solid var(--border2)':'none';
+  document.getElementById('auth-tab-signup').style.background = tab==='signup'?'var(--bg2)':'transparent';
+  document.getElementById('auth-tab-signup').style.color = tab==='signup'?'var(--text)':'var(--text3)';
+  document.getElementById('auth-tab-signup').style.border = tab==='signup'?'1px solid var(--border2)':'none';
+  document.getElementById('auth-form-login').style.display = tab==='login'?'':'none';
+  document.getElementById('auth-form-signup').style.display = tab==='signup'?'':'none';
+}
+
+async function authLogin(){
+  const email = document.getElementById('auth-login-email').value.trim();
+  const password = document.getElementById('auth-login-password').value;
+  const btn = document.getElementById('auth-login-btn');
+  const err = document.getElementById('auth-login-error');
+  if(!email||!password){err.textContent='Fill in all fields';err.style.display='block';return;}
+  btn.disabled=true; btn.textContent='Signing in...'; err.style.display='none';
+  try{
+    const res = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','apikey':SUPABASE_ANON_KEY},
+      body:JSON.stringify({email,password})
+    });
+    const data = await res.json();
+    if(!data.access_token){err.textContent=data.error_description||'Invalid credentials';err.style.display='block';btn.disabled=false;btn.textContent='Sign in';return;}
+    localStorage.setItem('pulse_session',JSON.stringify(data));
+    authToken=data.access_token; currentUser=data.user;
+    closeModal('auth-modal');
+    await loadFromStorage();
+    renderAll();
+    showToast('Signed in — your projects are loaded');
+  }catch(e){err.textContent='Connection error';err.style.display='block';btn.disabled=false;btn.textContent='Sign in';}
+}
+
+async function authSignup(){
+  const email = document.getElementById('auth-signup-email').value.trim();
+  const password = document.getElementById('auth-signup-password').value;
+  const btn = document.getElementById('auth-signup-btn');
+  const err = document.getElementById('auth-signup-error');
+  const suc = document.getElementById('auth-signup-success');
+  if(!email||!password){err.textContent='Fill in all fields';err.style.display='block';return;}
+  if(password.length<8){err.textContent='Password must be at least 8 characters';err.style.display='block';return;}
+  btn.disabled=true; btn.textContent='Creating account...'; err.style.display='none'; suc.style.display='none';
+  try{
+    const res = await fetch(`${SUPABASE_URL}/auth/v1/signup`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','apikey':SUPABASE_ANON_KEY},
+      body:JSON.stringify({email,password})
+    });
+    const data = await res.json();
+    if(data.error){err.textContent=data.message||'Signup failed';err.style.display='block';btn.disabled=false;btn.textContent='Create account';return;}
+    if(data.access_token){
+      localStorage.setItem('pulse_session',JSON.stringify(data));
+      authToken=data.access_token; currentUser=data.user;
+      closeModal('auth-modal');
+      await loadFromStorage();
+      renderAll();
+      showToast('Account created — welcome to Pulse');
+      return;
+    }
+    suc.textContent='Check your email to confirm your account.';
+    suc.style.display='block';
+    btn.disabled=false; btn.textContent='Create account';
+  }catch(e){err.textContent='Connection error';err.style.display='block';btn.disabled=false;btn.textContent='Create account';}
+}
+</script>v
