@@ -2681,10 +2681,11 @@ function renderTable(){
 function deleteProject(id){
   const p=projects.find(x=>x.id===id);
   if(!p) return;
-  showConfirm('🗑️',`Remove ${p.name}?`,`This will permanently delete ${p.name} and all its data from Pulse.`,()=>{
+  showConfirm('🗑️',`Remove ${p.name}?`,`This will permanently delete ${p.name} and all its data from Pulse.`,async()=>{
+    if(p._dbId) await dbDeleteProject(p._dbId);
     projects=projects.filter(x=>x.id!==id);
     if(activePanelId===id) closeClientPanel();
-    saveToStorage();
+    await saveToStorage();
     renderAll();
     showToast(`${p.name} removed`);
   },'Remove');
@@ -3704,4 +3705,4 @@ async function authSignup(){
     btn.disabled=false; btn.textContent='Create account';
   }catch(e){err.textContent='Connection error';err.style.display='block';btn.disabled=false;btn.textContent='Create account';}
 }
-</script>v
+</script>
