@@ -382,7 +382,16 @@ main{overflow:hidden;background:var(--bg);display:flex;flex-direction:column;hei
   flex:0 0 35%;display:flex;flex-direction:column;
   overflow:hidden;background:var(--bg2);
 }
-/* icon button */
+/* ── SKELETON LOADING ── */
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+.skeleton{
+  background:linear-gradient(90deg,var(--bg3) 25%,var(--bg4) 50%,var(--bg3) 75%);
+  background-size:200% 100%;
+  animation:shimmer 1.5s infinite;
+  border-radius:6px;
+}
+.skeleton-line{height:10px;margin-bottom:8px;}
+.skeleton-card{height:60px;margin-bottom:8px;border-radius:10px;}
 .icon-btn{
   width:28px;height:28px;border-radius:7px;
   cursor:pointer;background:var(--bg3);
@@ -1023,6 +1032,9 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
             <div class="col-header-label">Project health</div>
             <div class="col-header-title" id="panel-col-score"></div>
             <div class="col-header-meta" id="panel-col-status"></div>
+          </div>
+          <div class="col-header-right">
+            <button class="btn btn-primary btn-sm" onclick="panelGenerate(activePanelId)" title="Generate AI debrief"><i class="ti ti-sparkles"></i> Debrief</button>
           </div>
         </div>
         <div class="panel-tabs">
@@ -2138,7 +2150,12 @@ function renderSubTimelines(p){
   if(!p.sites||!p.sites.length){
     document.getElementById('sub-tl-name').textContent='No sites';
     document.getElementById('sub-tl-meta').textContent='Single-site project';
-    el.innerHTML=`<div style="padding:24px 0;text-align:center;color:var(--text3);font-family:var(--mono);font-size:10px;letter-spacing:1px">NO SITES CONFIGURED</div>`;
+    el.innerHTML=`<div style="padding:32px 16px;text-align:center">
+      <div style="font-size:28px;margin-bottom:12px;opacity:0.4">🏢</div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--text3);letter-spacing:1px;margin-bottom:6px">SINGLE-SITE PROJECT</div>
+      <div style="font-size:12px;color:var(--text3);line-height:1.6;margin-bottom:16px">This project has no sub-sites yet.<br>Add sites to track rollouts per country or location.</div>
+      <button class="btn btn-ghost btn-sm" onclick="openAddSite(${p.id})" style="font-size:11px"><i class="ti ti-plus"></i> Add a site</button>
+    </div>`;
     return;
   }
 
@@ -2559,7 +2576,7 @@ async function saveToStorage(){
 }
 
 async function loadFromStorage(){
-  // Always start with fresh demo projects
+  // Always start with fresh demo projects — visible to everyone
   const demos = JSON.parse(JSON.stringify(DEMO_PROJECTS));
 
   if(currentUser){
@@ -2570,10 +2587,12 @@ async function loadFromStorage(){
       console.error('DB load failed, falling back to localStorage', e);
       const raw = localStorage.getItem(STORAGE_KEY);
       const saved = raw ? JSON.parse(raw) : [];
-      projects = [...demos, ...saved];
+      const demoIds = DEMO_PROJECTS.map(p=>p.id);
+      const userProjects = saved.filter(p=>!demoIds.includes(p.id));
+      projects = [...demos, ...userProjects];
     }
   } else {
-    // No auth — demo only
+    // Not logged in — show demos only, no localStorage fallback needed
     projects = demos;
   }
 }
@@ -2751,7 +2770,10 @@ function openClientPanel(id){
   renderSubTimelines(p);
 
   // panel score
-  document.getElementById('panel-col-score').innerHTML=`<span style="color:${c}">${s}</span><span style="font-size:16px;color:var(--text3);font-family:var(--mono)">/100</span>`;
+  document.getElementById('panel-col-score').innerHTML=`
+    <span style="color:${c};cursor:help" title="Health score = Stakeholder alignment (35%) + Delivery confidence (35%) + Product adoption (15%) + Timeline adherence (15%)">${s}</span>
+    <span style="font-size:16px;color:var(--text3);font-family:var(--mono)">/100</span>
+    <span style="font-family:var(--mono);font-size:9px;color:var(--text3);margin-left:6px;cursor:help" title="Health score = Stakeholder alignment (35%) + Delivery confidence (35%) + Product adoption (15%) + Timeline adherence (15%)">ⓘ</span>`;
   document.getElementById('panel-col-status').innerHTML=statusBadge(p.status)+' '+velocityBadge(p);
 
   const sitesBadge=document.getElementById('panel-sites-badge');
@@ -3598,7 +3620,21 @@ async function init(){
     authToken = session.access_token;
     currentUser = session.user;
   }
-  // No redirect — demos work without auth too
+
+  // Show skeleton immediately
+  const sbList = document.getElementById('sb-client-list');
+  if(sbList) sbList.innerHTML = `
+    <div style="padding:4px 8px">
+      ${[1,2,3,4].map(()=>`
+        <div style="display:flex;align-items:center;gap:8px;padding:8px;margin-bottom:4px">
+          <div class="skeleton" style="width:32px;height:32px;border-radius:8px;flex-shrink:0"></div>
+          <div style="flex:1">
+            <div class="skeleton skeleton-line" style="width:70%"></div>
+            <div class="skeleton skeleton-line" style="width:40%;margin-bottom:0"></div>
+          </div>
+          <div class="skeleton skeleton-line" style="width:24px;margin-bottom:0"></div>
+        </div>`).join('')}
+    </div>`;
 
   await loadFromStorage();
   renderAll();
