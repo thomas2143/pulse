@@ -7,18 +7,19 @@
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23080810'/><path d='M2,16 L8,16 L10,16 L11,8 L13,24 L15,11 L17,16 L30,16' stroke='%23e8314a' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round' fill='none'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Unbounded:wght@300;400;600;700;900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
 <style>
 :root{
-  --bg:#080810;--bg2:#0f0f1a;--bg3:#161624;--bg4:#1e1e30;--bg5:#252538;
+  --bg:#0d0a0c;--bg2:#141014;--bg3:#1c161b;--bg4:#261e25;--bg5:#302632;
   --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.12);
-  --text:#f0eefa;--text2:#9490b0;--text3:#918bb3;
-  --red:#e8314a;--red2:#ff5068;--red-dim:rgba(232,49,74,0.12);--red-glow:rgba(232,49,74,0.25);
+  --text:#f5eef2;--text2:#a89aa4;--text3:#8f8290;
+  --red:#ff2d55;--red2:#ff5c78;--red-dim:rgba(255,45,85,0.12);--red-glow:rgba(255,45,85,0.28);
   --amber:#f5a623;--amber-dim:rgba(245,166,35,0.10);
   --green:#2dd4a0;--green-dim:rgba(45,212,160,0.10);
   --blue:#5b9cf6;--blue-dim:rgba(91,156,246,0.10);
-  --mono:'DM Mono',monospace;--sans:'Inter',sans-serif;--display:'Unbounded',sans-serif;
+  --tint1:#c9c2cc;--tint2:#a89aa4;--tint3:#8a7d88;--tint4:#6d6069;
+  --mono:'DM Mono',monospace;--sans:'Inter',sans-serif;--display:'Space Grotesk',sans-serif;
   --sidebar:240px;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -105,7 +106,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
   flex-shrink:0;z-index:1;
 }
 .tl-node.done{background:var(--green);}
-.tl-node.active{background:var(--red);box-shadow:0 0 0 3px rgba(232,49,74,0.2);}
+.tl-node.active{background:var(--red);box-shadow:0 0 0 3px rgba(255,45,85,0.2);}
 .tl-node.pending{background:var(--bg4);border-color:var(--border2);}
 .tl-phase-name{
   font-family:var(--mono);font-size:9px;
@@ -269,7 +270,7 @@ main{overflow:hidden;background:var(--bg);display:flex;flex-direction:column;hei
 .proj-card-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;}
 .proj-card-name{font-size:14px;font-weight:600;margin-bottom:2px;}
 .proj-card-meta{font-family:var(--mono);font-size:9px;color:var(--text3);}
-.proj-card-score{font-family:var(--display);font-size:32px;font-weight:700;letter-spacing:-1.5px;line-height:1;text-align:right;}
+.proj-card-score{font-family:var(--display);font-size:32px;font-weight:700;letter-spacing:-1px;line-height:1;text-align:right;}
 .proj-card-phases{display:flex;gap:3px;margin-bottom:12px;}
 .proj-card-phase-dot{
   flex:1;height:3px;border-radius:2px;
@@ -355,7 +356,7 @@ main{overflow:hidden;background:var(--bg);display:flex;flex-direction:column;hei
   font-size:8px;border:2px solid var(--bg);z-index:2;
 }
 .vtl-node.done{background:var(--green);}
-.vtl-node.active{background:var(--red);box-shadow:0 0 0 5px rgba(232,49,74,0.12);}
+.vtl-node.active{background:var(--red);box-shadow:0 0 0 5px rgba(255,45,85,0.12);}
 .vtl-node.pending{background:var(--bg4);border-color:var(--border2);}
 .vtl-phase-name{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;}
 .vtl-phase-name.done{color:var(--green);}
@@ -364,7 +365,7 @@ main{overflow:hidden;background:var(--bg);display:flex;flex-direction:column;hei
 .vtl-phase-desc{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:10px;}
 .vtl-phase-desc.pending{color:var(--text3);font-size:12px;}
 .vtl-countdown{display:flex;align-items:baseline;gap:10px;margin-bottom:6px;}
-.vtl-countdown-num{font-family:var(--display);font-size:56px;font-weight:700;letter-spacing:-3px;line-height:1;}
+.vtl-countdown-num{font-family:var(--display);font-size:56px;font-weight:700;letter-spacing:-2px;line-height:1;}
 .vtl-countdown-unit{font-family:var(--mono);font-size:12px;color:var(--text3);}
 .vtl-golive-date{font-family:var(--mono);font-size:11px;color:var(--text3);margin-bottom:14px;}
 
@@ -398,7 +399,7 @@ main{overflow:hidden;background:var(--bg);display:flex;flex-direction:column;hei
 .vtl-sub-phase{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;position:relative;}
 .vtl-sub-node{width:10px;height:10px;border-radius:50%;border:2px solid var(--bg3);flex-shrink:0;z-index:1;}
 .vtl-sub-node.done{background:var(--green);}
-.vtl-sub-node.active{background:var(--red);box-shadow:0 0 0 3px rgba(232,49,74,0.2);}
+.vtl-sub-node.active{background:var(--red);box-shadow:0 0 0 3px rgba(255,45,85,0.2);}
 .vtl-sub-node.pending{background:var(--bg4);border-color:var(--border2);}
 .vtl-sub-connector{position:absolute;top:4px;left:50%;right:-50%;height:1px;background:var(--border2);z-index:0;}
 .vtl-sub-connector.done{background:var(--green);}
@@ -517,7 +518,7 @@ main{overflow:hidden;background:var(--bg);display:flex;flex-direction:column;hei
   border:2px solid var(--bg);z-index:2;
 }
 .roadmap-phase-dot.done{background:var(--green);}
-.roadmap-phase-dot.active{background:var(--red);box-shadow:0 0 0 3px rgba(232,49,74,0.2);}
+.roadmap-phase-dot.active{background:var(--red);box-shadow:0 0 0 3px rgba(255,45,85,0.2);}
 .roadmap-phase-dot.pending{background:var(--bg4);border-color:var(--border2);}
 .roadmap-phase-label{
   position:absolute;top:12px;left:0;transform:translateX(-50%);
@@ -545,7 +546,7 @@ main{overflow:hidden;background:var(--bg);display:flex;flex-direction:column;hei
 .fpill{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;font-family:var(--mono);font-size:9px;border:1px solid var(--border);background:var(--bg2);color:var(--text3);cursor:pointer;transition:all 0.12s;user-select:none;}
 .fpill:hover{border-color:var(--border2);color:var(--text2);}
 .fpill.on{background:var(--bg3);border-color:var(--border2);color:var(--text);}
-.fpill.on.fr{border-color:rgba(232,49,74,0.4);color:var(--red2);}
+.fpill.on.fr{border-color:rgba(255,45,85,0.4);color:var(--red2);}
 .fpill.on.fg{border-color:rgba(45,212,160,0.3);color:var(--green);}
 .fpill.on.fa{border-color:rgba(245,166,35,0.4);color:var(--amber);}
 .fsep{width:1px;height:12px;background:var(--border);flex-shrink:0;}
@@ -712,7 +713,7 @@ td{padding:10px 16px;font-size:12px;vertical-align:middle;}
 .form-group.full{grid-column:1/-1;}
 label{font-family:var(--mono);font-size:8px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;}
 input[type="text"],select,textarea{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 11px;color:var(--text);font-family:var(--sans);font-size:12px;outline:none;transition:border-color 0.12s;width:100%;}
-input:focus,select:focus,textarea:focus{border-color:rgba(232,49,74,0.4);}
+input:focus,select:focus,textarea:focus{border-color:rgba(255,45,85,0.4);}
 textarea{resize:vertical;min-height:60px;}
 select option{background:var(--bg3);}
 input[type="range"]{-webkit-appearance:none;width:100%;height:4px;background:var(--bg4);border-radius:2px;outline:none;border:none;padding:0;cursor:pointer;}
@@ -779,7 +780,7 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
 .log-type-btn{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:6px;font-family:var(--mono);font-size:9px;border:1px solid var(--border);background:var(--bg3);color:var(--text3);cursor:pointer;transition:all 0.12s;}
 .log-type-btn:hover,.log-type-btn.sel{border-color:var(--border2);color:var(--text);}
 .log-type-btn.sel.t-meeting{border-color:rgba(91,156,246,0.4);color:var(--blue);background:var(--blue-dim);}
-.log-type-btn.sel.t-risk{border-color:rgba(232,49,74,0.4);color:var(--red2);background:var(--red-dim);}
+.log-type-btn.sel.t-risk{border-color:rgba(255,45,85,0.4);color:var(--red2);background:var(--red-dim);}
 .log-type-btn.sel.t-milestone{border-color:rgba(45,212,160,0.3);color:var(--green);background:var(--green-dim);}
 .log-type-btn.sel.t-note{border-color:rgba(245,166,35,0.3);color:var(--amber);background:var(--amber-dim);}
 .log-entry{display:flex;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);}
@@ -989,7 +990,7 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
     <div id="mob-hamburger" onclick="event.stopPropagation();toggleMobSidebar()" style="display:none;width:32px;height:32px;border-radius:7px;background:var(--bg3);border:1px solid var(--border);align-items:center;justify-content:center;cursor:pointer;color:var(--text2);font-size:16px;margin-right:8px;flex-shrink:0"><i class="ti ti-menu-2"></i></div>
     <div>
       <svg class="ecg-svg" width="44" height="18" viewBox="0 0 52 22" fill="none">
-        <path class="ecg-path" d="M0,11 L12,11 L15,11 L17,3 L19,19 L21,7 L23,11 L52,11" stroke="#e8314a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <path class="ecg-path" d="M0,11 L12,11 L15,11 L17,3 L19,19 L21,7 L23,11 L52,11" stroke="#ff2d55" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
       </svg>
     </div>
     <span><span>PUL</span><span class="logo-text-e">S</span><span>E</span></span>
@@ -1005,7 +1006,7 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
 <aside>
   <div class="sb-section">
     <div class="sb-label">Views</div>
-    <div class="sb-link active" id="nav-dashboard" onclick="showView('dashboard')">
+    <div class="sb-link active" id="nav-dashboard" onclick="toggleDashboard()">
       <i class="ti ti-layout-dashboard"></i>
       <span class="sb-link-text">Dashboard</span>
     </div>
@@ -1022,7 +1023,7 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
   </div>
 
   <div style="padding:0 12px 16px">
-    <div style="font-family:var(--mono);font-size:9px;color:rgba(232,49,74,0.12);letter-spacing:-1px;overflow:hidden;white-space:nowrap;margin-bottom:12px">_/‾\_/‾‾\__/‾\__/‾‾\_/‾\__</div>
+    <div style="font-family:var(--mono);font-size:9px;color:rgba(255,45,85,0.12);letter-spacing:-1px;overflow:hidden;white-space:nowrap;margin-bottom:12px">_/‾\_/‾‾\__/‾\__/‾‾\_/‾\__</div>
     <a href="https://www.linkedin.com/in/thomas-hotton" target="_blank" style="display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:8px;text-decoration:none;transition:background 0.12s;border:1px solid var(--border)" onmouseover="this.style.background='var(--bg3)';this.style.borderColor='var(--border2)'" onmouseout="this.style.background='transparent';this.style.borderColor='var(--border)'">
       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="#0a66c2"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
       <div style="flex:1;min-width:0">
@@ -1052,7 +1053,47 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
             <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-bottom:4px">Portfolio</div>
             <div style="font-size:20px;font-weight:600">Your implementations</div>
           </div>
-          <button class="btn btn-primary btn-sm" onclick="openNewProject()"><i class="ti ti-plus"></i> New project</button>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div id="demo-toggle-wrap" style="display:flex;align-items:center;gap:8px;cursor:pointer" onclick="toggleDemos()">
+              <span style="font-family:var(--mono);font-size:9px;letter-spacing:1px;color:var(--text3);text-transform:uppercase">Demos</span>
+              <div id="demo-switch" style="width:34px;height:19px;border-radius:10px;background:var(--red);position:relative;transition:background 0.2s;flex-shrink:0">
+                <div id="demo-switch-knob" style="width:15px;height:15px;border-radius:50%;background:#fff;position:absolute;top:2px;left:17px;transition:left 0.2s"></div>
+              </div>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="openNewProject()"><i class="ti ti-plus"></i> New project</button>
+          </div>
+        </div>
+
+        <!-- COMPACT TUTORIAL BANNER (new users only) -->
+        <div id="tuto-banner" style="display:none;background:linear-gradient(135deg,var(--red-dim),transparent);border:1px solid var(--red-dim);border-radius:14px;padding:18px 20px;margin-bottom:24px;position:relative">
+          <div onclick="dismissTuto()" style="position:absolute;top:12px;right:12px;width:22px;height:22px;border-radius:6px;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text3);font-size:11px" title="Dismiss"><i class="ti ti-x"></i></div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+            <svg width="24" height="10" viewBox="0 0 52 22" fill="none"><path d="M0,11 L12,11 L15,11 L17,3 L19,19 L21,7 L23,11 L52,11" stroke="#ff2d55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+            <span style="font-family:var(--mono);font-size:9px;letter-spacing:1.5px;color:var(--red2);text-transform:uppercase">Welcome to Pulse — 3 steps to start</span>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+            <div style="display:flex;gap:10px">
+              <div style="font-family:var(--display);font-size:16px;font-weight:700;color:var(--red2);flex-shrink:0">1</div>
+              <div>
+                <div style="font-size:12px;font-weight:600;margin-bottom:2px">Open a demo</div>
+                <div style="font-size:11px;color:var(--text3);line-height:1.5">Click any project card below to explore a real implementation scenario.</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:10px">
+              <div style="font-family:var(--display);font-size:16px;font-weight:700;color:var(--red2);flex-shrink:0">2</div>
+              <div>
+                <div style="font-size:12px;font-weight:600;margin-bottom:2px">Explore the tools</div>
+                <div style="font-size:11px;color:var(--text3);line-height:1.5">Timeline, health score, project log, AI reports and steering briefs.</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:10px">
+              <div style="font-family:var(--display);font-size:16px;font-weight:700;color:var(--red2);flex-shrink:0">3</div>
+              <div>
+                <div style="font-size:12px;font-weight:600;margin-bottom:2px">Add your project</div>
+                <div style="font-size:11px;color:var(--text3);line-height:1.5">Hit "New project" and start tracking your own implementation.</div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- KPI strip -->
@@ -1064,12 +1105,6 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
         <!-- Project cards grid -->
         <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-bottom:12px">All projects</div>
         <div id="portfolio-cards" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px"></div>
-
-        <!-- Onboarding hint if no user projects -->
-        <div id="portfolio-hint" style="display:none;margin-top:32px;padding:20px;border:1px dashed var(--border2);border-radius:12px;text-align:center">
-          <div style="font-size:12px;color:var(--text3);margin-bottom:10px">The 4 projects above are demo scenarios — pre-loaded so you can explore Pulse right away.</div>
-          <button class="btn btn-ghost btn-sm" onclick="openNewProject()"><i class="ti ti-plus"></i> Add your first real project</button>
-        </div>
 
       </div>
     </div>
@@ -1268,7 +1303,7 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
         <div class="form-group full"><label>Risk flags (comma-separated)</label><input type="text" id="se-risks"></div>
       </div>
       <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:16px">
-        <button class="btn btn-sm" style="background:var(--red-dim);color:var(--red2);border:1px solid rgba(232,49,74,0.2)" onclick="deleteSiteFromModal()"><i class="ti ti-trash"></i> Delete site</button>
+        <button class="btn btn-sm" style="background:var(--red-dim);color:var(--red2);border:1px solid rgba(255,45,85,0.2)" onclick="deleteSiteFromModal()"><i class="ti ti-trash"></i> Delete site</button>
         <div style="display:flex;gap:8px">
           <button class="btn btn-ghost btn-sm" onclick="closeModal('site-edit-modal')">Cancel</button>
           <button class="btn btn-primary btn-sm" onclick="saveSiteEdit()"><i class="ti ti-check"></i> Save changes</button>
@@ -1429,9 +1464,9 @@ const DEMO_PROJECTS = [
       {id:13,name:"Mango PL",flag:"🇵🇱",phase:"Integration",goLive:"Sep 1, 2026",alignment:65,confidence:54,adoption:40,timeline:70,risks:["resource gap","API delays"],status:"at-risk"}
     ],
     stakeholders:[
-      {name:"Isabelle Torres",role:"IT Project Lead",init:"IT",color:"#7c6af7",raci:["R","C"]},
-      {name:"Marc Dupont",role:"COO Sponsor",init:"MD",color:"#2dd4a0",raci:["A"]},
-      {name:"Sara Kim",role:"Ops Manager",init:"SK",color:"#f5a623",raci:["C","I"]}
+      {name:"Isabelle Torres",role:"IT Project Lead",init:"IT",color:"#a89aa4",raci:["R","C"]},
+      {name:"Marc Dupont",role:"COO Sponsor",init:"MD",color:"#a89aa4",raci:["A"]},
+      {name:"Sara Kim",role:"Ops Manager",init:"SK",color:"#a89aa4",raci:["C","I"]}
     ],
     notes:"UAT started June 1. First wave users onboarded. Waiting on final data migration sign-off from Marc.",
     activity:[
@@ -1449,9 +1484,9 @@ const DEMO_PROJECTS = [
       {id:2,title:"API infra team unavailable",description:"Infra lead on holiday until Jun 23. Integration blocked. Need interim resource or timeline extension.",owner:"Sophie Marchand",deadline:"Jun 23, 2026",status:"in-progress",createdAt:"Jun 5, 2026"}
     ],
     stakeholders:[
-      {name:"Philippe Laurent",role:"CTO",init:"PL",color:"#f87171"},
-      {name:"Camille Renard",role:"Impl. Manager",init:"CR",color:"#60a5fa"},
-      {name:"Sophie Marchand",role:"IT Director",init:"SM",color:"#f5a623"}
+      {name:"Philippe Laurent",role:"CTO",init:"PL",color:"#a89aa4"},
+      {name:"Camille Renard",role:"Impl. Manager",init:"CR",color:"#a89aa4"},
+      {name:"Sophie Marchand",role:"IT Director",init:"SM",color:"#a89aa4"}
     ],
     notes:"API integration stalled for 2 weeks. Infra team not available until end of June. No executive sponsor confirmed — Camille managing solo which is a bandwidth risk. Need escalation path agreed before next steering.",
     milestones:[
@@ -1476,9 +1511,9 @@ const DEMO_PROJECTS = [
     alignment:91,confidence:88,adoption:78,timeline:95,
     risks:[],status:"healthy",
     stakeholders:[
-      {name:"Thomas Leroy",role:"Digital Director",init:"TL",color:"#2dd4a0"},
-      {name:"Anita Voss",role:"Tech Lead",init:"AV",color:"#7c6af7"},
-      {name:"Rémi Blanc",role:"Change Manager",init:"RB",color:"#60a5fa"}
+      {name:"Thomas Leroy",role:"Digital Director",init:"TL",color:"#a89aa4"},
+      {name:"Anita Voss",role:"Tech Lead",init:"AV",color:"#a89aa4"},
+      {name:"Rémi Blanc",role:"Change Manager",init:"RB",color:"#a89aa4"}
     ],
     notes:"Best-performing onboarding this quarter. All stakeholders fully aligned and proactive. Configuration 80% complete ahead of schedule. Rémi has already started internal comms for change management. Strong exec support from Thomas.",
     milestones:[
@@ -1504,10 +1539,10 @@ const DEMO_PROJECTS = [
     alignment:94,confidence:91,adoption:87,timeline:96,
     risks:[],status:"healthy",
     stakeholders:[
-      {name:"Jonas Weber",role:"PMO Lead",init:"JW",color:"#f5a623"},
-      {name:"Lena Müller",role:"Data Architect",init:"LM",color:"#7c6af7"},
-      {name:"Carlos Ruiz",role:"Regional IT Head",init:"CR",color:"#60a5fa"},
-      {name:"Marie Fontaine",role:"Change Manager",init:"MF",color:"#2dd4a0"}
+      {name:"Jonas Weber",role:"PMO Lead",init:"JW",color:"#a89aa4"},
+      {name:"Lena Müller",role:"Data Architect",init:"LM",color:"#a89aa4"},
+      {name:"Carlos Ruiz",role:"Regional IT Head",init:"CR",color:"#a89aa4"},
+      {name:"Marie Fontaine",role:"Change Manager",init:"MF",color:"#a89aa4"}
     ],
     notes:"Full EMEA rollout completed on schedule across FR, DE and ES. Go-live Dec 1 — zero critical incidents. Adoption tracking above target at 87%. Post go-live stabilisation phase running smoothly. Jonas leading internal handover.",
     milestones:[
@@ -1548,15 +1583,17 @@ const upcomingMilestones=[
 ];
 
 let projects = JSON.parse(JSON.stringify(DEMO_PROJECTS));
+let demosHidden = localStorage.getItem('pulse_demos_hidden')==='1';
 
 function calcHealth(p){return Math.round(p.alignment*0.35+p.confidence*0.35+p.adoption*0.15+p.timeline*0.15);}
-function healthColorHex(s){return s>=75?"#2dd4a0":s>=50?"#f5a623":"#ff5068";}
+function healthColorHex(s){return s>=75?"#2dd4a0":s>=50?"#f5a623":"#ff5c78";}
+function healthSemanticHex(s){return s>=75?"#2dd4a0":s>=50?"#f5a623":"#ff5c78";}
 function getHealthDims(p){
   return [
-    {label:"Stakeholder alignment",val:p.alignment,color:"#7c6af7"},
-    {label:"Delivery confidence",val:p.confidence,color:"#2dd4a0"},
-    {label:"Product adoption",val:p.adoption,color:"#5b9cf6"},
-    {label:"Timeline adherence",val:p.timeline,color:"#f5a623"}
+    {label:"Stakeholder alignment",val:p.alignment,color:"#c9c2cc"},
+    {label:"Delivery confidence",val:p.confidence,color:"#a89aa4"},
+    {label:"Product adoption",val:p.adoption,color:"#8a7d88"},
+    {label:"Timeline adherence",val:p.timeline,color:"#6d6069"}
   ];
 }
 function badgeMeta(b){
@@ -1568,10 +1605,6 @@ function statusBadge(st){
   const m={healthy:["badge-green","Healthy"],"on-track":["badge-blue","On track"],"at-risk":["badge-red","At risk"],delayed:["badge-amber","Delayed"]};
   const[c,l]=m[st]||["badge-blue",st];
   return `<span class="badge ${c}"><span class="badge-dot"></span>${l}</span>`;
-}
-function phaseBadge(ph){
-  const m={Discovery:"badge-blue",Configuration:"badge-blue",Integration:"badge-amber",UAT:"badge-amber","Go-live":"badge-green","Post go-live":"badge-green"};
-  return `<span class="badge ${m[ph]||"badge-blue"}">${ph}</span>`;
 }
 
 // ── DAYS UNTIL GO-LIVE ────────────────────────────────────────────
@@ -1609,34 +1642,32 @@ function lastUpdatedLabel(p){
 }
 
 function renderSidebar(){
+  const list=visibleProjects();
   const badge=document.getElementById('at-risk-count');
-  if(badge){ badge.textContent=`${projects.length} active`; badge.style.display=''; }
+  if(badge){ badge.textContent=`${list.length} active`; badge.style.display=''; }
 
   const statusDot={healthy:'var(--green)','on-track':'var(--blue)','at-risk':'var(--red2)',delayed:'var(--amber)'};
   const el=document.getElementById('sidebar-clients');
 
-  if(projects.length===0){
-    // show demo profiles
-    el.innerHTML=
-      `<div class="sb-hint">Load a demo profile:</div>`+
-      DEMO_PROJECTS.map(p=>{
+  if(list.length===0){
+    el.innerHTML=`<div class="sb-hint" style="text-align:center;padding:20px 8px">${demosHidden?'No projects yet.<br>Add one or turn demos back on.':'Load a demo profile:'}</div>`;
+    if(!demosHidden){
+      el.innerHTML+=DEMO_PROJECTS.map(p=>{
         const s=calcHealth(p),c=healthColorHex(s);
         return `<div class="sb-demo" onclick="addDemo(${p.id})">
           <div class="sb-avatar" style="background:${c}18;color:${c}">${p.name.substring(0,2).toUpperCase()}</div>
-          <div class="sb-demo-info">
-            <div class="sb-demo-name">${p.name}</div>
-            <div class="sb-demo-meta">${p.phase} · ${s}/100</div>
-          </div>
+          <div class="sb-demo-info"><div class="sb-demo-name">${p.name}</div><div class="sb-demo-meta">${p.phase} · ${s}/100</div></div>
           <span class="sb-demo-add">+</span>
         </div>`;
-      }).join('')+
-      `<div class="sb-scratch"><button class="btn btn-ghost btn-sm" style="width:100%;justify-content:center;font-size:10px" onclick="openNewProject()"><i class="ti ti-plus"></i> From scratch</button></div>`;
+      }).join('');
+    }
+    el.innerHTML+=`<div class="sb-scratch"><button class="btn btn-ghost btn-sm" style="width:100%;justify-content:center;font-size:10px" onclick="openNewProject()"><i class="ti ti-plus"></i> New project</button></div>`;
     return;
   }
 
   const demoIds=DEMO_PROJECTS.map(p=>p.id);
 
-  el.innerHTML=projects.map(p=>{
+  el.innerHTML=list.map(p=>{
     const s=calcHealth(p),c=healthColorHex(s);
     const dot=statusDot[p.status]||'var(--text3)';
     const isDemo=demoIds.includes(p.id);
@@ -1693,24 +1724,6 @@ function renderUpcoming(){
 
 
 // ── INSIGHTS FOR A SINGLE PROJECT ─────────────────────────────────
-function projectInsights(p){
-  const s=calcHealth(p);
-  const items=[];
-  const days=daysUntil(p.goLive);
-
-  if(p.alignment<60) items.push({icon:"ti-users",color:"var(--red2)",text:`Stakeholder alignment is low (${p.alignment}%) — schedule an alignment session with key decision-makers.`});
-  if(p.confidence<60) items.push({icon:"ti-trending-down",color:"var(--red2)",text:`Delivery confidence at ${p.confidence}% — review scope and resource plan immediately.`});
-  if(p.adoption<60) items.push({icon:"ti-book",color:"var(--amber)",text:`Product adoption at ${p.adoption}% — consider additional training or change management support.`});
-  if(days!==null&&days<=30&&s<75) items.push({icon:"ti-alarm",color:"var(--red2)",text:`Go-live in ${days} days with health score of ${s}/100 — escalation recommended.`});
-  if(p.risks.length===0&&s>=80) items.push({icon:"ti-circle-check",color:"var(--green)",text:`No risk flags and strong health score. This project is a model implementation.`});
-  if(items.length===0) items.push({icon:"ti-activity",color:"var(--green)",text:`Project is progressing well. Continue current cadence and monitor adoption.`});
-
-  return items.map(it=>`
-    <div class="insight-box-item">
-      <i class="ti ${it.icon}" style="color:${it.color}"></i>
-      <span>${it.text}</span>
-    </div>`).join('');
-}
 
 // ── DETAIL MODAL ──────────────────────────────────────────────────
 let currentDetailId = null;
@@ -1720,30 +1733,10 @@ let currentDetailId = null;
 
 
 // ── NOTES SESSIONS ────────────────────────────────────────────────
-function renderNotesSessions(p){
-  if(!p.noteSessions||!p.noteSessions.length)
-    return `<div class="notes-empty"><i class="ti ti-notes" style="font-size:24px;display:block;margin-bottom:8px;opacity:0.3"></i>No sessions yet — paste your first notes above</div>`;
-  return [...p.noteSessions].reverse().map((s,i)=>`
-    <div class="notes-session">
-      <div class="notes-session-header">
-        <span class="notes-session-date">${s.date}</span>
-        <span class="notes-session-badge">Session ${p.noteSessions.length-i}</span>
-      </div>
-      <div class="notes-session-text">${s.text}</div>
-    </div>`).join('');
-}
 
 
 
 // ── AI DEBRIEF ────────────────────────────────────────────────────
-function renderDebriefResult(p){
-  if(!p.lastDebrief) return `<div style="font-size:12px;color:var(--text3);font-family:var(--mono);padding:8px 0">No debrief generated yet — click Generate above.</div>`;
-  const d=p.lastDebrief;
-  return `<div class="debrief-result">
-    <div class="debrief-result-title"><i class="ti ti-sparkles" style="color:var(--red2)"></i>Generated · ${d.date}</div>
-    ${d.sections.map(s=>`<div class="debrief-section"><div class="debrief-section-label">${s.label}</div><div class="debrief-section-text">${s.text}</div></div>`).join('')}
-  </div>`;
-}
 
 
 
@@ -1850,7 +1843,7 @@ function renderVerticalTimeline(p){
       <div class="vtl-phase-name ${cls}">${phase}</div>
       ${isActive&&days!==null?`
         <div class="vtl-countdown">
-          <div class="vtl-countdown-num" style="color:${days<=30?'var(--red2)':days<=90?'var(--amber)':'var(--green)'}">${days}</div>
+          <div class="vtl-countdown-num" style="color:${days<=30?'var(--red2)':'var(--text)'}">${days}</div>
           <div style="font-family:var(--mono);font-size:11px;color:var(--text3)">days to go-live</div>
         </div>
         <div class="vtl-golive-date">${p.goLive}</div>
@@ -1885,7 +1878,7 @@ function renderSubTimelines(p){
     const ss=calcHealth(site),sc=healthColorHex(ss);
     const sIdx=PHASE_ORDER.indexOf(site.phase);
     const sd=daysUntil(site.goLive);
-    const sdColor=sd===null?'var(--text3)':sd<=30?'var(--red2)':sd<=90?'var(--amber)':'var(--green)';
+    const sdColor=sd===null?'var(--text3)':sd<=30?'var(--red2)':'var(--text3)';
     const isLast=idx===p.sites.length-1;
 
     const phases=PHASE_ORDER.map((ph,i)=>{
@@ -1919,39 +1912,11 @@ function renderSubTimelines(p){
   }).join('');
 }
 
-function selectSubSite(projectId,siteId){
-  // highlight in main timeline
-  document.querySelectorAll('.vtl-site-row').forEach(el=>el.classList.remove('active-site'));
-  const siteEl=document.getElementById(`vtl-site-${siteId}`);
-  if(siteEl) siteEl.classList.add('active-site');
-  // scroll to site in sub column
-  const subEl=document.getElementById(`sub-site-${siteId}`);
-  if(subEl) subEl.scrollIntoView({behavior:'smooth',block:'nearest'});
-}
 
 
 let postCallProjectId = null;
 let postCallMood = null;
 
-function openPostCall(id){
-  postCallProjectId = id;
-  postCallMood = null;
-  const p = projects.find(x=>x.id===id);
-  if(!p) return;
-
-  // reset form
-  document.getElementById('postcall-notes').value = '';
-  document.getElementById('postcall-phase').value = '';
-  document.getElementById('postcall-status').value = '';
-  document.getElementById('postcall-risk').value = '';
-  document.getElementById('postcall-client-name').textContent = p.name + ' · ' + p.phase;
-  document.querySelectorAll('.mood-btn').forEach(b=>{
-    b.style.borderColor='var(--border)';
-    b.style.background='var(--bg3)';
-  });
-
-  document.getElementById('postcall-modal').classList.add('open');
-}
 
 function selectMood(mood, el){
   postCallMood = mood;
@@ -1959,8 +1924,8 @@ function selectMood(mood, el){
     b.style.borderColor='var(--border)';
     b.style.background='var(--bg3)';
   });
-  const colors={great:'rgba(45,212,160,0.15)',ok:'rgba(245,166,35,0.12)',tough:'rgba(232,49,74,0.12)'};
-  const borders={great:'rgba(45,212,160,0.3)',ok:'rgba(245,166,35,0.3)',tough:'rgba(232,49,74,0.3)'};
+  const colors={great:'rgba(45,212,160,0.15)',ok:'rgba(245,166,35,0.12)',tough:'rgba(255,45,85,0.12)'};
+  const borders={great:'rgba(45,212,160,0.3)',ok:'rgba(245,166,35,0.3)',tough:'rgba(255,45,85,0.3)'};
   el.style.background=colors[mood];
   el.style.borderColor=borders[mood];
 }
@@ -2034,7 +1999,7 @@ function showConfirm(icon,title,sub,onOk,okLabel){
 
 // ── STAKEHOLDER BUILDER ───────────────────────────────────────────
 let formStakeholders=[];
-const SH_COLORS=['#7c6af7','#2dd4a0','#f5a623','#60a5fa','#f87171','#34d399'];
+const SH_COLORS=['#a89aa4','#a89aa4','#a89aa4','#a89aa4','#a89aa4','#a89aa4'];
 
 function addFormStakeholder(){
   const name=document.getElementById('f-sh-name').value.trim();
@@ -2339,18 +2304,6 @@ document.addEventListener('click',e=>{
 
 
 // ── INLINE INSIGHT ────────────────────────────────────────────────
-function inlineInsight(p){
-  const s=calcHealth(p);
-  const days=daysUntil(p.goLive);
-  if(s<60){
-    const worst=p.alignment<p.confidence?`align ${p.alignment}%`:`conf ${p.confidence}%`;
-    return `<span style="color:var(--red2)">↓</span> Low ${worst}${p.risks.length?' · '+p.risks[0]:''}`;
-  }
-  if(days!==null&&days<=42&&s<75) return `<span style="color:var(--amber)">⚠</span> ${days}d to go-live — health ${s}/100`;
-  if(p.adoption<55&&p.phase!=='Discovery') return `<span style="color:var(--amber)">↓</span> Adoption ${p.adoption}% — training needed`;
-  if(s>=85) return `<span style="color:var(--green)">✓</span> All dims strong — on track`;
-  return `<span style="color:var(--text3)">→</span> ${p.phase} · progressing`;
-}
 
 // ── RENDER TABLE ──────────────────────────────────────────────────
 
@@ -2513,7 +2466,7 @@ function renderPanelOverview(p){
     <div style="padding:0 16px 14px">
       <div style="font-family:var(--mono);font-size:8px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-bottom:8px">Risk flags</div>
       <div style="display:flex;flex-wrap:wrap;gap:5px">
-        ${p.risks.map(r=>`<span style="font-family:var(--mono);font-size:9px;padding:3px 8px;border-radius:5px;background:var(--red-dim);color:var(--red2);border:1px solid rgba(232,49,74,0.15)">${r}</span>`).join('')}
+        ${p.risks.map(r=>`<span style="font-family:var(--mono);font-size:9px;padding:3px 8px;border-radius:5px;background:var(--red-dim);color:var(--red2);border:1px solid rgba(255,45,85,0.15)">${r}</span>`).join('')}
       </div>
     </div>`:''}
 
@@ -2570,7 +2523,7 @@ function renderPanelSites(p){
       </div>
       <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px">
         <div style="font-family:var(--mono);font-size:9px;color:var(--text3)">${site.phase}</div>
-        <div style="font-family:var(--mono);font-size:9px;color:${days&&days<=30?'var(--red2)':days&&days<=90?'var(--amber)':'var(--text3)'}">
+        <div style="font-family:var(--mono);font-size:9px;color:${days&&days<=30?'var(--red2)':'var(--text3)'}">
           ${days!==null?days+'d to go-live':site.goLive}
         </div>
         ${statusBadge(site.status)}
@@ -2767,7 +2720,8 @@ function addJournalEntry(pid){
   if(!text){showToast('Nothing to log');return;}
   const now=new Date();
   const time=now.toLocaleDateString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
-  if(selectedLogType==='note'){
+  const wasNote = selectedLogType==='note';
+  if(wasNote){
     if(!p.noteSessions) p.noteSessions=[];
     p.noteSessions.push({date:time,text});
     p.lastDebrief=null;
@@ -2780,6 +2734,95 @@ function addJournalEntry(pid){
   renderPanelJournal(p);
   renderActivity();
   showToast('Logged');
+  // AI5 — after logging a note, ask AI if scores should change
+  if(wasNote && text.length>30){
+    suggestScoreUpdate(pid, text);
+  }
+}
+
+// ── AI5 — SCORE SUGGESTION AFTER LOG ─────────────────────────────
+async function suggestScoreUpdate(pid, noteText){
+  const p=projects.find(x=>x.id===pid);
+  if(!p) return;
+
+  const prompt=`You are a SaaS Implementation PM assistant. A PM just logged this session note about a project. Analyze it and decide if any of the 4 health dimensions should change, based ONLY on what the note explicitly says.
+
+CURRENT SCORES:
+- Stakeholder alignment: ${p.alignment}/100
+- Delivery confidence: ${p.confidence}/100
+- Product adoption: ${p.adoption}/100
+- Timeline adherence: ${p.timeline}/100
+
+SESSION NOTE:
+${noteText}
+
+Return ONLY valid JSON (no markdown, no backticks):
+{
+  "changed": true or false,
+  "alignment": <new value 0-100 or current if unchanged>,
+  "confidence": <new value or current>,
+  "adoption": <new value or current>,
+  "timeline": <new value or current>,
+  "reason": "one short sentence explaining the change, or empty if no change"
+}
+
+Rules:
+- Only change a score if the note gives a clear signal (e.g. "sponsor unhappy" lowers alignment, "users love it" raises adoption, "behind schedule" lowers timeline)
+- Change by at most 15 points at a time
+- If the note is neutral or unclear, set changed=false and keep all current values
+- Be conservative — most notes should NOT change scores`;
+
+  try{
+    const res=await fetch('/api/ai',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({prompt})
+    });
+    const data=await res.json();
+    const raw=data.choices?.[0]?.message?.content||'';
+    const parsed=JSON.parse(raw.replace(/```json|```/g,'').trim());
+    if(!parsed.changed) return;
+
+    // Show a non-intrusive suggestion card in the log panel
+    const feed=document.getElementById(`journal-feed-${pid}`);
+    if(!feed) return;
+    const card=document.createElement('div');
+    card.id='ai5-suggestion';
+    card.style.cssText='background:var(--bg3);border:1px solid var(--red-dim);border-left:2px solid var(--red2);border-radius:8px;padding:12px;margin-bottom:10px;animation:fadeUp 0.3s ease both';
+    card.innerHTML=`
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">
+        <i class="ti ti-sparkles" style="color:var(--red2);font-size:13px"></i>
+        <span style="font-family:var(--mono);font-size:9px;letter-spacing:1px;color:var(--red2);text-transform:uppercase">AI suggests a score update</span>
+      </div>
+      <div style="font-size:11px;color:var(--text2);line-height:1.5;margin-bottom:10px">${parsed.reason}</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px">
+        ${[['Alignment',p.alignment,parsed.alignment],['Confidence',p.confidence,parsed.confidence],['Adoption',p.adoption,parsed.adoption],['Timeline',p.timeline,parsed.timeline]].filter(([l,o,n])=>o!==n).map(([l,o,n])=>`
+          <span style="font-family:var(--mono);font-size:9px;padding:2px 7px;border-radius:4px;background:var(--bg4);color:var(--text2)">${l} ${o}→<span style="color:${n>o?'var(--green)':'var(--red2)'}">${n}</span></span>
+        `).join('')}
+      </div>
+      <div style="display:flex;gap:6px;justify-content:flex-end">
+        <button class="btn btn-ghost btn-sm" style="font-size:10px" onclick="document.getElementById('ai5-suggestion').remove()">Dismiss</button>
+        <button class="btn btn-primary btn-sm" style="font-size:10px" onclick='applyScoreSuggestion(${pid},${JSON.stringify({alignment:parsed.alignment,confidence:parsed.confidence,adoption:parsed.adoption,timeline:parsed.timeline}).replace(/"/g,"&quot;")})'>Apply</button>
+      </div>`;
+    feed.insertBefore(card, feed.firstChild);
+  }catch(e){ /* silent — score suggestion is optional */ }
+}
+
+function applyScoreSuggestion(pid, scores){
+  const p=projects.find(x=>x.id===pid);
+  if(!p) return;
+  if(typeof scores==='string') scores=JSON.parse(scores.replace(/&quot;/g,'"'));
+  const prev=calcHealth(p);
+  p.prevScore=prev;
+  p.alignment=scores.alignment;
+  p.confidence=scores.confidence;
+  p.adoption=scores.adoption;
+  p.timeline=scores.timeline;
+  p.lastUpdated=new Date().toISOString();
+  saveToStorage();
+  const card=document.getElementById('ai5-suggestion');
+  if(card) card.remove();
+  openClientPanel(pid);
+  showToast(`Scores updated — health ${prev} → ${calcHealth(p)}`);
 }
 
 function deleteSession(pid,idx){
@@ -2805,126 +2848,21 @@ const LOG_TYPES={
 
 let selectedLogType='note';
 
-function renderPanelActivity(p){
-  const el=document.getElementById('panel-tab-activity');
-  if(!el) return;
-  if(!p.activity) p.activity=[];
 
-  const entries=[...p.activity].reverse().map((a,i)=>{
-    const t=LOG_TYPES[a.type]||LOG_TYPES.note;
-    return `<div class="log-entry">
-      <div class="log-icon" style="background:${a.bg||t.bg};color:${a.ic||t.ic}"><i class="ti ${a.icon||t.icon}"></i></div>
-      <div style="flex:1;min-width:0">
-        <div class="log-text">${a.text}</div>
-        <div class="log-meta">${a.time}</div>
-      </div>
-      <div class="log-delete" onclick="deleteLogEntry(${p.id},${p.activity.length-1-i})"><i class="ti ti-x"></i></div>
-    </div>`;
-  }).join('');
 
-  const typeBtns=Object.entries(LOG_TYPES).map(([k,v])=>
-    `<div class="log-type-btn t-${k}${selectedLogType===k?' sel':''}" onclick="selectLogType('${k}',${p.id})">
-      <i class="ti ${v.icon}" style="font-size:10px"></i>${v.label}
-    </div>`
-  ).join('');
 
-  el.innerHTML=`
-    <div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:12px">
-      <div style="font-family:var(--mono);font-size:8px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">Log entry</div>
-      <div class="log-type-row">${typeBtns}</div>
-      <input type="text" id="log-text-${p.id}" placeholder="What was discussed or decided?" style="font-size:11px;padding:6px 8px;width:100%;margin-bottom:6px">
-      <div style="display:flex;justify-content:flex-end">
-        <button class="btn btn-primary btn-sm" onclick="addLogEntry(${p.id})"><i class="ti ti-plus"></i> Add</button>
-      </div>
-    </div>
-    <div id="log-entries-${p.id}">${entries||`<div class="panel-empty" style="padding:16px 0"><i class="ti ti-history" style="font-size:20px;display:block;margin-bottom:6px;opacity:0.3"></i>No activity yet</div>`}</div>`;
-}
-
-function selectLogType(type,pid){
-  selectedLogType=type;
-  const p=projects.find(x=>x.id===pid);
-  if(p) renderPanelActivity(p);
-}
-
-function addLogEntry(pid){
-  const p=projects.find(x=>x.id===pid);
-  if(!p) return;
-  const text=document.getElementById(`log-text-${pid}`).value.trim();
-  if(!text){showToast('Enter a description');return;}
-  const t=LOG_TYPES[selectedLogType]||LOG_TYPES.note;
-  const now=new Date();
-  const time=now.toLocaleDateString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
-  if(!p.activity) p.activity=[];
-  p.activity.push({type:selectedLogType,text,time,bg:t.bg,ic:t.ic,icon:t.icon});
-  saveToStorage();
-  renderPanelActivity(p);
-  renderActivity(); // refresh dashboard feed
-  showToast('Entry logged');
-}
 
 function deleteLogEntry(pid,idx){
   const p=projects.find(x=>x.id===pid);
   if(!p||!p.activity) return;
   p.activity.splice(idx,1);
   saveToStorage();
-  renderPanelActivity(p);
-  renderActivity();
-}
-
-function renderPanelNotes(p){
-  const sc=p.noteSessions&&p.noteSessions.length?p.noteSessions.length:0;
-  const sessions=sc?[...p.noteSessions].reverse().map((s,i)=>`
-    <div class="panel-session">
-      <div class="panel-session-meta">
-        <span class="panel-session-date">${s.date}</span>
-        <span class="panel-session-badge">Session ${p.noteSessions.length-i}</span>
-      </div>
-      <div class="panel-session-text">${s.text}</div>
-    </div>`).join(''):`<div class="panel-empty"><i class="ti ti-notes" style="font-size:20px;display:block;margin-bottom:6px;opacity:0.3"></i>No sessions yet</div>`;
-
-  document.getElementById('panel-tab-notes').innerHTML=`
-    <div class="panel-note-input">
-      <div style="font-family:var(--mono);font-size:8px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;display:flex;justify-content:space-between">
-        <span>New session</span><span id="panel-note-chars">0 chars</span>
-      </div>
-      <textarea id="panel-note-textarea" placeholder="Paste emails, call notes, tickets, Slack — anything raw is fine"></textarea>
-      <div class="panel-note-actions">
-        <span class="panel-note-count">${sc} session${sc!==1?'s':''} saved</span>
-        <div style="display:flex;gap:6px">
-          <button class="btn btn-ghost btn-sm" onclick="panelSaveNote(${p.id})"><i class="ti ti-device-floppy"></i> Save</button>
-          <button class="btn btn-primary btn-sm" onclick="panelGenerate(${p.id})"><i class="ti ti-sparkles"></i> Generate</button>
-        </div>
-      </div>
-    </div>
-    ${sessions}`;
-
-  const ta=document.getElementById('panel-note-textarea');
-  if(ta) ta.oninput=()=>{
-    const cc=document.getElementById('panel-note-chars');
-    if(cc) cc.textContent=ta.value.length+' chars';
-  };
+  renderPanelJournal(p);
 }
 
 
 
-function panelSaveNote(id){
-  const ta=document.getElementById('panel-note-textarea');
-  if(!ta||!ta.value.trim()){showToast('Nothing to save');return;}
-  const p=projects.find(x=>x.id===id);
-  if(!p) return;
-  if(!p.noteSessions) p.noteSessions=[];
-  p.noteSessions.push({
-    date:new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}),
-    text:ta.value.trim()
-  });
-  p.lastDebrief=null;
-  saveToStorage();
-  renderSidebar();
-  renderPanelNotes(p);
-  const badge=document.getElementById('panel-notes-badge');
-  if(badge) badge.innerHTML=`<span style="background:var(--bg4);border-radius:3px;padding:0 4px;font-size:8px">${p.noteSessions.length}</span>`;
-  showToast(`Session ${p.noteSessions.length} saved`);
-}
+
 
 async function panelGenerate(id){
   const p=projects.find(x=>x.id===id);
@@ -2999,17 +2937,22 @@ Return ONLY valid JSON, no markdown:
 
 
 
-function loadProject(id){
-  showView('dashboard');
-  openClientPanel(id);
-}
 
-function showView(view){
-  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
-  document.getElementById('view-'+view).classList.add('active');
-  document.querySelectorAll('.sb-link').forEach(l=>l.classList.remove('active'));
-  const navEl=document.getElementById('nav-'+view);
-  if(navEl) navEl.classList.add('active');
+let lastOpenedProjectId = null;
+
+function toggleDashboard(){
+  if(activePanelId){
+    // A project is open → remember it and close
+    lastOpenedProjectId = activePanelId;
+    closeClientPanel();
+    renderPortfolio();
+  } else if(lastOpenedProjectId && projects.find(p=>p.id===lastOpenedProjectId)){
+    // On portfolio → reopen last project
+    openClientPanel(lastOpenedProjectId);
+  } else {
+    // Nothing to reopen → just show portfolio
+    renderPortfolio();
+  }
 }
 
 // ── UPDATE SCREEN ─────────────────────────────────────────────────
@@ -3056,18 +2999,19 @@ function renderAll(){
 
 // ── PORTFOLIO DASHBOARD ──────────────────────────────────────────
 function renderPortfolio(){
-  if(!projects||!projects.length) return;
+  const list=visibleProjects();
+  updateDemoSwitch();
 
   const demoIds=DEMO_PROJECTS.map(p=>p.id);
-  const scores=projects.map(p=>calcHealth(p));
-  const avgScore=Math.round(scores.reduce((a,b)=>a+b,0)/scores.length);
-  const atRisk=projects.filter(p=>p.status==='at-risk'||p.status==='delayed').length;
-  const healthy=projects.filter(p=>calcHealth(p)>=75).length;
+  const scores=list.map(p=>calcHealth(p));
+  const avgScore=scores.length?Math.round(scores.reduce((a,b)=>a+b,0)/scores.length):0;
+  const atRisk=list.filter(p=>p.status==='at-risk'||p.status==='delayed').length;
+  const healthy=list.filter(p=>calcHealth(p)>=75).length;
 
-  // Upcoming milestones across all projects (next 30 days)
+  // Upcoming milestones across visible projects (next 30 days)
   const allMilestones=[];
   const MONTHS={JAN:0,FEB:1,MAR:2,APR:3,MAY:4,JUN:5,JUL:6,AUG:7,SEP:8,OCT:9,NOV:10,DEC:11};
-  projects.forEach(p=>{
+  list.forEach(p=>{
     (p.milestones||[]).forEach(m=>{
       const mIdx=MONTHS[m.month?.toUpperCase()];
       if(mIdx===undefined) return;
@@ -3085,8 +3029,8 @@ function renderPortfolio(){
   if(kpiEl) kpiEl.innerHTML=`
     <div class="kpi-card">
       <div class="kpi-label">Active projects</div>
-      <div class="kpi-value" style="color:var(--text)">${projects.length}</div>
-      <div class="kpi-sub">${demoIds.length} demo · ${projects.length-demoIds.length} yours</div>
+      <div class="kpi-value" style="color:var(--text)">${list.length}</div>
+      <div class="kpi-sub">${demosHidden?'demos hidden':demoIds.length+' demo · '+(projects.length-demoIds.length)+' yours'}</div>
     </div>
     <div class="kpi-card">
       <div class="kpi-label">Avg health score</div>
@@ -3095,12 +3039,12 @@ function renderPortfolio(){
     </div>
     <div class="kpi-card">
       <div class="kpi-label">At risk</div>
-      <div class="kpi-value" style="color:${atRisk>0?'var(--red2)':'var(--green)'}">${atRisk}</div>
+      <div class="kpi-value" style="color:${atRisk>0?'var(--red2)':'var(--text)'}">${atRisk}</div>
       <div class="kpi-sub">${atRisk>0?'need attention':'all clear'}</div>
     </div>
     <div class="kpi-card">
       <div class="kpi-label">Milestones soon</div>
-      <div class="kpi-value" style="color:${allMilestones.length>0?'var(--amber)':'var(--text)'}">${allMilestones.length}</div>
+      <div class="kpi-value" style="color:var(--text)">${allMilestones.length}</div>
       <div class="kpi-sub">in the next 30 days</div>
     </div>`;
 
@@ -3111,7 +3055,7 @@ function renderPortfolio(){
       <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-bottom:10px">Upcoming milestones</div>
       ${allMilestones.slice(0,3).map(m=>`
         <div class="milestone-urgent" onclick="openClientPanel(${m.projectId})">
-          <div style="font-family:var(--mono);font-size:11px;font-weight:600;color:${m.diff<=7?'var(--red2)':m.diff<=14?'var(--amber)':'var(--text2)'};min-width:36px">${m.diff}d</div>
+          <div style="font-family:var(--mono);font-size:11px;font-weight:600;color:${m.diff<=7?'var(--red2)':'var(--text2)'};min-width:36px">${m.diff}d</div>
           <div style="flex:1">
             <div style="font-size:12px;font-weight:500">${m.name}</div>
             <div style="font-family:var(--mono);font-size:9px;color:var(--text3)">${m.projectName} · ${m.day} ${m.month}</div>
@@ -3126,14 +3070,27 @@ function renderPortfolio(){
   const cardsEl=document.getElementById('portfolio-cards');
   if(!cardsEl) return;
 
-  cardsEl.innerHTML=projects.map(p=>{
+  if(!list.length){
+    cardsEl.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:48px 20px;border:1px dashed var(--border2);border-radius:14px">
+      <div style="font-size:28px;margin-bottom:12px;opacity:0.4">📋</div>
+      <div style="font-size:13px;color:var(--text2);margin-bottom:6px">No projects to show</div>
+      <div style="font-size:11px;color:var(--text3);margin-bottom:16px">${demosHidden?'Demos are hidden. Turn them back on or add your own project.':'Add your first project to get started.'}</div>
+      <div style="display:flex;gap:8px;justify-content:center">
+        ${demosHidden?`<button class="btn btn-ghost btn-sm" onclick="toggleDemos()"><i class="ti ti-eye"></i> Show demos</button>`:''}
+        <button class="btn btn-primary btn-sm" onclick="openNewProject()"><i class="ti ti-plus"></i> New project</button>
+      </div>
+    </div>`;
+    return;
+  }
+
+  cardsEl.innerHTML=list.map(p=>{
     const s=calcHealth(p),sc=healthColorHex(s);
     const isDemo=demoIds.includes(p.id);
     const PHASE_ORDER_SHORT=['Disc','Config','Integ','UAT','Go-live','Post GL'];
     const PHASE_FULL=['Discovery','Configuration','Integration','UAT','Go-live','Post go-live'];
     const pIdx=PHASE_FULL.indexOf(p.phase);
     const days=daysUntil(p.goLive);
-    const daysColor=days===null?'var(--text3)':days<=30?'var(--red2)':days<=90?'var(--amber)':'var(--green)';
+    const daysColor=days===null?'var(--text3)':days<=30?'var(--red2)':'var(--text2)';
 
     const phaseDots=PHASE_FULL.map((ph,i)=>{
       const done=i<pIdx,act=i===pIdx;
@@ -3170,9 +3127,49 @@ function renderPortfolio(){
     </div>`;
   }).join('');
 
-  // Show hint if no user projects
-  const hintEl=document.getElementById('portfolio-hint');
-  if(hintEl) hintEl.style.display=projects.every(p=>demoIds.includes(p.id))?'block':'none';
+  // Tutorial banner — new users only, unless dismissed
+  const onlyDemos=projects.every(p=>demoIds.includes(p.id));
+  const tutoEl=document.getElementById('tuto-banner');
+  const dismissed=localStorage.getItem('pulse_tuto_dismissed')==='1';
+  if(tutoEl) tutoEl.style.display=(onlyDemos && !dismissed)?'block':'none';
+}
+
+function dismissTuto(){
+  localStorage.setItem('pulse_tuto_dismissed','1');
+  const el=document.getElementById('tuto-banner');
+  if(el) el.style.display='none';
+}
+
+// ── DEMO TOGGLE ──────────────────────────────────────────────────
+function visibleProjects(){
+  if(!demosHidden) return projects;
+  const demoIds=DEMO_PROJECTS.map(p=>p.id);
+  return projects.filter(p=>!demoIds.includes(p.id));
+}
+
+function toggleDemos(){
+  demosHidden=!demosHidden;
+  localStorage.setItem('pulse_demos_hidden', demosHidden?'1':'0');
+  // If the currently open project is a demo being hidden, close it
+  if(demosHidden && activePanelId){
+    const demoIds=DEMO_PROJECTS.map(p=>p.id);
+    if(demoIds.includes(activePanelId)) closeClientPanel();
+  }
+  updateDemoSwitch();
+  renderAll();
+}
+
+function updateDemoSwitch(){
+  const sw=document.getElementById('demo-switch');
+  const knob=document.getElementById('demo-switch-knob');
+  if(!sw||!knob) return;
+  if(demosHidden){
+    sw.style.background='var(--bg4)';
+    knob.style.left='2px';
+  } else {
+    sw.style.background='var(--red)';
+    knob.style.left='17px';
+  }
 }
 
 // ── INIT ──────────────────────────────────────────────────────────
@@ -3206,7 +3203,7 @@ init();
     <div class="modal-close" onclick="closeModal('auth-modal')"><i class="ti ti-x"></i></div>
     <div style="padding:28px 24px">
       <div style="display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:24px">
-        <svg width="32" height="12" viewBox="0 0 52 22" fill="none"><path d="M0,11 L12,11 L15,11 L17,3 L19,19 L21,7 L23,11 L52,11" stroke="#e8314a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        <svg width="32" height="12" viewBox="0 0 52 22" fill="none"><path d="M0,11 L12,11 L15,11 L17,3 L19,19 L21,7 L23,11 L52,11" stroke="#ff2d55" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
         <span style="font-family:var(--display);font-size:15px;font-weight:700;letter-spacing:2px">PUL<span style="color:var(--red2)">S</span>E</span>
       </div>
       <div style="display:flex;background:var(--bg3);border-radius:10px;padding:4px;margin-bottom:20px">
