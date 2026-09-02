@@ -1121,6 +1121,7 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
             <div class="col-header-meta" id="tl-meta"></div>
           </div>
           <div class="col-header-right">
+            <div class="icon-btn" onclick="openShareModal(activePanelId)" title="Share project"><i class="ti ti-share"></i></div>
             <div class="icon-btn" onclick="openEditProject(activePanelId)" title="Edit"><i class="ti ti-pencil"></i></div>
             <div class="icon-btn" onclick="closeClientPanel()"><i class="ti ti-x"></i></div>
           </div>
@@ -1675,14 +1676,14 @@ function renderSidebar(){
       <div onclick="toggleClientPanel(${p.id})" style="display:flex;align-items:center;gap:8px;flex:1;min-width:0;padding:7px 0 7px 8px">
         <div class="sb-avatar" style="background:${c}18;color:${c}">${p.name.substring(0,2).toUpperCase()}</div>
         <div class="sb-client-info">
-          <div class="sb-client-name">${p.name}${isDemo?`<span style="font-family:var(--mono);font-size:7px;color:var(--text3);margin-left:5px;vertical-align:middle">(demo)</span>`:''}</div>
+          <div class="sb-client-name">${p.name}${isDemo?`<span style="font-family:var(--mono);font-size:7px;color:var(--text3);margin-left:5px;vertical-align:middle">(demo)</span>`:''}${p._shared?`<span style="font-family:var(--mono);font-size:7px;color:var(--blue);margin-left:5px;vertical-align:middle" title="Shared with you">↗ shared</span>`:''}</div>
           <div class="sb-client-phase">${p.phase} · <span style="color:var(--text3)">${lastUpdatedLabel(p)}</span></div>
         </div>
       </div>
       <div class="sb-client-right" style="padding-right:6px;display:flex;align-items:center;gap:5px">
         <div class="sb-dot" style="background:${dot}"></div>
         <span class="sb-score" style="color:${c}">${s}</span>
-        <div onclick="event.stopPropagation();deleteProject(${p.id})" style="width:18px;height:18px;border-radius:4px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text3);font-size:10px;opacity:0;transition:all 0.12s" class="sb-delete-btn" title="Remove"><i class="ti ti-trash"></i></div>
+        ${p._shared?'':`<div onclick="event.stopPropagation();deleteProject(${p.id})" style="width:18px;height:18px;border-radius:4px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text3);font-size:10px;opacity:0;transition:all 0.12s" class="sb-delete-btn" title="Remove"><i class="ti ti-trash"></i></div>`}
       </div>
     </div>`;
   }).join('');
@@ -1743,6 +1744,7 @@ let currentDetailId = null;
 // ── NEW PROJECT ───────────────────────────────────────────────────
 // ── EDIT PROJECT ──────────────────────────────────────────────────
 function openEditProject(id){
+  const _rp=projects.find(x=>x.id===id); if(_rp&&isReadOnly(_rp)){showToast("View-only access");return;}
   const p=projects.find(x=>x.id===id);
   if(!p) return;
   document.getElementById('e-id').value=p.id;
@@ -2032,6 +2034,7 @@ function renderFormStakeholders(){
 
 // ── SITE EDIT ─────────────────────────────────────────────────────
 function openSiteEdit(projectId,siteId){
+  const _rp=projects.find(x=>x.id===projectId); if(_rp&&isReadOnly(_rp)){showToast("View-only access");return;}
   const p=projects.find(x=>x.id===projectId);
   const site=p&&p.sites&&p.sites.find(s=>s.id===siteId);
   if(!site) return;
@@ -2262,7 +2265,9 @@ async function loadFromStorage(){
   if(currentUser){
     try{
       const dbProjects = await dbLoadProjects();
-      projects = [...demos, ...dbProjects];
+      let sharedProjects = [];
+      try{ sharedProjects = await dbLoadSharedWithMe(); }catch(e){}
+      projects = [...demos, ...dbProjects, ...sharedProjects];
     }catch(e){
       console.error('DB load failed, falling back to localStorage', e);
       const raw = localStorage.getItem(STORAGE_KEY);
@@ -2359,7 +2364,15 @@ function openClientPanel(id){
   const s=calcHealth(p),c=healthColorHex(s);
   const days=daysUntil(p.goLive);
   document.getElementById('tl-title').textContent=p.name;
-  document.getElementById('tl-meta').textContent=p.industry+' · '+p.phase+(days?` · ${days}d to go-live`:'');
+  document.getElementById('tl-meta').innerHTML=p.industry+' · '+p.phase+(days?` · ${days}d to go-live`:'')+(isReadOnly(p)?` · <span style="color:var(--blue)">view only</span>`:'');
+
+  // Read-only mode — hide edit/share buttons in col A header
+  const ro=isReadOnly(p);
+  document.querySelectorAll('.col-header-right .icon-btn').forEach(btn=>{
+    const isClose=btn.querySelector('.ti-x');
+    if(isClose) return; // always keep close button
+    btn.style.display = ro ? 'none' : 'flex';
+  });
 
   renderVerticalTimeline(p);
   renderSubTimelines(p);
@@ -2536,6 +2549,7 @@ function renderPanelSites(p){
 
 
 function openAddSite(projectId){
+  const _rp=projects.find(x=>x.id===projectId); if(_rp&&isReadOnly(_rp)){showToast("View-only access");return;}
   const p=projects.find(x=>x.id===projectId);
   if(!p) return;
   document.getElementById('as-project-id').value=projectId;
@@ -2585,6 +2599,7 @@ function renderPanelMilestones(p){
   const el=document.getElementById('panel-tab-milestones');
   if(!el) return;
   if(!p.milestones) p.milestones=[];
+  const ro=isReadOnly(p);
 
   const rows=p.milestones.length ? p.milestones.map((m,i)=>{
     const bc=badgeMeta(m.badge).color;
@@ -2597,12 +2612,13 @@ function renderPanelMilestones(p){
         <div class="milestone-name">${m.name}</div>
         <span class="badge badge-${m.badge}" style="font-size:8px;padding:1px 6px">${badgeMeta(m.badge).label}</span>
       </div>
-      <div class="milestone-delete" onclick="deleteMilestone(${p.id},${i})"><i class="ti ti-trash"></i></div>
+      ${ro?'':`<div class="milestone-delete" onclick="deleteMilestone(${p.id},${i})"><i class="ti ti-trash"></i></div>`}
     </div>`;
   }).join('') : `<div class="panel-empty" style="padding:16px 0"><i class="ti ti-calendar-event" style="font-size:20px;display:block;margin-bottom:6px;opacity:0.3"></i>No milestones yet</div>`;
 
   el.innerHTML=`
     ${rows}
+    ${ro?'':`
     <div style="margin-top:10px">
       <div style="font-family:var(--mono);font-size:8px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">Add milestone</div>
       <div class="add-milestone-form">
@@ -2621,10 +2637,11 @@ function renderPanelMilestones(p){
           <button class="btn btn-primary btn-sm" onclick="addMilestone(${p.id})"><i class="ti ti-plus"></i> Add</button>
         </div>
       </div>
-    </div>`;
+    </div>`}`;
 }
 
 function addMilestone(pid){
+  const _rp=projects.find(x=>x.id===pid); if(_rp&&isReadOnly(_rp)){showToast("View-only access");return;}
   const p=projects.find(x=>x.id===pid);
   if(!p) return;
   const day=document.getElementById(`m-day-${pid}`).value.trim();
@@ -2656,6 +2673,7 @@ function renderPanelJournal(p){
   if(!el) return;
   if(!p.noteSessions) p.noteSessions=[];
   if(!p.activity) p.activity=[];
+  const ro=isReadOnly(p);
 
   // badge = total entries
   const total=p.noteSessions.length + p.activity.filter(a=>a.type!=='milestone'||true).length;
@@ -2687,11 +2705,12 @@ function renderPanelJournal(p){
         <div class="log-text" style="${e._type==='session'?'white-space:pre-wrap;max-height:60px;overflow:hidden':''}">${e._type==='session'?e.text.substring(0,120)+(e.text.length>120?'…':''):e.text}</div>
         <div class="log-meta">${e.label} · ${e.date}</div>
       </div>
-      <div class="log-delete" onclick="${e._type==='session'?`deleteSession(${p.id},${e.idx})`:`deleteLogEntry(${p.id},${e.idx})`}"><i class="ti ti-x"></i></div>
+      ${ro?'':`<div class="log-delete" onclick="${e._type==='session'?`deleteSession(${p.id},${e.idx})`:`deleteLogEntry(${p.id},${e.idx})`}"><i class="ti ti-x"></i></div>`}
     </div>`).join('')
     : `<div class="panel-empty"><i class="ti ti-notebook" style="font-size:20px;display:block;margin-bottom:6px;opacity:0.3"></i>No sessions logged yet</div>`;
 
   el.innerHTML=`
+    ${ro?'':`
     <!-- AI PARSE NOTES BUTTON -->
     <div style="margin-bottom:10px">
       <button class="btn btn-ghost btn-sm" style="width:100%;justify-content:center;border-style:dashed;color:var(--text2)" onclick="openParseNotes(${p.id})">
@@ -2708,11 +2727,12 @@ function renderPanelJournal(p){
       <div style="display:flex;justify-content:flex-end">
         <button class="btn btn-primary btn-sm" onclick="addJournalEntry(${p.id})"><i class="ti ti-plus"></i> Log</button>
       </div>
-    </div>
+    </div>`}
     <div id="journal-feed-${p.id}">${feed}</div>`;
 }
 
 function addJournalEntry(pid){
+  const _rp=projects.find(x=>x.id===pid); if(_rp&&isReadOnly(_rp)){showToast("View-only access");return;}
   const p=projects.find(x=>x.id===pid);
   if(!p) return;
   const input=document.getElementById(`journal-text-${pid}`);
@@ -3331,6 +3351,7 @@ async function authSignup(){
 
 <script>
 function openAddEscalation(projectId){
+  const _rp=projects.find(x=>x.id===projectId); if(_rp&&isReadOnly(_rp)){showToast("View-only access");return;}
   const p=projects.find(x=>x.id===projectId);
   if(!p) return;
   document.getElementById('esc-project-id').value=projectId;
@@ -3990,4 +4011,182 @@ closeClientPanel=function(){
   _mobOrigClose();
   if(IS_MOBILE()) document.getElementById('mob-nav').style.display='none';
 };
+</script>
+
+<!-- SHARE MODAL -->
+<div class="modal-overlay" id="share-modal" onclick="closeOnOverlay(event)">
+  <div class="modal" style="max-width:460px">
+    <div class="modal-close" onclick="closeModal('share-modal')"><i class="ti ti-x"></i></div>
+    <div class="form-head">
+      <div style="font-family:var(--display);font-size:15px;font-weight:700;margin-bottom:2px"><i class="ti ti-share" style="color:var(--red2);margin-right:6px"></i>Share project</div>
+      <div style="font-size:11px;color:var(--text2)" id="share-project-name"></div>
+    </div>
+    <div class="form-body">
+      <input type="hidden" id="share-project-id">
+
+      <!-- Invite row -->
+      <div style="display:flex;gap:8px;align-items:flex-end;margin-bottom:16px">
+        <div class="form-group" style="flex:1">
+          <label>Invite by email</label>
+          <input type="email" id="share-email" placeholder="colleague@company.com">
+        </div>
+        <div class="form-group" style="flex-shrink:0">
+          <label>Access</label>
+          <select id="share-permission" style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:var(--text);font-family:var(--sans);font-size:12px">
+            <option value="edit">Can edit</option>
+            <option value="read">Can view</option>
+          </select>
+        </div>
+        <button class="btn btn-primary btn-sm" style="flex-shrink:0;height:34px" onclick="sendShareInvite()"><i class="ti ti-send"></i></button>
+      </div>
+
+      <!-- Access list -->
+      <div style="font-family:var(--mono);font-size:8px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-bottom:10px">People with access</div>
+      <div id="share-access-list">
+        <div style="font-size:11px;color:var(--text3);font-style:italic;padding:8px 0">Loading...</div>
+      </div>
+
+      <div style="margin-top:16px;padding-top:12px;border-top:1px solid var(--border);font-family:var(--mono);font-size:9px;color:var(--text3);line-height:1.6">
+        <i class="ti ti-info-circle" style="font-size:10px"></i> Invited people access the project once they sign in with the invited email. Remove access anytime.
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── P3 — COLLABORATION ────────────────────────────────────────────
+let _shareProjectId=null;
+
+async function dbLoadShares(projectDbId){
+  try{
+    const res=await fetch(`${SUPABASE_URL}/rest/v1/shared_projects?project_id=eq.${projectDbId}&select=*`,{headers:authHeaders()});
+    const data=await res.json();
+    return Array.isArray(data)?data:[];
+  }catch(e){ return []; }
+}
+
+async function dbAddShare(projectDbId, email, permission){
+  const res=await fetch(`${SUPABASE_URL}/rest/v1/shared_projects`,{
+    method:'POST',
+    headers:{...authHeaders(),'Prefer':'return=representation'},
+    body:JSON.stringify({
+      project_id:projectDbId,
+      owner_id:currentUser.id,
+      shared_with_email:email.toLowerCase().trim(),
+      permission
+    })
+  });
+  return res.ok;
+}
+
+async function dbRemoveShare(shareId){
+  await fetch(`${SUPABASE_URL}/rest/v1/shared_projects?id=eq.${shareId}`,{
+    method:'DELETE',headers:authHeaders()
+  });
+}
+
+function openShareModal(projectId){
+  const p=projects.find(x=>x.id===projectId);
+  if(!p){showToast('No project selected');return;}
+  if(!currentUser){showToast('Sign in to share projects');openAuthModal();return;}
+  if(!p._dbId){showToast('Save this project first before sharing');return;}
+
+  _shareProjectId=projectId;
+  document.getElementById('share-project-id').value=projectId;
+  document.getElementById('share-project-name').textContent=p.name;
+  document.getElementById('share-email').value='';
+  document.getElementById('share-permission').value='edit';
+  document.getElementById('share-modal').classList.add('open');
+  renderShareList(p._dbId);
+}
+
+async function renderShareList(projectDbId){
+  const el=document.getElementById('share-access-list');
+  const shares=await dbLoadShares(projectDbId);
+
+  // Owner always first
+  let html=`<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">
+    <div style="width:28px;height:28px;border-radius:50%;background:var(--red-dim);color:var(--red2);display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0"><i class="ti ti-crown"></i></div>
+    <div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:500">${currentUser.email}</div><div style="font-family:var(--mono);font-size:9px;color:var(--text3)">Owner</div></div>
+  </div>`;
+
+  if(shares.length){
+    html+=shares.map(s=>`
+      <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">
+        <div style="width:28px;height:28px;border-radius:50%;background:var(--bg4);color:var(--text2);display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0">${s.shared_with_email.substring(0,2).toUpperCase()}</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${s.shared_with_email}</div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text3)">${s.permission==='edit'?'Can edit':'Can view'} · pending sign-in</div>
+        </div>
+        <div onclick="removeShare('${s.id}',${projectDbId})" style="width:22px;height:22px;border-radius:5px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text3);font-size:11px" onmouseover="this.style.color='var(--red2)'" onmouseout="this.style.color='var(--text3)'" title="Remove access"><i class="ti ti-x"></i></div>
+      </div>`).join('');
+  } else {
+    html+=`<div style="font-size:11px;color:var(--text3);font-style:italic;padding:8px 0">No one else has access yet</div>`;
+  }
+  el.innerHTML=html;
+}
+
+async function sendShareInvite(){
+  const p=projects.find(x=>x.id===_shareProjectId);
+  if(!p||!p._dbId) return;
+  const email=document.getElementById('share-email').value.trim();
+  const permission=document.getElementById('share-permission').value;
+  if(!email||!email.includes('@')){showToast('Enter a valid email');return;}
+  if(email.toLowerCase()===currentUser.email.toLowerCase()){showToast("That's your own email");return;}
+
+  const ok=await dbAddShare(p._dbId,email,permission);
+  if(ok){
+    document.getElementById('share-email').value='';
+    renderShareList(p._dbId);
+    showToast(`Shared with ${email}`);
+  } else {
+    showToast('Could not share — already invited?');
+  }
+}
+
+async function removeShare(shareId, projectDbId){
+  await dbRemoveShare(shareId);
+  renderShareList(projectDbId);
+  showToast('Access removed');
+}
+
+// Load projects shared WITH the current user
+async function dbLoadSharedWithMe(){
+  if(!currentUser) return [];
+  try{
+    // shares where I'm the invited email
+    const sRes=await fetch(`${SUPABASE_URL}/rest/v1/shared_projects?shared_with_email=eq.${encodeURIComponent(currentUser.email.toLowerCase())}&select=*`,{headers:authHeaders()});
+    const shares=await sRes.json();
+    if(!Array.isArray(shares)||!shares.length) return [];
+
+    // load the actual projects (RLS policy allows reading shared projects)
+    const shared=[];
+    for(const sh of shares){
+      const pRes=await fetch(`${SUPABASE_URL}/rest/v1/projects?id=eq.${sh.project_id}&select=*,sites(*),log_entries(*),milestones(*),note_sessions(*)`,{headers:authHeaders()});
+      const pData=await pRes.json();
+      if(Array.isArray(pData)&&pData[0]){
+        const p=pData[0];
+        shared.push({
+          _dbId:p.id, _shared:true, _permission:sh.permission,
+          id:Date.now()+Math.random(),
+          name:p.name, industry:p.industry, phase:p.phase,
+          status:p.status, goLive:p.go_live,
+          alignment:p.alignment, confidence:p.confidence,
+          adoption:p.adoption, timeline:p.timeline,
+          risks:p.risks||[], notes:p.notes||'', stakeholders:[],
+          sites:(p.sites||[]).map(s=>({_dbId:s.id,id:Date.now()+Math.random(),name:s.name,flag:s.flag,phase:s.phase,status:s.status,goLive:s.go_live,alignment:s.alignment,confidence:s.confidence,adoption:s.adoption,timeline:s.timeline,risks:s.risks||[]})),
+          activity:(p.log_entries||[]).map(e=>({_dbId:e.id,type:e.type,text:e.text,time:new Date(e.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'short'}),bg:LOG_TYPES[e.type]?.bg||'var(--blue-dim)',ic:LOG_TYPES[e.type]?.ic||'var(--blue)',icon:LOG_TYPES[e.type]?.icon||'ti-file-text'})),
+          milestones:(p.milestones||[]).map(m=>({_dbId:m.id,day:m.day,month:m.month,name:m.name,badge:m.badge,company:p.name})),
+          noteSessions:(p.note_sessions||[]).map(s=>({_dbId:s.id,date:new Date(s.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}),text:s.text}))
+        });
+      }
+    }
+    return shared;
+  }catch(e){ return []; }
+}
+
+// Is the currently open project read-only for me?
+function isReadOnly(p){
+  return p && p._shared && p._permission==='read';
+}
 </script>
