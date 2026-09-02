@@ -7,16 +7,16 @@
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23080810'/><path d='M2,16 L8,16 L10,16 L11,8 L13,24 L15,11 L17,16 L30,16' stroke='%23e8314a' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round' fill='none'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Unbounded:wght@300;400;600;700;900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
 <style>
 :root{
-  --bg:#080810;--bg2:#0f0f1a;--bg3:#161624;--bg4:#1e1e30;
+  --bg:#0d0a0c;--bg2:#141014;--bg3:#1c161b;--bg4:#261e25;
   --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.12);
-  --text:#f0eefa;--text2:#9490b0;--text3:#7d77a0;
-  --red:#e8314a;--red2:#ff5068;--red-dim:rgba(232,49,74,0.12);--red-glow:rgba(232,49,74,0.25);
+  --text:#f5eef2;--text2:#a89aa4;--text3:#7d77a0;
+  --red:#ff2d55;--red2:#ff5c78;--red-dim:rgba(255,45,85,0.12);--red-glow:rgba(255,45,85,0.25);
   --green:#2dd4a0;--amber:#f5a623;--blue:#5b9cf6;
-  --mono:'DM Mono',monospace;--sans:'Inter',sans-serif;--display:'Unbounded',sans-serif;
+  --mono:'DM Mono',monospace;--sans:'Inter',sans-serif;--display:'Space Grotesk',sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
@@ -26,7 +26,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
 @keyframes ecg{0%{stroke-dashoffset:300;}100%{stroke-dashoffset:0;}}
 @keyframes ecg-loop{0%{stroke-dashoffset:300;}70%{stroke-dashoffset:0;}100%{stroke-dashoffset:0;}}
 @keyframes line-grow{from{width:0;}to{width:100%;}}
-@keyframes glow-pulse{0%,100%{box-shadow:0 0 8px rgba(232,49,74,0.2);}50%{box-shadow:0 0 20px rgba(232,49,74,0.5);}}
+@keyframes glow-pulse{0%,100%{box-shadow:0 0 8px rgba(255,45,85,0.2);}50%{box-shadow:0 0 20px rgba(255,45,85,0.5);}}
 
 /* NAV */
 nav{
@@ -134,7 +134,7 @@ h1 .line3{display:block;color:var(--red2);}
   flex-shrink:0;position:relative;z-index:1;
 }
 .phase-node.active{
-  background:var(--red-dim);border-color:rgba(232,49,74,0.3);
+  background:var(--red-dim);border-color:rgba(255,45,85,0.3);
   color:var(--red2);animation:glow-pulse 2s ease-in-out infinite;
 }
 .phase-content{padding-top:8px;}
@@ -219,7 +219,7 @@ footer a{color:var(--text2);text-decoration:none;}
 <nav>
   <a href="#" class="nav-logo">
     <svg width="40" height="16" viewBox="0 0 52 22" fill="none">
-      <path class="ecg-path" d="M0,11 L12,11 L15,11 L17,3 L19,19 L21,7 L23,11 L52,11" stroke="#e8314a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <path class="ecg-path" d="M0,11 L12,11 L15,11 L17,3 L19,19 L21,7 L23,11 L52,11" stroke="#ff2d55" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
     </svg>
     <span>PUL<span class="logo-s">S</span>E</span>
   </a>
@@ -245,16 +245,16 @@ footer a{color:var(--text2);text-decoration:none;}
       <circle cx="175" cy="60" r="5" fill="#4e4a68"/>
       <circle cx="292" cy="60" r="5" fill="#4e4a68"/>
       <circle cx="408" cy="60" r="5" fill="#4e4a68"/>
-      <circle cx="525" cy="60" r="5" fill="#e8314a" filter="url(#glow)"/>
+      <circle cx="525" cy="60" r="5" fill="#ff2d55" filter="url(#glow)"/>
       <circle cx="642" cy="60" r="5" fill="#2dd4a0"/>
       <!-- active pulse at go-live -->
-      <circle cx="525" cy="60" r="12" fill="rgba(232,49,74,0.1)" class="glow-ring"/>
+      <circle cx="525" cy="60" r="12" fill="rgba(255,45,85,0.1)" class="glow-ring"/>
       <!-- labels -->
       <text x="58"  y="88" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#7d77a0" letter-spacing="0.5">DISCOVERY</text>
       <text x="175" y="88" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#7d77a0" letter-spacing="0.5">CONFIG</text>
       <text x="292" y="88" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#7d77a0" letter-spacing="0.5">INTEGRATION</text>
       <text x="408" y="88" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#7d77a0" letter-spacing="0.5">UAT</text>
-      <text x="525" y="88" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#e8314a" letter-spacing="0.5">GO-LIVE</text>
+      <text x="525" y="88" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#ff2d55" letter-spacing="0.5">GO-LIVE</text>
       <text x="642" y="88" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#2dd4a0" letter-spacing="0.5">POST GL</text>
       <!-- the ECG line -->
       <path class="main-line"
@@ -272,7 +272,7 @@ footer a{color:var(--text2);text-decoration:none;}
       <defs>
         <linearGradient id="lineGrad" x1="0" y1="0" x2="700" y2="0" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stop-color="#4e4a68"/>
-          <stop offset="65%" stop-color="#e8314a"/>
+          <stop offset="65%" stop-color="#ff2d55"/>
           <stop offset="100%" stop-color="#2dd4a0"/>
         </linearGradient>
         <filter id="glow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
@@ -353,7 +353,7 @@ footer a{color:var(--text2);text-decoration:none;}
           <div class="phase-name">The moment everything has led to.</div>
           <div class="phase-desc">Pulse has tracked every step to get here. Your health score reflects the real state of the project — alignment, confidence, adoption, timeline. You know if you're ready before you ask.</div>
           <div class="phase-chips">
-            <span class="phase-chip" style="color:var(--red2);border-color:rgba(232,49,74,0.2)">Go-live countdown</span>
+            <span class="phase-chip" style="color:var(--red2);border-color:rgba(255,45,85,0.2)">Go-live countdown</span>
             <span class="phase-chip">Health score</span>
             <span class="phase-chip">AI debrief</span>
           </div>
@@ -433,7 +433,7 @@ footer a{color:var(--text2);text-decoration:none;}
 <!-- FOOTER -->
 <footer>
   <div style="display:flex;align-items:center;gap:8px">
-    <svg width="22" height="9" viewBox="0 0 52 22" fill="none"><path d="M0,11 L12,11 L15,11 L17,3 L19,19 L21,7 L23,11 L52,11" stroke="#e8314a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+    <svg width="22" height="9" viewBox="0 0 52 22" fill="none"><path d="M0,11 L12,11 L15,11 L17,3 L19,19 L21,7 L23,11 L52,11" stroke="#ff2d55" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
     Pulse · Implementation Health Tracker
   </div>
   <div>Built by <a href="https://www.linkedin.com/in/thomas-hotton" target="_blank">Tom Hotton</a></div>
@@ -472,27 +472,27 @@ const obs2 = new IntersectionObserver(entries=>{
 capture.forEach(el=>obs2.observe(el));
 </script>
 <div style="position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.2s;backdrop-filter:blur(6px)" id="auth-modal" onclick="if(event.target===this)this.classList.remove('open');this.style.opacity='0';this.style.pointerEvents='none'">
-  <div style="background:#0f0f1a;border:1px solid rgba(255,255,255,0.12);border-radius:20px;width:100%;max-width:380px;padding:28px 24px;position:relative">
-    <div style="position:absolute;top:14px;right:14px;width:28px;height:28px;background:#161624;border:1px solid rgba(255,255,255,0.06);border-radius:7px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#9490b0;font-size:12px" onclick="closeAuthModal()">✕</div>
+  <div style="background:#141014;border:1px solid rgba(255,255,255,0.12);border-radius:20px;width:100%;max-width:380px;padding:28px 24px;position:relative">
+    <div style="position:absolute;top:14px;right:14px;width:28px;height:28px;background:#1c161b;border:1px solid rgba(255,255,255,0.06);border-radius:7px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#a89aa4;font-size:12px" onclick="closeAuthModal()">✕</div>
     <div style="display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:24px">
-      <svg width="32" height="12" viewBox="0 0 52 22" fill="none"><path d="M0,11 L12,11 L15,11 L17,3 L19,19 L21,7 L23,11 L52,11" stroke="#e8314a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
-      <span style="font-family:'Unbounded',sans-serif;font-size:15px;font-weight:700;letter-spacing:2px;color:#f0eefa">PUL<span style="color:#ff5068">S</span>E</span>
+      <svg width="32" height="12" viewBox="0 0 52 22" fill="none"><path d="M0,11 L12,11 L15,11 L17,3 L19,19 L21,7 L23,11 L52,11" stroke="#ff2d55" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+      <span style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;letter-spacing:2px;color:#f5eef2">PUL<span style="color:#ff5c78">S</span>E</span>
     </div>
-    <div style="display:flex;background:#161624;border-radius:10px;padding:4px;margin-bottom:20px">
-      <div id="idx-tab-login" onclick="idxSwitchTab('login')" style="flex:1;text-align:center;padding:7px;border-radius:7px;font-family:'DM Mono',monospace;font-size:10px;cursor:pointer;background:#0f0f1a;color:#f0eefa;border:1px solid rgba(255,255,255,0.12)">Sign in</div>
+    <div style="display:flex;background:#1c161b;border-radius:10px;padding:4px;margin-bottom:20px">
+      <div id="idx-tab-login" onclick="idxSwitchTab('login')" style="flex:1;text-align:center;padding:7px;border-radius:7px;font-family:'DM Mono',monospace;font-size:10px;cursor:pointer;background:#141014;color:#f5eef2;border:1px solid rgba(255,255,255,0.12)">Sign in</div>
       <div id="idx-tab-signup" onclick="idxSwitchTab('signup')" style="flex:1;text-align:center;padding:7px;border-radius:7px;font-family:'DM Mono',monospace;font-size:10px;cursor:pointer;color:#4e4a68">Create account</div>
     </div>
     <div id="idx-form-login">
-      <div style="margin-bottom:14px"><label style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;color:#4e4a68;text-transform:uppercase;display:block;margin-bottom:6px">Email</label><input type="email" id="idx-login-email" placeholder="you@company.com" style="width:100%;background:#161624;border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:10px 12px;color:#f0eefa;font-size:13px;outline:none"></div>
-      <div style="margin-bottom:14px"><label style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;color:#4e4a68;text-transform:uppercase;display:block;margin-bottom:6px">Password</label><input type="password" id="idx-login-password" placeholder="••••••••" style="width:100%;background:#161624;border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:10px 12px;color:#f0eefa;font-size:13px;outline:none"></div>
-      <button id="idx-login-btn" onclick="idxLogin()" style="width:100%;padding:12px;border-radius:9px;background:#e8314a;color:#fff;border:none;font-size:13px;font-weight:500;cursor:pointer;margin-top:4px">Sign in</button>
-      <div id="idx-login-error" style="font-family:'DM Mono',monospace;font-size:10px;color:#ff5068;margin-top:8px;text-align:center;display:none"></div>
+      <div style="margin-bottom:14px"><label style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;color:#4e4a68;text-transform:uppercase;display:block;margin-bottom:6px">Email</label><input type="email" id="idx-login-email" placeholder="you@company.com" style="width:100%;background:#1c161b;border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:10px 12px;color:#f5eef2;font-size:13px;outline:none"></div>
+      <div style="margin-bottom:14px"><label style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;color:#4e4a68;text-transform:uppercase;display:block;margin-bottom:6px">Password</label><input type="password" id="idx-login-password" placeholder="••••••••" style="width:100%;background:#1c161b;border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:10px 12px;color:#f5eef2;font-size:13px;outline:none"></div>
+      <button id="idx-login-btn" onclick="idxLogin()" style="width:100%;padding:12px;border-radius:9px;background:#ff2d55;color:#fff;border:none;font-size:13px;font-weight:500;cursor:pointer;margin-top:4px">Sign in</button>
+      <div id="idx-login-error" style="font-family:'DM Mono',monospace;font-size:10px;color:#ff5c78;margin-top:8px;text-align:center;display:none"></div>
     </div>
     <div id="idx-form-signup" style="display:none">
-      <div style="margin-bottom:14px"><label style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;color:#4e4a68;text-transform:uppercase;display:block;margin-bottom:6px">Email</label><input type="email" id="idx-signup-email" placeholder="you@company.com" style="width:100%;background:#161624;border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:10px 12px;color:#f0eefa;font-size:13px;outline:none"></div>
-      <div style="margin-bottom:14px"><label style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;color:#4e4a68;text-transform:uppercase;display:block;margin-bottom:6px">Password</label><input type="password" id="idx-signup-password" placeholder="Min. 8 characters" style="width:100%;background:#161624;border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:10px 12px;color:#f0eefa;font-size:13px;outline:none"></div>
-      <button id="idx-signup-btn" onclick="idxSignup()" style="width:100%;padding:12px;border-radius:9px;background:#e8314a;color:#fff;border:none;font-size:13px;font-weight:500;cursor:pointer;margin-top:4px">Create account</button>
-      <div id="idx-signup-error" style="font-family:'DM Mono',monospace;font-size:10px;color:#ff5068;margin-top:8px;text-align:center;display:none"></div>
+      <div style="margin-bottom:14px"><label style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;color:#4e4a68;text-transform:uppercase;display:block;margin-bottom:6px">Email</label><input type="email" id="idx-signup-email" placeholder="you@company.com" style="width:100%;background:#1c161b;border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:10px 12px;color:#f5eef2;font-size:13px;outline:none"></div>
+      <div style="margin-bottom:14px"><label style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;color:#4e4a68;text-transform:uppercase;display:block;margin-bottom:6px">Password</label><input type="password" id="idx-signup-password" placeholder="Min. 8 characters" style="width:100%;background:#1c161b;border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:10px 12px;color:#f5eef2;font-size:13px;outline:none"></div>
+      <button id="idx-signup-btn" onclick="idxSignup()" style="width:100%;padding:12px;border-radius:9px;background:#ff2d55;color:#fff;border:none;font-size:13px;font-weight:500;cursor:pointer;margin-top:4px">Create account</button>
+      <div id="idx-signup-error" style="font-family:'DM Mono',monospace;font-size:10px;color:#ff5c78;margin-top:8px;text-align:center;display:none"></div>
       <div id="idx-signup-success" style="font-family:'DM Mono',monospace;font-size:10px;color:#2dd4a0;margin-top:8px;text-align:center;display:none"></div>
     </div>
   </div>
@@ -511,10 +511,10 @@ function closeAuthModal(){
   m.style.opacity='0';m.style.pointerEvents='none';
 }
 function idxSwitchTab(tab){
-  document.getElementById('idx-tab-login').style.background=tab==='login'?'#0f0f1a':'transparent';
-  document.getElementById('idx-tab-login').style.color=tab==='login'?'#f0eefa':'#4e4a68';
-  document.getElementById('idx-tab-signup').style.background=tab==='signup'?'#0f0f1a':'transparent';
-  document.getElementById('idx-tab-signup').style.color=tab==='signup'?'#f0eefa':'#4e4a68';
+  document.getElementById('idx-tab-login').style.background=tab==='login'?'#141014':'transparent';
+  document.getElementById('idx-tab-login').style.color=tab==='login'?'#f5eef2':'#4e4a68';
+  document.getElementById('idx-tab-signup').style.background=tab==='signup'?'#141014':'transparent';
+  document.getElementById('idx-tab-signup').style.color=tab==='signup'?'#f5eef2':'#4e4a68';
   document.getElementById('idx-form-login').style.display=tab==='login'?'':'none';
   document.getElementById('idx-form-signup').style.display=tab==='signup'?'':'none';
 }
