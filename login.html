@@ -9,17 +9,17 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Unbounded:wght@700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#080810;--bg2:#0f0f1a;--bg3:#161624;
+  --bg:#0d0a0c;--bg2:#141014;--bg3:#1c161b;
   --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.12);
-  --text:#f0eefa;--text2:#9490b0;--text3:#4e4a68;
-  --red:#e8314a;--red2:#ff5068;--red-dim:rgba(232,49,74,0.12);
+  --text:#f5eef2;--text2:#a89aa4;--text3:#4e4a68;
+  --red:#ff2d55;--red2:#ff5c78;--red-dim:rgba(255,45,85,0.12);
   --green:#2dd4a0;
-  --mono:'DM Mono',monospace;--sans:'Inter',sans-serif;--display:'Unbounded',sans-serif;
+  --mono:'DM Mono',monospace;--sans:'Inter',sans-serif;--display:'Space Grotesk',sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;display:flex;align-items:center;justify-content:center;}
 
-.glow{position:fixed;top:30%;left:50%;transform:translate(-50%,-50%);width:500px;height:300px;background:radial-gradient(ellipse,rgba(232,49,74,0.06),transparent 70%);pointer-events:none;}
+.glow{position:fixed;top:30%;left:50%;transform:translate(-50%,-50%);width:500px;height:300px;background:radial-gradient(ellipse,rgba(255,45,85,0.06),transparent 70%);pointer-events:none;}
 
 .card{
   width:100%;max-width:400px;padding:40px;
@@ -38,7 +38,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 .form-group{margin-bottom:16px;}
 label{display:block;font-family:var(--mono);font-size:9px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-bottom:6px;}
 input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-family:var(--sans);font-size:13px;outline:none;transition:border-color 0.12s;}
-input:focus{border-color:rgba(232,49,74,0.4);}
+input:focus{border-color:rgba(255,45,85,0.4);}
 
 .btn{width:100%;padding:12px;border-radius:9px;font-size:13px;font-weight:500;cursor:pointer;border:none;font-family:var(--sans);transition:all 0.15s;margin-top:8px;}
 .btn-primary{background:var(--red);color:#fff;box-shadow:0 0 20px var(--red-dim);}
@@ -67,7 +67,7 @@ input:focus{border-color:rgba(232,49,74,0.4);}
   <!-- Logo -->
   <div class="logo">
     <svg width="36" height="14" viewBox="0 0 52 22" fill="none">
-      <path d="M0,11 L12,11 L15,11 L17,3 L19,19 L21,7 L23,11 L52,11" stroke="#e8314a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <path d="M0,11 L12,11 L15,11 L17,3 L19,19 L21,7 L23,11 L52,11" stroke="#ff2d55" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
     </svg>
     <span class="logo-text">PUL<span class="logo-s">S</span>E</span>
   </div>
