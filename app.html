@@ -977,6 +977,22 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
   /* Col headers compact */
   .col-header{padding:10px 14px 8px;}
   .col-header-right .btn-ghost span{display:none;}
+
+  /* Portfolio header — stack on mobile */
+  #view-dashboard .dash-empty > div{padding:20px 16px!important;}
+  #portfolio-kpis .kpi-value{font-size:22px!important;}
+
+  /* Tutorial banner — stack to 1 column */
+  #tuto-banner > div:last-child{grid-template-columns:1fr!important;gap:12px!important;}
+
+  /* Share modal + all forms — full width inputs */
+  .form-grid{grid-template-columns:1fr!important;}
+
+  /* Nav auth area — keep compact */
+  #nav-auth-area .btn span{display:inline;}
+
+  /* Milestones upcoming — tighter */
+  .milestone-urgent{padding:8px 10px;}
 }
 </style>
 </head>
@@ -1060,7 +1076,6 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
                 <div id="demo-switch-knob" style="width:15px;height:15px;border-radius:50%;background:#fff;position:absolute;top:2px;left:17px;transition:left 0.2s"></div>
               </div>
             </div>
-            <button class="btn btn-primary btn-sm" onclick="openNewProject()"><i class="ti ti-plus"></i> New project</button>
           </div>
         </div>
 
